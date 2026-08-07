@@ -24,7 +24,9 @@ fun CampoTexto(
     valor: String,
     rotulo: String,
     onValorChange: (String) -> Unit,
-    mostrarCheck: Boolean = false
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    mostrarCheck: Boolean = false,
+    mostrarSearch: Boolean = false
 )
 
 {
@@ -42,7 +44,6 @@ fun CampoTexto(
         trailingIcon = {
 
             if (mostrarCheck) {
-
                 Icon(
                     painter = painterResource(
                         id = R.drawable.fi_rr_check
@@ -51,13 +52,21 @@ fun CampoTexto(
                     tint = PrimaryBlue,
                     modifier = Modifier.size(18.dp)
                 )
-
             }
 
+            if (mostrarSearch) {
+                Icon(
+                    painter = painterResource(
+                        id = R.drawable.fi_rr_search
+                    ),
+                    contentDescription = "Pesquisar",
+                    tint = PrimaryBlue,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
         },
 
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .height(55.dp),
 
         shape = RoundedCornerShape(10.dp),
