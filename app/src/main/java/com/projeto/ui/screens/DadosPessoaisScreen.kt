@@ -16,7 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.projeto.ui.components.CampoTexto
 import com.projeto.ui.viewmodel.UsuarioViewModel
-
+import com.projeto.ui.components.BotaoVoltar
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import com.example.freeapp.ui.theme.CheckboxBackground
+import com.example.freeapp.ui.theme.PrimaryBlue
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.Alignment
+import com.projeto.ui.components.BotaoContinuar
 @Composable
 fun DadosPessoaisScreen(
     modifier: Modifier = Modifier,
@@ -31,10 +40,15 @@ fun DadosPessoaisScreen(
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Spacer(modifier = Modifier.height(32.dp))
+            BotaoVoltar(
+                onClick = { }
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
             Text(
                 text = "Dados Pessoais",
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.headlineLarge
             )
             CampoTexto(
                 valor = usuario.nome,
@@ -57,17 +71,43 @@ fun DadosPessoaisScreen(
                 onValorChange = viewModel::atualizarEmail
             )
             CampoTexto(
+                valor = "",
+                rotulo = "Confirme seu e-mail",
+                onValorChange = { }
+            )
+            CampoTexto(
                 valor = usuario.telefone,
                 rotulo = "Telefone",
                 onValorChange = viewModel::atualizarTelefone
             )
-            Spacer(modifier = Modifier.weight(1f))
-            Button(
-                onClick = {},
-                modifier = Modifier.fillMaxWidth()
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "CONTINUAR")
+
+                Checkbox(
+                    modifier = Modifier.size(20.dp),
+                    checked = false,
+                    onCheckedChange = { },
+                    colors = CheckboxDefaults.colors(
+                        uncheckedColor = CheckboxBackground,
+                        checkedColor = PrimaryBlue
+                    )
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+                Text(
+                    text = "Li e estou de acordo com o Termo de Uso e Política de Privacidade",
+                    style = MaterialTheme.typography.labelSmall
+                )
             }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            BotaoContinuar(
+                onClick = { }
+            )
+
         }
     }
 }
