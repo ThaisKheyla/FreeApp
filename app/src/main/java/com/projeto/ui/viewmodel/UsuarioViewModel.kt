@@ -3,9 +3,10 @@ package com.projeto.ui.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
 import com.projeto.domain.model.Usuario
 
-class UsuarioViewModel {
+class UsuarioViewModel : ViewModel() {
     var usuario by mutableStateOf(
         Usuario(
             nome = "",
