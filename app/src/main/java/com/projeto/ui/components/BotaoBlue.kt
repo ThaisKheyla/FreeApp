@@ -2,7 +2,7 @@ package com.projeto.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -11,18 +11,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.freeapp.ui.theme.PrimaryBlue
-
 @Composable
-fun BotaoContinuar(
+fun BotaoBlue(
+    texto: String,
     onClick: () -> Unit
 ) {
 
+
+//    modifier = Modifier.offset(
+//        x = (-17).dp,
+//        y = 8.dp
+
     Button(
         onClick = onClick,
-
         modifier = Modifier
-            .fillMaxWidth(0.95f)
-            .padding(horizontal = 8.dp)
+            .fillMaxWidth()
             .height(54.dp),
 
         shape = RoundedCornerShape(50.dp),
@@ -30,11 +33,10 @@ fun BotaoContinuar(
         colors = ButtonDefaults.buttonColors(
             containerColor = PrimaryBlue
         )
-
     ) {
 
         Text(
-            text = "CONTINUAR"
+            text = texto
         )
 
     }

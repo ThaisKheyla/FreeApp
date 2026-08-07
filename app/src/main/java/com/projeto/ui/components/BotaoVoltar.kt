@@ -23,7 +23,10 @@ fun BotaoVoltar(
 ) {
     IconButton(
         onClick = onClick,
-        modifier = Modifier.offset(x = (-12).dp)
+        modifier = Modifier.offset(
+            x = (-17).dp,
+            y = 8.dp
+        )
     )
     {
         Icon(

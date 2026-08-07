@@ -24,6 +24,6 @@ val TextFieldBackground = Color(0xFFE6EDFF)
 val BackgroundScreen = Color(0xFFF8F8F8)
 
 val LinkBlue = Color(0xFF0451FF)
-val CheckboxBackground = Color(0xFFF5F5F5)
+val CheckboxBackground = Color(0xFF6F7FFE)
 
 val PlaceholderColor = Color(0xFF6F7482)

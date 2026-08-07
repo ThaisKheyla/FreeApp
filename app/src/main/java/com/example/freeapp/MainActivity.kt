@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.freeapp.ui.theme.FreeAppTheme
 import com.projeto.ui.navigation.AppNavigation
+import com.projeto.ui.screens.cadastro.DadosPessoaisScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
                 AppNavigation()
             }
         }
+
     }
 }
 

@@ -13,6 +13,7 @@ class UsuarioViewModel : ViewModel() {
             dataNascimento = "",
             cpf = "",
             email = "",
+            confirmarEmail = "",
             telefone = ""
         )
     )
@@ -32,6 +33,14 @@ class UsuarioViewModel : ViewModel() {
 
     fun atualizarEmail(email: String) {
         usuario = usuario.copy(email = email)
+    }
+    var confirmarEmail by mutableStateOf("")
+        private set
+
+    fun atualizarConfirmarEmail(confirmarEmail: String) {
+        usuario = usuario.copy(
+            confirmarEmail = confirmarEmail
+        )
     }
 
     fun atualizarTelefone(telefone: String) {

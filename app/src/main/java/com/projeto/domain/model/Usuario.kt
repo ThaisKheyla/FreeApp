@@ -5,5 +5,6 @@ data class Usuario(
     val dataNascimento: String,
     val cpf: String,
     val email: String,
+    val confirmarEmail: String,
     val telefone: String
 )
