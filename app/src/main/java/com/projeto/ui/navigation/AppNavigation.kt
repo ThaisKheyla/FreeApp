@@ -33,8 +33,7 @@ fun AppNavigation() {
         }
 
         composable(Routes.ENDERECOS) {
-            EnderecosScreen()
+            EnderecosScreen(navController)
         }
     }
 }
-
