@@ -12,6 +12,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.freeapp.ui.theme.PrimaryBlue
 import androidx.compose.ui.res.painterResource
@@ -19,7 +20,8 @@ import com.example.freeapp.R
 
 @Composable
 fun BotaoVoltar(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    tint: Color = PrimaryBlue
 ) {
     IconButton(
         onClick = onClick,
@@ -31,7 +33,7 @@ fun BotaoVoltar(
                 id = R.drawable.fi_rr_arrow_left
             ),
             contentDescription = "Voltar",
-            tint = PrimaryBlue,
+            tint = tint,
             modifier = Modifier.size(20.dp)
         )
     }

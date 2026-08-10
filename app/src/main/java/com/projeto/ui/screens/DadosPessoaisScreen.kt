@@ -25,7 +25,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Alignment
-import com.projeto.ui.components.BotaoContinuar
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.freeapp.ui.theme.FreeAppTheme
+import com.projeto.ui.components.BotaoBlue
+
 @Composable
 fun DadosPessoaisScreen(
     modifier: Modifier = Modifier,
@@ -104,10 +107,12 @@ fun DadosPessoaisScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            BotaoContinuar(
+            BotaoBlue(
+                texto = "CONTINUAR",
                 onClick = { }
             )
 
         }
     }
 }
+

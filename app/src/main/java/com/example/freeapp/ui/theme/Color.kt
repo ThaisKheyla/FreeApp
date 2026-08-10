@@ -5,7 +5,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.draw.shadow
 
-val colorBlue = Color(0xFF0451FF)
 
 val Purple80 = Color(0xFFD0BCFF)
 
@@ -18,7 +17,9 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 
 val Pink40 = Color(0xFF7D5260)
-val PrimaryBlue = Color(0xFF304FFE)
+val PrimaryBlue = Color(0xFF0451FF)
+
+val PrimaryWhite = Color.White
 val TextFieldBackground = Color(0xFFE6EDFF)
 
 val BackgroundScreen = Color(0xFFF8F8F8)

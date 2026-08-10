@@ -13,7 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.example.freeapp.ui.theme.PrimaryBlue
 
 @Composable
-fun BotaoContinuar(
+fun BotaoBlue(
+    texto: String,
     onClick: () -> Unit
 ) {
 
@@ -34,7 +35,7 @@ fun BotaoContinuar(
     ) {
 
         Text(
-            text = "CONTINUAR"
+            text = texto
         )
 
     }
