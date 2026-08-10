@@ -51,6 +51,11 @@ val Typography = Typography(
         fontSize = 36.sp,
         lineHeight = 42.sp
     ),
+)
 
-
+val WelcomeTitle = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 30.sp,
+    lineHeight = 34.sp
 )

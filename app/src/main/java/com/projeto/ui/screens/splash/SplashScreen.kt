@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.freeapp.R
-import com.example.freeapp.ui.theme.colorBlue
+import com.example.freeapp.ui.theme.PrimaryBlue
 import com.projeto.ui.navigation.Routes
 import kotlinx.coroutines.delay
 
@@ -36,7 +36,7 @@ fun SplashScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorBlue),
+            .background(PrimaryBlue),
         contentAlignment = Alignment.Center
     ) {
 
