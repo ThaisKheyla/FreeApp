@@ -12,23 +12,10 @@ import androidx.compose.ui.unit.dp
 import com.projeto.ui.components.BotaoVoltar
 import com.projeto.ui.navigation.Routes
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.freeapp.ui.theme.CheckboxBackground
-import com.example.freeapp.ui.theme.PrimaryBlue
 import com.projeto.ui.components.BotaoBlue
-import com.projeto.ui.components.BotaoVoltar
 import com.projeto.ui.components.CampoTexto
 
 
@@ -120,7 +107,7 @@ fun EnderecosScreen(
             BotaoBlue(
                 texto = "CONTINUAR",
                 onClick = {
-                    navController.navigate(Routes.ENDERECOS)
+                    navController.navigate(Routes.DADOS_PROFISSAO)
                 }
             )
 

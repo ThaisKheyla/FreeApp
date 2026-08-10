@@ -1,6 +1,5 @@
 package com.projeto.ui.viewmodel
 
-import android.R.attr.data
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.projeto.domain.model.Usuario
 class UsuarioViewModel : ViewModel() {
 
+    //dados pessoais
     var usuario by mutableStateOf(
         Usuario()
     )
@@ -37,7 +37,7 @@ class UsuarioViewModel : ViewModel() {
         usuario = usuario.copy(telefone = telefone)
     }
 
-    // ENDEREÇO
+    // ENDEREÇO pessoal
 
     fun atualizarCep(cep: String) {
         usuario = usuario.copy(cep = cep)
@@ -66,4 +66,28 @@ class UsuarioViewModel : ViewModel() {
     fun atualizarEstado(estado: String) {
         usuario = usuario.copy(estado = estado)
     }
+
+
+    // DADOS PROFISSIONAIS
+
+    fun atualizarProfissao(profissao: String) {
+        usuario = usuario.copy(estado = profissao)
+    }
+
+    fun atualizarEspecialidade(especialidade: String) {
+        usuario = usuario.copy(estado = especialidade)
+    }
+
+    fun atualizarRegiao(regiao: String) {
+        usuario = usuario.copy(estado = regiao)
+    }
+
+    fun atualizarHorario(horario: String) {
+        usuario = usuario.copy(estado = horario)
+    }
+
+
+
+
+
 }
