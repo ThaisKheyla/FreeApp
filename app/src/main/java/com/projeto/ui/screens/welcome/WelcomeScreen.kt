@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Surface
@@ -15,15 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.FreeAppTheme
+import com.example.freeapp.ui.theme.WelcomeTitle
+import com.projeto.ui.components.BotaoBlue
+import com.projeto.ui.components.BotaoWhite
 
 @Composable
 fun WelcomeScreen() {
+
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -33,7 +36,9 @@ fun WelcomeScreen() {
         ) {
 
             Image(
-                painter = painterResource(R.drawable.img_inicial),
+                painter = painterResource(
+                    id = R.drawable.img_inicial
+                ),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
@@ -42,24 +47,45 @@ fun WelcomeScreen() {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 10.dp, top = 80.dp),
+                    .padding(horizontal = 20.dp, vertical = 60.dp),
 
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Top
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
 
-                Image(
-                    painter = painterResource(R.drawable.logo_free_blue),
-                    contentDescription = "Logo",
-                    modifier = Modifier.size(80.dp).padding(bottom = 20.dp)
-                )
+                Column {
 
-                Text(
-                    text = "Bem Vindo!",
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 30.sp
-                )
+                    Image(
+                        painter = painterResource(
+                            id = R.drawable.logo_free_blue
+                        ),
+                        contentDescription = "Logo",
+                        modifier = Modifier
+                            .size(60.dp)
+                    )
+
+                    Text(
+                        modifier = Modifier.padding(top = 60.dp),
+                        text = "Bem Vindo!",
+                        style = WelcomeTitle,
+                        color = Color.White
+                    )
+                }
+
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+
+                    BotaoBlue(
+                        onClick = { },
+                        texto = "CADASTRAR"
+                    )
+
+                    BotaoWhite(
+                        onClick = { },
+                        texto = "ENTRAR"
+                    )
+                }
             }
         }
     }

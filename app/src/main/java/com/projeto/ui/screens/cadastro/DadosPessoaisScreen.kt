@@ -138,7 +138,6 @@ fun DadosPessoaisScreen(
                     style = MaterialTheme.typography.labelMedium,
                     text = annotatedText,
                     onClick = { offset ->
-
                         annotatedText
                             .getStringAnnotations(
                                 tag = "TERMS",
