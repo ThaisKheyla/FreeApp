@@ -8,4 +8,6 @@ object Routes {
 
     const val DADOS_PESSOAIS = "dados_pessoais"
     const val ENDERECOS = "enderecos"
+    const val DADOS_PROFISSAO = "dados_profissao"
+    const val DADOS_BANCARIOS = "dados_bancarios"
 }

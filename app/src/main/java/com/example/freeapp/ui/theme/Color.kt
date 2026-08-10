@@ -1,10 +1,6 @@
 package com.example.freeapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.ui.draw.shadow
-
 val colorBlue = Color(0xFF0451FF)
 
 val Purple80 = Color(0xFFD0BCFF)

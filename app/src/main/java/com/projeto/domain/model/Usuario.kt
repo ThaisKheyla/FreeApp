@@ -16,5 +16,14 @@ data class Usuario(
     val complemento: String = "",
     val bairro: String = "",
     val cidade: String = "",
-    val estado: String = ""
+    val estado: String = "",
+
+    //Dados profissionais
+    val profissao: String = "",
+    val especialidade: String = "",
+    val regiao: String = "",
+    val horario: String = "",
+
+    //Dados bancarios
+
 )
