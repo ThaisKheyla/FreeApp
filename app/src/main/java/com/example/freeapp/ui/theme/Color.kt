@@ -18,6 +18,7 @@ val PurpleGrey40 = Color(0xFF625b71)
 
 val Pink40 = Color(0xFF7D5260)
 val PrimaryBlue = Color(0xFF304FFE)
+var PrimaryWhite = Color(0xFFFFFFFF)
 val TextFieldBackground = Color(0xFFE6EDFF)
 
 val BackgroundScreen = Color(0xFFF8F8F8)
