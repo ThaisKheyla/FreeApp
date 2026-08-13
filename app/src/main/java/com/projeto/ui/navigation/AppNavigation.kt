@@ -16,6 +16,7 @@ import com.projeto.ui.screens.cadastro.CriarSenhaScreen
 import com.projeto.ui.screens.pagamento.PagamentoScreen
 import com.projeto.ui.viewmodel.UsuarioViewModel
 import com.projeto.ui.screens.carousel.CarouselScreen
+import com.projeto.ui.screens.home.HomeScreen
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
@@ -61,6 +62,9 @@ fun AppNavigation() {
         }
         composable(Routes.CRIAR_SENHA) {
             CriarSenhaScreen(navController, viewModel = usuarioViewModel)
+        }
+        composable(Routes.HOME) {
+            HomeScreen()
         }
     }
 }

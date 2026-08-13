@@ -32,6 +32,7 @@ import com.example.freeapp.ui.theme.FreeAppTheme
 import com.example.freeapp.ui.theme.PrimaryBlue
 import com.example.freeapp.ui.theme.PrimaryWhite
 import com.projeto.ui.components.BotaoBlue
+import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.BotaoVoltar
 import com.projeto.ui.components.CampoTexto
 import com.projeto.ui.navigation.Routes
@@ -105,7 +106,7 @@ fun LoginScreen(
         ) {
 
             CampoTexto(
-                valor = usuario.confirmarEmail,
+                valor = usuario.email,
                 rotulo = "E-mail",
                 onValorChange = viewModel::atualizarEmail
             )
@@ -131,8 +132,11 @@ fun LoginScreen(
 
             BotaoBlue(
                 texto = "Entrar",
-                onClick = {}
+                onClick = {
+                    navController.navigate(Routes.HOME)
+                }
             )
+
 
             Spacer(modifier = Modifier.weight(1f))
 
