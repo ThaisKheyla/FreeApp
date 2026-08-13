@@ -10,4 +10,6 @@ object Routes {
     const val ENDERECOS = "enderecos"
     const val DADOS_PROFISSAO = "dados_profissao"
     const val DADOS_BANCARIOS = "dados_bancarios"
+    const val FORMA_PAGAMENTO = "forma_pagamento"
+    const val CRIAR_SENHA = "criar_senha"
 }

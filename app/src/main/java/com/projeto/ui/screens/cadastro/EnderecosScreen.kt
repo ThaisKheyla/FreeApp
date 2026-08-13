@@ -1,9 +1,11 @@
 package com.projeto.ui.screens.cadastro
 
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.projeto.ui.viewmodel.UsuarioViewModel
@@ -15,7 +17,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.navigation.NavController
-import com.projeto.ui.components.BotaoBlue
+import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.CampoTexto
 
 
@@ -26,19 +28,33 @@ fun EnderecosScreen(
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ){
     val usuario = viewModel.usuario
+    val enderecoValido =
+        usuario.cep.isNotBlank() &&
+                usuario.endereco.isNotBlank() &&
+                usuario.numero.isNotBlank() &&
+                usuario.complemento.isNotBlank() &&
+                usuario.bairro.isNotBlank() &&
+                usuario.cidade.isNotBlank() &&
+                usuario.estado.isNotBlank()
+
     Surface(
         modifier = modifier.fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(22.dp)
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(24.dp)
+                    .padding(bottom = 96.dp),
+                verticalArrangement = Arrangement.spacedBy(22.dp)
+            ) {
 
             BotaoVoltar(
                 onClick = {
-                    navController.navigate(Routes.DADOS_PESSOAIS)
+                    navController.popBackStack()
                 }
             )
 
@@ -82,9 +98,9 @@ fun EnderecosScreen(
             )
 
             CampoTexto(
-                valor = usuario.complemento,
+                valor = usuario.bairro,
                 rotulo = "Bairro",
-                onValorChange = viewModel::atualizarComplemento
+                onValorChange = viewModel::atualizarBairro
             )
 
             CampoTexto(
@@ -95,17 +111,16 @@ fun EnderecosScreen(
             )
 
             CampoTexto(
-                valor = usuario.complemento,
+                valor = usuario.estado,
                 rotulo = "Estado",
-                onValorChange = viewModel::atualizarComplemento,
+                onValorChange = viewModel::atualizarEstado,
                 mostrarSearch = true
             )
-            Spacer(
-                modifier = Modifier.height(32.dp)
-            )
+            }
 
-            BotaoBlue(
+            BotaoBlueFixo(
                 texto = "CONTINUAR",
+                enabled = enderecoValido,
                 onClick = {
                     navController.navigate(Routes.DADOS_PROFISSAO)
                 }
