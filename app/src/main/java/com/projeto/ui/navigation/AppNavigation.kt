@@ -4,12 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.projeto.ui.screens.LoginScreen
 import com.projeto.ui.screens.cadastro.DadosBancariosScreen
 import com.projeto.ui.screens.splash.SplashScreen
 import com.projeto.ui.screens.welcome.WelcomeScreen
 import com.projeto.ui.screens.cadastro.DadosPessoaisScreen
 import com.projeto.ui.screens.cadastro.DadosProfissaoScreen
 import com.projeto.ui.screens.cadastro.EnderecosScreen
+import com.projeto.ui.screens.carousel.CarouselScreen
 
 @Composable
 fun AppNavigation() {
@@ -17,9 +19,7 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        //descommentar depois...
-        //startDestination = Routes.SPLASH
-        startDestination = Routes.DADOS_PESSOAIS
+        startDestination = Routes.SPLASH
     ) {
 
         composable(Routes.SPLASH) {
@@ -27,7 +27,15 @@ fun AppNavigation() {
         }
 
         composable(Routes.WELCOME) {
-            WelcomeScreen()
+            WelcomeScreen(navController)
+        }
+
+        composable(Routes.CAROUSEL) {
+            CarouselScreen(navController)
+        }
+
+        composable(Routes.LOGIN) {
+            LoginScreen(navController)
         }
 
         composable(Routes.DADOS_PESSOAIS) {

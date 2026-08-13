@@ -26,7 +26,7 @@ fun SplashScreen(
     LaunchedEffect(Unit) {
         delay(2500)
 
-        navController.navigate(Routes.WELCOME) {
+        navController.navigate(Routes.CAROUSEL) {
             popUpTo(Routes.SPLASH) {
                 inclusive = true
             }

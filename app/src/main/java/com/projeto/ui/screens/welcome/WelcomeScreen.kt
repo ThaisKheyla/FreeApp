@@ -18,14 +18,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.FreeAppTheme
 import com.example.freeapp.ui.theme.WelcomeTitle
 import com.projeto.ui.components.BotaoBlue
 import com.projeto.ui.components.BotaoWhite
+import com.projeto.ui.navigation.Routes
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    navController: NavController
+) {
 
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -77,24 +81,20 @@ fun WelcomeScreen() {
                 ) {
 
                     BotaoBlue(
-                        onClick = { },
+                        onClick = {
+                            navController.navigate(Routes.DADOS_PESSOAIS)
+                        },
                         texto = "CADASTRAR"
                     )
 
                     BotaoWhite(
-                        onClick = { },
+                        onClick = {
+                            navController.navigate(Routes.LOGIN)
+                        },
                         texto = "ENTRAR"
                     )
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun WelcomeScreenPreview() {
-    FreeAppTheme {
-        WelcomeScreen()
     }
 }
