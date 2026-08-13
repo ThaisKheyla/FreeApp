@@ -13,6 +13,7 @@ import com.projeto.ui.screens.cadastro.DadosPessoaisScreen
 import com.projeto.ui.screens.cadastro.DadosProfissaoScreen
 import com.projeto.ui.screens.cadastro.EnderecosScreen
 import com.projeto.ui.screens.cadastro.CriarSenhaScreen
+import com.projeto.ui.screens.carousel.CarouselScreen
 import com.projeto.ui.screens.pagamento.PagamentoScreen
 import com.projeto.ui.viewmodel.UsuarioViewModel
 @Composable
@@ -30,23 +31,15 @@ fun AppNavigation() {
         }
 
         composable(Routes.WELCOME) {
-            WelcomeScreen(
-                onCadastrar = {
-                    navController.navigate(Routes.DADOS_PESSOAIS)
-                },
-                onEntrar = {
-                    navController.navigate(Routes.LOGIN)
-                }
-            )
+            WelcomeScreen(navController)
+        }
+
+        composable(Routes.CAROUSEL) {
+            CarouselScreen(navController)
         }
 
         composable(Routes.LOGIN) {
-            LoginScreen(
-                viewModel = usuarioViewModel,
-                onVoltar = {
-                    navController.popBackStack()
-                }
-            )
+            LoginScreen(navController, viewModel = usuarioViewModel)
         }
 
         composable(Routes.DADOS_PESSOAIS) {

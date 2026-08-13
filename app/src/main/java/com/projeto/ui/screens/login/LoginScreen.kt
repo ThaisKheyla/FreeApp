@@ -2,9 +2,11 @@ package com.projeto.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,22 +21,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.FreeAppTheme
 import com.example.freeapp.ui.theme.PrimaryBlue
 import com.example.freeapp.ui.theme.PrimaryWhite
+import com.projeto.ui.components.BotaoBlue
 import com.projeto.ui.components.BotaoVoltar
 import com.projeto.ui.components.CampoTexto
+import com.projeto.ui.navigation.Routes
 import com.projeto.ui.viewmodel.UsuarioViewModel
 
 @Composable
 fun LoginScreen(
-    viewModel: UsuarioViewModel = UsuarioViewModel(),
-    onVoltar: () -> Unit = {}
+    navController: NavController,
+    viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
     val usuario = viewModel.usuario
 
@@ -64,7 +70,7 @@ fun LoginScreen(
                     )
             ) {
                 BotaoVoltar(
-                    onClick = onVoltar,
+                    onClick = { navController.popBackStack() },
                     tint = PrimaryWhite
                 )
             }
@@ -81,48 +87,76 @@ fun LoginScreen(
             )
         }
 
-        Spacer(
-            modifier = Modifier.height(32.dp)
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(
+            text = "Bem-vindo de volta!",
+            color = PrimaryBlue,
+            style = MaterialTheme.typography.headlineLarge,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 30.dp)
         ) {
 
-            Text(
-                text = "Bem Vindo de volta !",
-                color = PrimaryBlue,
-                style = MaterialTheme.typography.headlineLarge
-            )
-        }
-        Column(modifier = Modifier.fillMaxSize().padding(
-            start = 30.dp,
-            end = 30.dp,
-            top = 60.dp
-            )) {
             CampoTexto(
-                valor = usuario.email,
+                valor = usuario.confirmarEmail,
                 rotulo = "E-mail",
                 onValorChange = viewModel::atualizarEmail
             )
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             CampoTexto(
                 valor = usuario.senha,
                 rotulo = "Senha",
                 onValorChange = viewModel::atualizarSenha
             )
-        }
-    }
-}
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun LoginScreenPreview() {
-    FreeAppTheme {
-        LoginScreen()
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "Esqueci a senha",
+                color = PrimaryBlue,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.align(Alignment.End)
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+            BotaoBlue(
+                texto = "Entrar",
+                onClick = {}
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text = "Novo Usuário? "
+                )
+
+                Text(
+                    text = "Cadastre-se",
+                    color = Color(0xFF0451FF),
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable {
+                        navController.navigate(Routes.DADOS_PESSOAIS)
+                    }
+                )
+            }
+        }
     }
 }
