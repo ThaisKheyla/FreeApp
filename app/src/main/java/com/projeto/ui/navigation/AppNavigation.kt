@@ -1,25 +1,28 @@
 package com.projeto.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.projeto.ui.screens.LoginScreen
 import com.projeto.ui.screens.cadastro.DadosBancariosScreen
 import com.projeto.ui.screens.splash.SplashScreen
 import com.projeto.ui.screens.welcome.WelcomeScreen
 import com.projeto.ui.screens.cadastro.DadosPessoaisScreen
 import com.projeto.ui.screens.cadastro.DadosProfissaoScreen
 import com.projeto.ui.screens.cadastro.EnderecosScreen
-
+import com.projeto.ui.screens.cadastro.CriarSenhaScreen
+import com.projeto.ui.screens.pagamento.PagamentoScreen
+import com.projeto.ui.viewmodel.UsuarioViewModel
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
+    val usuarioViewModel = remember { UsuarioViewModel() }
 
     NavHost(
         navController = navController,
-        //descommentar depois...
-        //startDestination = Routes.SPLASH
-        startDestination = Routes.DADOS_PESSOAIS
+        startDestination = Routes.SPLASH
     ) {
 
         composable(Routes.SPLASH) {
@@ -27,22 +30,44 @@ fun AppNavigation() {
         }
 
         composable(Routes.WELCOME) {
-            WelcomeScreen()
+            WelcomeScreen(
+                onCadastrar = {
+                    navController.navigate(Routes.DADOS_PESSOAIS)
+                },
+                onEntrar = {
+                    navController.navigate(Routes.LOGIN)
+                }
+            )
+        }
+
+        composable(Routes.LOGIN) {
+            LoginScreen(
+                viewModel = usuarioViewModel,
+                onVoltar = {
+                    navController.popBackStack()
+                }
+            )
         }
 
         composable(Routes.DADOS_PESSOAIS) {
-            DadosPessoaisScreen(navController)
+            DadosPessoaisScreen(navController, viewModel = usuarioViewModel)
         }
 
         composable(Routes.ENDERECOS) {
-            EnderecosScreen(navController)
+            EnderecosScreen(navController, viewModel = usuarioViewModel)
         }
 
         composable(Routes.DADOS_PROFISSAO) {
-            DadosProfissaoScreen(navController)
+            DadosProfissaoScreen(navController, viewModel = usuarioViewModel)
         }
         composable(Routes.DADOS_BANCARIOS) {
-            DadosBancariosScreen(navController)
+            DadosBancariosScreen(navController, viewModel = usuarioViewModel)
+        }
+        composable(Routes.FORMA_PAGAMENTO) {
+            PagamentoScreen(navController, viewModel = usuarioViewModel)
+        }
+        composable(Routes.CRIAR_SENHA) {
+            CriarSenhaScreen(navController, viewModel = usuarioViewModel)
         }
     }
 }

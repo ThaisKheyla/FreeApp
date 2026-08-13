@@ -25,7 +25,10 @@ import com.projeto.ui.components.BotaoBlue
 import com.projeto.ui.components.BotaoWhite
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(
+    onCadastrar: () -> Unit = {},
+    onEntrar: () -> Unit = {}
+) {
 
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -77,12 +80,12 @@ fun WelcomeScreen() {
                 ) {
 
                     BotaoBlue(
-                        onClick = { },
+                        onClick = onCadastrar,
                         texto = "CADASTRAR"
                     )
 
                     BotaoWhite(
-                        onClick = { },
+                        onClick = onEntrar,
                         texto = "ENTRAR"
                     )
                 }

@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.PrimaryBlue
 
-
 @Composable
 fun CampoTexto(
     valor: String,
@@ -26,10 +25,9 @@ fun CampoTexto(
     onValorChange: (String) -> Unit,
     modifier: Modifier = Modifier.fillMaxWidth(),
     mostrarCheck: Boolean = false,
-    mostrarSearch: Boolean = false
-)
-
-{
+    mostrarSearch: Boolean = false,
+    isError: Boolean = false
+) {
 
     OutlinedTextField(
         value = valor,
@@ -41,8 +39,9 @@ fun CampoTexto(
                 style = MaterialTheme.typography.bodySmall
             )
         },
-        trailingIcon = {
 
+        trailingIcon = {
+            //icone de check
             if (mostrarCheck) {
                 Icon(
                     painter = painterResource(
@@ -66,14 +65,20 @@ fun CampoTexto(
             }
         },
 
+        isError = isError,
+
         modifier = modifier
             .height(55.dp),
 
         shape = RoundedCornerShape(10.dp),
 
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = Color.Transparent,
-            unfocusedBorderColor = Color.Transparent,
+            focusedBorderColor =
+                if (isError) Color.Red else Color.Transparent,
+
+            unfocusedBorderColor =
+                if (isError) Color.Red else Color.Transparent,
+
             focusedContainerColor = TextFieldBackground,
             unfocusedContainerColor = TextFieldBackground
         )

@@ -33,7 +33,8 @@ import com.projeto.ui.viewmodel.UsuarioViewModel
 
 @Composable
 fun LoginScreen(
-    viewModel: UsuarioViewModel = UsuarioViewModel()
+    viewModel: UsuarioViewModel = UsuarioViewModel(),
+    onVoltar: () -> Unit = {}
 ) {
     val usuario = viewModel.usuario
 
@@ -63,7 +64,7 @@ fun LoginScreen(
                     )
             ) {
                 BotaoVoltar(
-                    onClick = {},
+                    onClick = onVoltar,
                     tint = PrimaryWhite
                 )
             }
@@ -103,13 +104,13 @@ fun LoginScreen(
             CampoTexto(
                 valor = usuario.email,
                 rotulo = "E-mail",
-                onValorChange = {}
+                onValorChange = viewModel::atualizarEmail
             )
 
             CampoTexto(
-                valor = usuario.email, // arrumar para senha
+                valor = usuario.senha,
                 rotulo = "Senha",
-                onValorChange = {}
+                onValorChange = viewModel::atualizarSenha
             )
         }
     }

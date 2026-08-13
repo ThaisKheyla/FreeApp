@@ -37,6 +37,10 @@ class UsuarioViewModel : ViewModel() {
         usuario = usuario.copy(telefone = telefone)
     }
 
+    fun atualizarSenha(senha: String) {
+        usuario = usuario.copy(senha = senha)
+    }
+
     // ENDEREÇO pessoal
 
     fun atualizarCep(cep: String) {
@@ -71,22 +75,61 @@ class UsuarioViewModel : ViewModel() {
     // DADOS PROFISSIONAIS
 
     fun atualizarProfissao(profissao: String) {
-        usuario = usuario.copy(estado = profissao)
+        usuario = usuario.copy(profissao = profissao)
     }
 
+
     fun atualizarEspecialidade(especialidade: String) {
-        usuario = usuario.copy(estado = especialidade)
+        usuario = usuario.copy(especialidade = especialidade)
     }
 
     fun atualizarRegiao(regiao: String) {
-        usuario = usuario.copy(estado = regiao)
+        usuario = usuario.copy(regiao = regiao)
     }
 
     fun atualizarHorario(horario: String) {
-        usuario = usuario.copy(estado = horario)
+        usuario = usuario.copy(horario = horario)
     }
 
+    //Dados bancarios
+    fun atualizarAgencia(agencia: String) {
+        usuario = usuario.copy(agencia = agencia)
+    }
 
+    fun atualizarConta(conta: String) {
+        usuario = usuario.copy(conta = conta)
+    }
+
+    fun atualizarTipoConta(tipoConta: String) {
+        usuario = usuario.copy(tipoConta = tipoConta)
+    }
+
+    fun atualizarPix(pix: String) {
+        usuario = usuario.copy(pix = pix)
+    }
+
+    fun atualizarOpcaoPagamento(opcaoPagamento: String) {
+        usuario = usuario.copy(opcaoPagamento = opcaoPagamento)
+    }
+
+    //Pagamento
+    fun atualizarNumeroCartao(numeroCartao: String) {
+        usuario = usuario.copy(
+            numeroCartao = numeroCartao
+        )
+    }
+
+    fun atualizarValidadeCartao(validadeCartao: String) {
+        usuario = usuario.copy(
+            validadeCartao = validadeCartao
+        )
+    }
+
+    fun atualizarCvv(cvv: String) {
+        usuario = usuario.copy(
+            cvv = cvv
+        )
+    }
 
 
 

@@ -8,6 +8,7 @@ data class Usuario(
     val email: String = "",
     val confirmarEmail: String = "",
     val telefone: String = "",
+    val senha: String = "",
 
     // Endereço
     val cep: String = "",
@@ -25,5 +26,13 @@ data class Usuario(
     val horario: String = "",
 
     //Dados bancarios
+    val agencia: String = "",
+    val conta: String = "",
+    val tipoConta: String = "Pessoa Física",
+    val pix: String = "",
+    val opcaoPagamento: String = "",
+    val numeroCartao: String = "",
+    val validadeCartao: String = "",
+    val cvv: String = ""
 
 )

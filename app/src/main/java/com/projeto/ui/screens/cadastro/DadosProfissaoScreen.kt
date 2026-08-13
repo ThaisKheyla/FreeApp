@@ -1,7 +1,9 @@
 package com.projeto.ui.screens.cadastro
 
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.freeapp.ui.theme.CheckboxBackground
 import com.example.freeapp.ui.theme.PrimaryBlue
-import com.projeto.ui.components.BotaoBlue
+import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.BotaoVoltar
 import com.projeto.ui.components.CampoTexto
 import com.projeto.ui.navigation.Routes
@@ -31,18 +33,29 @@ fun DadosProfissaoScreen(
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ){
     val usuario = viewModel.usuario
+    val dadosProfissionaisValidos =
+        usuario.profissao.isNotBlank() &&
+                usuario.especialidade.isNotBlank() &&
+                usuario.regiao.isNotBlank() &&
+                usuario.horario.isNotBlank()
+
     Surface(
         modifier = modifier.fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(22.dp)
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(24.dp)
+                    .padding(bottom = 96.dp),
+                verticalArrangement = Arrangement.spacedBy(22.dp)
+            ) {
             BotaoVoltar(
                 onClick = {
-                    navController.navigate(Routes.DADOS_PESSOAIS)
+                    navController.popBackStack()
                 }
             )
             Spacer(
@@ -74,12 +87,11 @@ fun DadosProfissaoScreen(
                 rotulo = "Qual horário tem disponibilidade",
                 onValorChange = viewModel::atualizarHorario
             )
-            Spacer(
-                modifier = Modifier.height(32.dp)
-            )
+            }
 
-            BotaoBlue(
+            BotaoBlueFixo(
                 texto = "CONTINUAR",
+                enabled = dadosProfissionaisValidos,
                 onClick = {
                     navController.navigate(Routes.DADOS_BANCARIOS)
                 }

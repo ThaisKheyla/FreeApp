@@ -1,18 +1,23 @@
 
 package com.projeto.ui.screens
 
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.projeto.ui.components.CampoTexto
@@ -28,7 +33,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.freeapp.ui.theme.FreeAppTheme
-import com.projeto.ui.components.BotaoBlue
+import com.projeto.ui.components.BotaoBlueFixo
+import com.projeto.ui.validation.UsuarioValidator
 
 @Composable
 fun DadosPessoaisScreen(
@@ -36,13 +42,36 @@ fun DadosPessoaisScreen(
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
     val usuario = viewModel.usuario
+    var aceitouTermos by remember {
+        mutableStateOf(false)
+    }
+    val nomeValido = UsuarioValidator.nomeValido(usuario.nome)
+    val dataNascimentoValida = UsuarioValidator.dataValida(usuario.dataNascimento)
+    val cpfValido = UsuarioValidator.cpfValido(usuario.cpf)
+    val emailValido = UsuarioValidator.emailValido(usuario.email)
+    val emailsIguais = UsuarioValidator.emailsIguais(usuario.email, usuario.confirmarEmail)
+    val telefoneValido = UsuarioValidator.telefoneValido(usuario.telefone)
+    val dadosPessoaisValidos =
+        nomeValido &&
+                dataNascimentoValida &&
+                cpfValido &&
+                emailValido &&
+                emailsIguais &&
+                telefoneValido &&
+                aceitouTermos
+
     Surface(modifier = modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(24.dp)
+                    .padding(bottom = 96.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
             BotaoVoltar(
                 onClick = { }
             )
@@ -56,32 +85,44 @@ fun DadosPessoaisScreen(
             CampoTexto(
                 valor = usuario.nome,
                 rotulo = "Nome completo",
-                onValorChange = viewModel::atualizarNome
+                onValorChange = viewModel::atualizarNome,
+                mostrarCheck = nomeValido && usuario.nome.isNotBlank(),
+                isError = usuario.nome.isNotBlank() && !nomeValido
             )
             CampoTexto(
                 valor = usuario.dataNascimento,
                 rotulo = "Data de nascimento",
-                onValorChange = viewModel::atualizarDataNascimento
+                onValorChange = viewModel::atualizarDataNascimento,
+                mostrarCheck = dataNascimentoValida && usuario.dataNascimento.isNotBlank(),
+                isError = usuario.dataNascimento.isNotBlank() && !dataNascimentoValida
             )
             CampoTexto(
                 valor = usuario.cpf,
                 rotulo = "CPF",
-                onValorChange = viewModel::atualizarCpf
+                onValorChange = viewModel::atualizarCpf,
+                mostrarCheck = cpfValido && usuario.cpf.isNotBlank(),
+                isError = usuario.cpf.isNotBlank() && !cpfValido
             )
             CampoTexto(
                 valor = usuario.email,
                 rotulo = "E-mail",
-                onValorChange = viewModel::atualizarEmail
+                onValorChange = viewModel::atualizarEmail,
+                mostrarCheck = emailValido && usuario.email.isNotBlank(),
+                isError = usuario.email.isNotBlank() && !emailValido
             )
             CampoTexto(
-                valor = "",
+                valor = usuario.confirmarEmail,
                 rotulo = "Confirme seu e-mail",
-                onValorChange = { }
+                onValorChange = viewModel::atualizarConfirmarEmail,
+                mostrarCheck = emailsIguais && usuario.confirmarEmail.isNotBlank(),
+                isError = usuario.confirmarEmail.isNotBlank() && !emailsIguais
             )
             CampoTexto(
                 valor = usuario.telefone,
                 rotulo = "Telefone",
-                onValorChange = viewModel::atualizarTelefone
+                onValorChange = viewModel::atualizarTelefone,
+                mostrarCheck = telefoneValido && usuario.telefone.isNotBlank(),
+                isError = usuario.telefone.isNotBlank() && !telefoneValido
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -89,8 +130,10 @@ fun DadosPessoaisScreen(
 
                 Checkbox(
                     modifier = Modifier.size(20.dp),
-                    checked = false,
-                    onCheckedChange = { },
+                    checked = aceitouTermos,
+                    onCheckedChange = {
+                        aceitouTermos = it
+                    },
                     colors = CheckboxDefaults.colors(
                         uncheckedColor = CheckboxBackground,
                         checkedColor = PrimaryBlue
@@ -104,11 +147,12 @@ fun DadosPessoaisScreen(
                     style = MaterialTheme.typography.labelSmall
                 )
             }
+            }
 
-            Spacer(modifier = Modifier.weight(1f))
 
-            BotaoBlue(
+            BotaoBlueFixo(
                 texto = "CONTINUAR",
+                enabled = dadosPessoaisValidos,
                 onClick = { }
             )
 
