@@ -18,6 +18,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +48,10 @@ fun LoginScreen(
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
     val usuario = viewModel.usuario
+    var emailLogin by remember { mutableStateOf("") }
+    var senhaLogin by remember { mutableStateOf("") }
+    var loginFalhou by remember { mutableStateOf(false) }
+    val camposPreenchidos = emailLogin.isNotBlank() && senhaLogin.isNotBlank()
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -106,18 +114,36 @@ fun LoginScreen(
         ) {
 
             CampoTexto(
-                valor = usuario.email,
+                valor = emailLogin,
                 rotulo = "E-mail",
-                onValorChange = viewModel::atualizarEmail
+                onValorChange = { email ->
+                    emailLogin = email
+                    loginFalhou = false
+                },
+                isError = loginFalhou
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             CampoTexto(
-                valor = usuario.senha,
+                valor = senhaLogin,
                 rotulo = "Senha",
-                onValorChange = viewModel::atualizarSenha
+                onValorChange = { senha ->
+                    senhaLogin = senha
+                    loginFalhou = false
+                },
+                isError = loginFalhou
             )
+
+            if (loginFalhou) {
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "E-mail ou senha inválidos",
+                    color = Color.Red,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -132,8 +158,19 @@ fun LoginScreen(
 
             BotaoBlue(
                 texto = "Entrar",
+                enabled = camposPreenchidos,
                 onClick = {
-                    navController.navigate(Routes.HOME)
+                    val emailCorreto = emailLogin.trim().equals(
+                        usuario.email.trim(),
+                        ignoreCase = true
+                    )
+                    val senhaCorreta = senhaLogin == usuario.senha
+
+                    if (emailCorreto && senhaCorreta) {
+                        navController.navigate(Routes.HOME)
+                    } else {
+                        loginFalhou = true
+                    }
                 }
             )
 

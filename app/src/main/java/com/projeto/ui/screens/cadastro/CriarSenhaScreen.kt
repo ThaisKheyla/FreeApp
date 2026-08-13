@@ -96,8 +96,8 @@ fun CriarSenhaScreen(
                 texto = "FINALIZAR",
                 enabled = senhasValidas,
                 onClick = {
-                    navController.navigate(Routes.WELCOME) {
-                        popUpTo(Routes.WELCOME)
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.LOGIN)
                         launchSingleTop = true
                     }
                 }
