@@ -140,7 +140,7 @@ fun EsqueciSenhaScreen(
             }
 
             RodapeRecuperacaoSenha(
-                texto = etapa.textoBotao,
+                textoBotao = etapa.textoBotao,
                 enabled = when (etapa) {
                     EtapaRecuperacaoSenha.TELEFONE -> telefoneValido
                     EtapaRecuperacaoSenha.EMAIL -> email.isNotBlank()
