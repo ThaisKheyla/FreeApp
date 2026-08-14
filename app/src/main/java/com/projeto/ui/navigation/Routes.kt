@@ -4,7 +4,6 @@ object Routes {
     const val SPLASH = "splash"
     const val WELCOME = "welcome"
     const val CAROUSEL = "carousel"
-
     const val LOGIN = "login"
     const val DADOS_PESSOAIS = "dados_pessoais"
     const val ENDERECOS = "enderecos"
@@ -12,4 +11,6 @@ object Routes {
     const val DADOS_BANCARIOS = "dados_bancarios"
     const val FORMA_PAGAMENTO = "forma_pagamento"
     const val CRIAR_SENHA = "criar_senha"
+    const val ESQUECI_SENHA = "esqueci_senha"
+    const val HOME = "home"
 }

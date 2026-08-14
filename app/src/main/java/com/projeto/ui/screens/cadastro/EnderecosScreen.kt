@@ -16,7 +16,9 @@ import com.projeto.ui.navigation.Routes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.CampoTexto
 
@@ -128,4 +130,10 @@ fun EnderecosScreen(
 
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun EnderecosScreenPreview() {
+    EnderecosScreen(navController = rememberNavController())
 }

@@ -17,7 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.freeapp.R
 import com.example.freeapp.ui.theme.fontColor
 
 @Composable
@@ -64,4 +66,13 @@ fun ServiceCard(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ServiceCardPreview() {
+    ServiceCard(
+        titulo = "Elétrica",
+        imagem = R.drawable.img_electric
+    )
 }

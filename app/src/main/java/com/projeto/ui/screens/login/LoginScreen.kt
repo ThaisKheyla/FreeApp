@@ -18,6 +18,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,12 +31,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.FreeAppTheme
 import com.example.freeapp.ui.theme.PrimaryBlue
 import com.example.freeapp.ui.theme.PrimaryWhite
 import com.projeto.ui.components.BotaoBlue
+import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.BotaoVoltar
+import com.projeto.ui.components.CampoSenha
 import com.projeto.ui.components.CampoTexto
 import com.projeto.ui.navigation.Routes
 import com.projeto.ui.viewmodel.UsuarioViewModel
@@ -43,6 +50,10 @@ fun LoginScreen(
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
     val usuario = viewModel.usuario
+    var emailLogin by remember(usuario.email) { mutableStateOf(usuario.email) }
+    var senhaLogin by remember { mutableStateOf("") }
+    var loginFalhou by remember { mutableStateOf(false) }
+    val camposPreenchidos = emailLogin.isNotBlank() && senhaLogin.isNotBlank()
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -105,18 +116,36 @@ fun LoginScreen(
         ) {
 
             CampoTexto(
-                valor = usuario.confirmarEmail,
+                valor = emailLogin,
                 rotulo = "E-mail",
-                onValorChange = viewModel::atualizarEmail
+                onValorChange = { email ->
+                    emailLogin = email
+                    loginFalhou = false
+                },
+                isError = loginFalhou
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            CampoTexto(
-                valor = usuario.senha,
+            CampoSenha(
+                valor = senhaLogin,
                 rotulo = "Senha",
-                onValorChange = viewModel::atualizarSenha
+                onValorChange = { senha ->
+                    senhaLogin = senha
+                    loginFalhou = false
+                },
+                isError = loginFalhou
             )
+
+            if (loginFalhou) {
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "E-mail ou senha inválidos",
+                    color = Color.Red,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -124,15 +153,33 @@ fun LoginScreen(
                 text = "Esqueci a senha",
                 color = PrimaryBlue,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.End)
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .clickable {
+                        navController.navigate(Routes.ESQUECI_SENHA)
+                    }
             )
 
             Spacer(modifier = Modifier.height(40.dp))
 
             BotaoBlue(
                 texto = "Entrar",
-                onClick = {}
+                enabled = camposPreenchidos,
+                onClick = {
+                    val emailCorreto = emailLogin.trim().equals(
+                        usuario.email.trim(),
+                        ignoreCase = true
+                    )
+                    val senhaCorreta = senhaLogin == usuario.senha
+
+                    if (emailCorreto && senhaCorreta) {
+                        navController.navigate(Routes.HOME)
+                    } else {
+                        loginFalhou = true
+                    }
+                }
             )
+
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -159,4 +206,10 @@ fun LoginScreen(
             }
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen(navController = rememberNavController())
 }

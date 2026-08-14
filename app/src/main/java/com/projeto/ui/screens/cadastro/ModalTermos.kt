@@ -19,8 +19,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,12 +30,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.PrimaryBlue
 import com.example.freeapp.ui.theme.PrimaryWhite
 import com.example.freeapp.ui.theme.fontColor
-import com.projeto.ui.screens.cadastro.DadosPessoaisScreen
 
 @Composable
 fun ModalTermos(
@@ -61,7 +59,7 @@ fun ModalTermos(
                 topEnd = 32.dp
             ),
             colors = CardDefaults.cardColors(
-                        containerColor = PrimaryWhite
+                containerColor = PrimaryWhite
             )
         ) {
 
@@ -167,13 +165,8 @@ III – Inverdicidade das informações inseridas pelo usuário/cliente nos regi
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun PreviewModalTermo(){
-
-    val navController = rememberNavController()
-    DadosPessoaisScreen(
-        navController = navController
-    )
-
+fun ModalTermosPreview() {
+    ModalTermos(onFechar = { })
 }
