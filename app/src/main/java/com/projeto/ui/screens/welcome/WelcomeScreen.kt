@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.FreeAppTheme
 import com.example.freeapp.ui.theme.WelcomeTitle
@@ -97,4 +98,10 @@ fun WelcomeScreen(
             }
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun WelcomeScreenPreview() {
+    WelcomeScreen(navController = rememberNavController())
 }

@@ -14,6 +14,7 @@ import com.projeto.ui.screens.cadastro.DadosProfissaoScreen
 import com.projeto.ui.screens.cadastro.EnderecosScreen
 import com.projeto.ui.screens.cadastro.CriarSenhaScreen
 import com.projeto.ui.screens.pagamento.PagamentoScreen
+import com.projeto.ui.screens.senha.EsqueciSenhaScreen
 import com.projeto.ui.viewmodel.UsuarioViewModel
 import com.projeto.ui.screens.carousel.CarouselScreen
 import com.projeto.ui.screens.home.HomeScreen
@@ -62,6 +63,9 @@ fun AppNavigation() {
         }
         composable(Routes.CRIAR_SENHA) {
             CriarSenhaScreen(navController, viewModel = usuarioViewModel)
+        }
+        composable(Routes.ESQUECI_SENHA) {
+            EsqueciSenhaScreen(navController, viewModel = usuarioViewModel)
         }
         composable(Routes.HOME) {
             HomeScreen()

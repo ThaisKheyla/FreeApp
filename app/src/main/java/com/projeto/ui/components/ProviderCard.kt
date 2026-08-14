@@ -26,7 +26,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.freeapp.R
 import com.example.freeapp.ui.theme.PrimaryBlue
 import com.example.freeapp.ui.theme.PrimaryWhite
 import com.example.freeapp.ui.theme.fontColor
@@ -145,4 +147,16 @@ fun ProviderCard(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProviderCardPreview() {
+    ProviderCard(
+        nome = "Ana Silva",
+        profissao = "Eletricista",
+        avaliacao = "4.8",
+        imagem = R.drawable.img_provider1,
+        corFundoImagem = Color(0xFFD4E5F8)
+    )
 }

@@ -10,16 +10,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.freeapp.ui.theme.PrimaryBlue
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.freeapp.R
 
 @Composable
 fun BotaoVoltar(
     onClick: () -> Unit,
-    tint: Color = PrimaryBlue
+    tint: Color = PrimaryBlue,
+    modifier: Modifier = Modifier
 ) {
     IconButton(
         onClick = onClick,
-        modifier = Modifier.offset(
+        modifier = modifier.offset(
             x = (-17).dp,
             y = 8.dp
         )
@@ -34,4 +36,10 @@ fun BotaoVoltar(
             modifier = Modifier.size(20.dp)
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun BotaoVoltarPreview() {
+    BotaoVoltar(onClick = { })
 }

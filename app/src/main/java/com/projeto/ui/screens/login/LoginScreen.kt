@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.FreeAppTheme
 import com.example.freeapp.ui.theme.PrimaryBlue
@@ -38,6 +39,7 @@ import com.example.freeapp.ui.theme.PrimaryWhite
 import com.projeto.ui.components.BotaoBlue
 import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.BotaoVoltar
+import com.projeto.ui.components.CampoSenha
 import com.projeto.ui.components.CampoTexto
 import com.projeto.ui.navigation.Routes
 import com.projeto.ui.viewmodel.UsuarioViewModel
@@ -48,7 +50,7 @@ fun LoginScreen(
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
     val usuario = viewModel.usuario
-    var emailLogin by remember { mutableStateOf("") }
+    var emailLogin by remember(usuario.email) { mutableStateOf(usuario.email) }
     var senhaLogin by remember { mutableStateOf("") }
     var loginFalhou by remember { mutableStateOf(false) }
     val camposPreenchidos = emailLogin.isNotBlank() && senhaLogin.isNotBlank()
@@ -125,7 +127,7 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            CampoTexto(
+            CampoSenha(
                 valor = senhaLogin,
                 rotulo = "Senha",
                 onValorChange = { senha ->
@@ -151,7 +153,11 @@ fun LoginScreen(
                 text = "Esqueci a senha",
                 color = PrimaryBlue,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.End)
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .clickable {
+                        navController.navigate(Routes.ESQUECI_SENHA)
+                    }
             )
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -200,4 +206,10 @@ fun LoginScreen(
             }
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen(navController = rememberNavController())
 }
