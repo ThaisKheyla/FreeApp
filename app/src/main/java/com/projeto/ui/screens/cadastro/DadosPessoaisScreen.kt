@@ -1,6 +1,5 @@
 package com.projeto.ui.screens.cadastro
 
-import androidx.compose.runtime.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
@@ -11,6 +10,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
@@ -26,14 +29,10 @@ import com.example.freeapp.ui.theme.PrimaryBlue
 import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.BotaoVoltar
 import com.projeto.ui.components.CampoTexto
-import com.projeto.ui.navigation.Routes
-import com.projeto.ui.viewmodel.UsuarioViewModel
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import com.projeto.ui.components.ModalTermos
+import com.projeto.ui.navigation.Routes
 import com.projeto.ui.validation.UsuarioValidator
+import com.projeto.ui.viewmodel.UsuarioViewModel
 
 @Composable
 fun DadosPessoaisScreen(
