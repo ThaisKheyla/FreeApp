@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import com.example.freeapp.ui.theme.TextFieldBackground
 import androidx.compose.material3.Icon
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.PrimaryBlue
 
@@ -82,5 +83,16 @@ fun CampoTexto(
             focusedContainerColor = TextFieldBackground,
             unfocusedContainerColor = TextFieldBackground
         )
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CampoTextoPreview() {
+    CampoTexto(
+        valor = "",
+        rotulo = "Nome completo",
+        onValorChange = { },
+        mostrarCheck = true
     )
 }

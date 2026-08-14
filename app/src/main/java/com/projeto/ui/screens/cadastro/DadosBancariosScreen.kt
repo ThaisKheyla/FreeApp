@@ -24,6 +24,8 @@ import com.projeto.ui.viewmodel.UsuarioViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.navigation.Routes
 
@@ -76,11 +78,13 @@ fun DadosBancariosScreen(
                 onValorChange = viewModel::atualizarAgencia
 
             )
+
             CampoTexto(
                 valor = usuario.conta,
                 rotulo = "Conta",
                 onValorChange = viewModel::atualizarConta
             )
+
             CampoTexto(
                 valor = usuario.tipoConta,
                 rotulo = "Qual é o seu tipo de conta",
@@ -121,4 +125,10 @@ fun DadosBancariosScreen(
 
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun DadosBancariosScreenPreview() {
+    DadosBancariosScreen(navController = rememberNavController())
 }

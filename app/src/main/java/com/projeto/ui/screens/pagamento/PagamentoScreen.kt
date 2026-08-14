@@ -32,9 +32,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
 import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.BotaoVoltar
@@ -175,6 +177,7 @@ private fun CartaoPreview(
         animationSpec = tween(durationMillis = 450),
         label = "rotacaoCartao"
     )
+
     val mostrandoFrente = rotacao <= 90f
 
     Box(
@@ -320,4 +323,10 @@ private fun formatarNumeroCartao(numeroCartao: String): String {
 
 private fun textoOuPlaceholder(texto: String, placeholder: String): String {
     return texto.trim().takeIf { valor -> valor.isNotBlank() } ?: placeholder
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PagamentoScreenPreview() {
+    PagamentoScreen(navController = rememberNavController())
 }

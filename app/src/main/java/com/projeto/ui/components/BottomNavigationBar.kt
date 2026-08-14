@@ -6,8 +6,10 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.PrimaryBlue
+
 
 @Composable
 fun BottomNavigationBar() {
@@ -81,3 +83,9 @@ fun BottomNavigationBar() {
                 )
             }
     }
+
+@Preview(showBackground = true)
+@Composable
+fun BottomNavigationBarPreview() {
+    BottomNavigationBar()
+}
