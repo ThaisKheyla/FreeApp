@@ -4,14 +4,30 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.projeto.data.remote.ClienteRetrofit
+import com.projeto.data.repository.RepositorioAutenticacao
 import com.projeto.domain.model.Usuario
+import kotlinx.coroutines.launch
+
 class UsuarioViewModel : ViewModel() {
+    private val repositorioAutenticacao = RepositorioAutenticacao(ClienteRetrofit.servicoAutenticacao)
 
     //dados pessoais
     var usuario by mutableStateOf(
         Usuario()
     )
         private set
+
+    var authCarregando by mutableStateOf(false)
+        private set
+
+    var authErroMensagem by mutableStateOf<String?>(null)
+        private set
+
+    fun limparEstadoAuth() {
+        authErroMensagem = null
+    }
 
     fun atualizarNome(nome: String) {
         usuario = usuario.copy(nome = nome)
@@ -129,6 +145,89 @@ class UsuarioViewModel : ViewModel() {
         usuario = usuario.copy(
             cvv = cvv
         )
+    }
+
+    fun loginUsuario(
+        email: String,
+        senha: String,
+        onSucesso: () -> Unit
+    ) {
+        if (authCarregando) return
+
+        viewModelScope.launch {
+            authCarregando = true
+            authErroMensagem = null
+
+            val resultadoRemoto = repositorioAutenticacao.login(email, senha)
+
+            authCarregando = false
+
+            if (resultadoRemoto.isSuccess) {
+                onSucesso()
+                return@launch
+            }
+
+            // Fallback local para ambiente sem backend pronto.
+            val emailCorreto = email.trim().equals(
+                usuario.email.trim(),
+                ignoreCase = true
+            )
+            val senhaCorreta = senha == usuario.senha
+
+            if (emailCorreto && senhaCorreta) {
+                onSucesso()
+            } else {
+                authErroMensagem = resultadoRemoto.exceptionOrNull()?.message
+                    ?: "E-mail ou senha inválidos"
+            }
+        }
+    }
+
+    fun registrarUsuario(
+        onSucesso: () -> Unit
+    ) {
+        if (authCarregando) return
+
+        viewModelScope.launch {
+            authCarregando = true
+            authErroMensagem = null
+
+            val resultado = repositorioAutenticacao.cadastrar(usuario)
+
+            authCarregando = false
+
+            if (resultado.isSuccess) {
+                onSucesso()
+            } else {
+                authErroMensagem = resultado.exceptionOrNull()?.message
+                    ?: "Não foi possível concluir o cadastro"
+            }
+        }
+    }
+
+    fun redefinirSenha(
+        email: String,
+        novaSenha: String,
+        onSucesso: () -> Unit
+    ) {
+        if (authCarregando) return
+
+        viewModelScope.launch {
+            authCarregando = true
+            authErroMensagem = null
+
+            val resultado = repositorioAutenticacao.redefinirSenha(email, novaSenha)
+
+            authCarregando = false
+
+            if (resultado.isSuccess) {
+                atualizarSenha(novaSenha)
+                onSucesso()
+            } else {
+                authErroMensagem = resultado.exceptionOrNull()?.message
+                    ?: "Não foi possível redefinir a senha"
+            }
+        }
     }
 
 

@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -39,6 +42,8 @@ fun EsqueciSenhaScreen(
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
     val telefoneSalvo = viewModel.usuario.telefone.filter { it.isDigit() }
+    val mensagemErroAuth = viewModel.authErroMensagem
+    val carregandoAuth = viewModel.authCarregando
     var etapa by remember { mutableStateOf(EtapaRecuperacaoSenha.TELEFONE) }
     var etapaCodigoAnterior by remember { mutableStateOf(EtapaRecuperacaoSenha.CODIGO_SMS) }
     var ddd by remember(telefoneSalvo) { mutableStateOf(telefoneSalvo.take(2)) }
@@ -101,7 +106,10 @@ fun EsqueciSenhaScreen(
                         CampoTexto(
                             valor = email,
                             rotulo = "E-mail",
-                            onValorChange = { email = it }
+                            onValorChange = {
+                                email = it
+                                viewModel.limparEstadoAuth()
+                            }
                         )
                     }
 
@@ -123,30 +131,49 @@ fun EsqueciSenhaScreen(
                         CampoSenha(
                             valor = novaSenha,
                             rotulo = "Nova Senha",
-                            onValorChange = { novaSenha = it }
+                            onValorChange = {
+                                novaSenha = it
+                                viewModel.limparEstadoAuth()
+                            }
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
                         CampoSenha(
                             valor = confirmarSenha,
                             rotulo = "Confirme sua Senha",
-                            onValorChange = { confirmarSenha = it },
+                            onValorChange = {
+                                confirmarSenha = it
+                                viewModel.limparEstadoAuth()
+                            },
                             isError = confirmarSenha.isNotBlank() && confirmarSenha != novaSenha
                         )
                     }
 
                     EtapaRecuperacaoSenha.SUCESSO -> Unit
                 }
+
+                if (mensagemErroAuth != null) {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = mensagemErroAuth,
+                        color = Color.Red,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
             }
 
             RodapeRecuperacaoSenha(
-                textoBotao = etapa.textoBotao,
+                textoBotao = if (etapa == EtapaRecuperacaoSenha.NOVA_SENHA && carregandoAuth) {
+                    "REDEFININDO..."
+                } else {
+                    etapa.textoBotao
+                },
                 enabled = when (etapa) {
                     EtapaRecuperacaoSenha.TELEFONE -> telefoneValido
                     EtapaRecuperacaoSenha.EMAIL -> email.isNotBlank()
                     EtapaRecuperacaoSenha.CODIGO_SMS,
                     EtapaRecuperacaoSenha.CODIGO_EMAIL -> codigo.length == 4
-                    EtapaRecuperacaoSenha.NOVA_SENHA -> senhasIguais
+                    EtapaRecuperacaoSenha.NOVA_SENHA -> senhasIguais && !carregandoAuth
                     EtapaRecuperacaoSenha.SUCESSO -> true
                 },
                 modifier = Modifier
@@ -171,8 +198,13 @@ fun EsqueciSenhaScreen(
                             etapa = EtapaRecuperacaoSenha.NOVA_SENHA
                         }
                         EtapaRecuperacaoSenha.NOVA_SENHA -> {
-                            viewModel.atualizarSenha(novaSenha)
-                            etapa = EtapaRecuperacaoSenha.SUCESSO
+                            val emailRecuperacao = email.ifBlank { viewModel.usuario.email }
+                            viewModel.redefinirSenha(
+                                email = emailRecuperacao,
+                                novaSenha = novaSenha
+                            ) {
+                                etapa = EtapaRecuperacaoSenha.SUCESSO
+                            }
                         }
                         EtapaRecuperacaoSenha.SUCESSO -> {
                             navController.navigate(Routes.LOGIN) {

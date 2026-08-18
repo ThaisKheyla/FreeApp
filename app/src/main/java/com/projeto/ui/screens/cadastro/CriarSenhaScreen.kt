@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -35,8 +36,13 @@ fun CriarSenhaScreen(
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
     val usuario = viewModel.usuario
+    val mensagemErroAuth = viewModel.authErroMensagem
+    val carregandoAuth = viewModel.authCarregando
     var confirmarSenha by remember { mutableStateOf("") }
-    val senhasValidas = usuario.senha.isNotBlank() && usuario.senha == confirmarSenha
+    val senhasValidas =
+        usuario.senha.isNotBlank() &&
+            usuario.senha == confirmarSenha &&
+            !carregandoAuth
 
     Surface(
         modifier = modifier.fillMaxSize()
@@ -70,24 +76,40 @@ fun CriarSenhaScreen(
                 CampoSenha(
                     valor = usuario.senha,
                     rotulo = "Crie uma senha",
-                    onValorChange = viewModel::atualizarSenha
+                    onValorChange = {
+                        viewModel.atualizarSenha(it)
+                        viewModel.limparEstadoAuth()
+                    }
                 )
 
                 CampoSenha(
                     valor = confirmarSenha,
                     rotulo = "Confirme sua Senha",
-                    onValorChange = { senha -> confirmarSenha = senha },
+                    onValorChange = { senha ->
+                        confirmarSenha = senha
+                        viewModel.limparEstadoAuth()
+                    },
                     isError = confirmarSenha.isNotBlank() && confirmarSenha != usuario.senha
                 )
+
+                if (mensagemErroAuth != null) {
+                    Text(
+                        text = mensagemErroAuth,
+                        color = Color.Red,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
             }
 
             BotaoBlueFixo(
-                texto = "FINALIZAR",
+                texto = if (carregandoAuth) "FINALIZANDO..." else "FINALIZAR",
                 enabled = senhasValidas,
                 onClick = {
-                    navController.navigate(Routes.LOGIN) {
-                        popUpTo(Routes.LOGIN)
-                        launchSingleTop = true
+                    viewModel.registrarUsuario {
+                        navController.navigate(Routes.LOGIN) {
+                            popUpTo(Routes.LOGIN)
+                            launchSingleTop = true
+                        }
                     }
                 }
             )

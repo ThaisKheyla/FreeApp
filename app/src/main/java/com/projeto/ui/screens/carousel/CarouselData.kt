@@ -1,5 +1,5 @@
 package com.projeto.ui.screens.carousel
-
+//imports
 import com.example.freeapp.R
 
 data class CarouselPage(

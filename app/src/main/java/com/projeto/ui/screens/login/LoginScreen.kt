@@ -52,8 +52,9 @@ fun LoginScreen(
     val usuario = viewModel.usuario
     var emailLogin by remember(usuario.email) { mutableStateOf(usuario.email) }
     var senhaLogin by remember { mutableStateOf("") }
-    var loginFalhou by remember { mutableStateOf(false) }
-    val camposPreenchidos = emailLogin.isNotBlank() && senhaLogin.isNotBlank()
+    val mensagemErroAuth = viewModel.authErroMensagem
+    val carregandoAuth = viewModel.authCarregando
+    val camposPreenchidos = emailLogin.isNotBlank() && senhaLogin.isNotBlank() && !carregandoAuth
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -120,9 +121,9 @@ fun LoginScreen(
                 rotulo = "E-mail",
                 onValorChange = { email ->
                     emailLogin = email
-                    loginFalhou = false
+                    viewModel.limparEstadoAuth()
                 },
-                isError = loginFalhou
+                isError = mensagemErroAuth != null
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -132,16 +133,16 @@ fun LoginScreen(
                 rotulo = "Senha",
                 onValorChange = { senha ->
                     senhaLogin = senha
-                    loginFalhou = false
+                    viewModel.limparEstadoAuth()
                 },
-                isError = loginFalhou
+                isError = mensagemErroAuth != null
             )
 
-            if (loginFalhou) {
+            if (mensagemErroAuth != null) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "E-mail ou senha inválidos",
+                    text = mensagemErroAuth,
                     color = Color.Red,
                     style = MaterialTheme.typography.bodySmall
                 )
@@ -163,19 +164,14 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(40.dp))
 
             BotaoBlue(
-                texto = "Entrar",
+                texto = if (carregandoAuth) "ENTRANDO..." else "ENTRAR",
                 enabled = camposPreenchidos,
                 onClick = {
-                    val emailCorreto = emailLogin.trim().equals(
-                        usuario.email.trim(),
-                        ignoreCase = true
-                    )
-                    val senhaCorreta = senhaLogin == usuario.senha
-
-                    if (emailCorreto && senhaCorreta) {
+                    viewModel.loginUsuario(
+                        email = emailLogin,
+                        senha = senhaLogin
+                    ) {
                         navController.navigate(Routes.HOME)
-                    } else {
-                        loginFalhou = true
                     }
                 }
             )

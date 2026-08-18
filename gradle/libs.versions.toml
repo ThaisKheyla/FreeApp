@@ -20,6 +20,10 @@ uiTextVersion = "1.12.0"
 runtime = "1.12.0"
 foundationVersion = "1.12.0"
 ui = "1.12.0"
+retrofit = "2.11.0"
+okhttpLogging = "4.12.0"
+lifecycleViewmodelKtx = "2.11.0"
+coroutinesAndroid = "1.10.2"
 
 [libraries]
 
@@ -49,6 +53,11 @@ androidx-ui-text = { group = "androidx.compose.ui", name = "ui-text", version.re
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundationVersion" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttpLogging" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutinesAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

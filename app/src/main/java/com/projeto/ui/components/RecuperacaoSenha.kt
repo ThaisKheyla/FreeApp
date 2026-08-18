@@ -36,6 +36,7 @@ fun CabecalhoRecuperacaoSenha(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Image(
             painter = painterResource(id = imagem),
             contentDescription = titulo,
