@@ -5,13 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.projeto.data.remote.ClienteIbge
 import com.projeto.data.remote.ClienteRetrofit
+import com.projeto.data.remote.dto.EstadoIbge
 import com.projeto.data.repository.RepositorioAutenticacao
+import com.projeto.data.repository.RepositorioIbge
 import com.projeto.domain.model.Usuario
 import kotlinx.coroutines.launch
 
 class UsuarioViewModel : ViewModel() {
     private val repositorioAutenticacao = RepositorioAutenticacao(ClienteRetrofit.servicoAutenticacao)
+    private val repositorioIbge = RepositorioIbge(ClienteIbge.servicoIbge)
 
     //dados pessoais
     var usuario by mutableStateOf(
@@ -23,6 +27,18 @@ class UsuarioViewModel : ViewModel() {
         private set
 
     var authErroMensagem by mutableStateOf<String?>(null)
+        private set
+
+    var estadosIbge by mutableStateOf<List<EstadoIbge>>(emptyList())
+        private set
+
+    var cidadesIbge by mutableStateOf<List<String>>(emptyList())
+        private set
+
+    var ibgeCarregando by mutableStateOf(false)
+        private set
+
+    var ibgeErroMensagem by mutableStateOf<String?>(null)
         private set
 
     fun limparEstadoAuth() {
@@ -85,6 +101,56 @@ class UsuarioViewModel : ViewModel() {
 
     fun atualizarEstado(estado: String) {
         usuario = usuario.copy(estado = estado)
+    }
+
+    fun carregarEstadosIbge() {
+        if (estadosIbge.isNotEmpty() || ibgeCarregando) return
+
+        viewModelScope.launch {
+            ibgeCarregando = true
+            ibgeErroMensagem = null
+
+            val resultado = repositorioIbge.buscarEstados()
+
+            ibgeCarregando = false
+
+            if (resultado.isSuccess) {
+                estadosIbge = resultado.getOrDefault(emptyList())
+            } else {
+                ibgeErroMensagem = resultado.exceptionOrNull()?.message
+            }
+        }
+    }
+
+    fun selecionarEstadoIbge(nomeEstado: String) {
+        val estadoSelecionado = estadosIbge.firstOrNull { estado -> estado.nome == nomeEstado }
+
+        atualizarEstado(nomeEstado)
+        atualizarCidade("")
+        cidadesIbge = emptyList()
+
+        if (estadoSelecionado != null) {
+            carregarCidadesIbge(estadoSelecionado.sigla)
+        }
+    }
+
+    fun carregarCidadesIbge(uf: String) {
+        if (ibgeCarregando) return
+
+        viewModelScope.launch {
+            ibgeCarregando = true
+            ibgeErroMensagem = null
+
+            val resultado = repositorioIbge.buscarCidades(uf)
+
+            ibgeCarregando = false
+
+            if (resultado.isSuccess) {
+                cidadesIbge = resultado.getOrDefault(emptyList())
+            } else {
+                ibgeErroMensagem = resultado.exceptionOrNull()?.message
+            }
+        }
     }
 
 
