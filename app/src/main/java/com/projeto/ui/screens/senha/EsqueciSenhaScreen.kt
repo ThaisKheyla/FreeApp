@@ -32,7 +32,6 @@ import com.projeto.ui.components.RodapeRecuperacaoSenha
 import com.projeto.ui.navigation.Routes
 import com.projeto.ui.viewmodel.UsuarioViewModel
 
-
 @Composable
 fun EsqueciSenhaScreen(
     navController: NavController,
