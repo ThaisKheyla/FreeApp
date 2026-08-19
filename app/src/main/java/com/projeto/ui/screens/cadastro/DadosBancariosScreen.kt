@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import com.projeto.ui.components.BotaoVoltar
 import com.projeto.ui.components.CampoTexto
 import com.projeto.ui.components.OpcaoTipoConta
+import com.projeto.ui.components.TipoEntrada
 import com.projeto.ui.viewmodel.UsuarioViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -75,14 +76,16 @@ fun DadosBancariosScreen(
             CampoTexto(
                 valor = usuario.agencia,
                 rotulo = "Agência",
-                onValorChange = viewModel::atualizarAgencia
+                onValorChange = viewModel::atualizarAgencia,
+                tipoEntrada = TipoEntrada.APENAS_NUMEROS
 
             )
 
             CampoTexto(
                 valor = usuario.conta,
                 rotulo = "Conta",
-                onValorChange = viewModel::atualizarConta
+                onValorChange = viewModel::atualizarConta,
+                tipoEntrada = TipoEntrada.APENAS_NUMEROS
             )
 
             CampoTexto(

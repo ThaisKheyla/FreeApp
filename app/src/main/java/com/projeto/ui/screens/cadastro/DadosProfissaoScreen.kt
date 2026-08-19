@@ -25,6 +25,7 @@ import com.example.freeapp.ui.theme.PrimaryBlue
 import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.BotaoVoltar
 import com.projeto.ui.components.CampoTexto
+import com.projeto.ui.components.TipoEntrada
 import com.projeto.ui.navigation.Routes
 import com.projeto.ui.viewmodel.UsuarioViewModel
 
@@ -72,17 +73,20 @@ fun DadosProfissaoScreen(
             CampoTexto(
                 valor = usuario.profissao,
                 rotulo = "Profissão",
-                onValorChange = viewModel::atualizarProfissao
+                onValorChange = viewModel::atualizarProfissao,
+                tipoEntrada = TipoEntrada.APENAS_LETRAS
             )
             CampoTexto(
                 valor = usuario.especialidade,
                 rotulo = "Especialidade",
-                onValorChange = viewModel::atualizarEspecialidade
+                onValorChange = viewModel::atualizarEspecialidade,
+                tipoEntrada = TipoEntrada.APENAS_LETRAS
             )
             CampoTexto(
                 valor = usuario.regiao,
                 rotulo = "Qual região atende",
-                onValorChange = viewModel::atualizarRegiao
+                onValorChange = viewModel::atualizarRegiao,
+                tipoEntrada = TipoEntrada.APENAS_LETRAS
             )
             CampoTexto(
                 valor = usuario.horario,

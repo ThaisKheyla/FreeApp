@@ -32,13 +32,14 @@ import com.projeto.ui.components.RodapeRecuperacaoSenha
 import com.projeto.ui.navigation.Routes
 import com.projeto.ui.viewmodel.UsuarioViewModel
 
+
 @Composable
 fun EsqueciSenhaScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
-    val telefoneSalvo = viewModel.usuario.telefone.filter { it.isDigit() }
+    val telefoneSalvo = viewModel.usuario.telefone.filter {it.isDigit()}
     var etapa by remember { mutableStateOf(EtapaRecuperacaoSenha.TELEFONE) }
     var etapaCodigoAnterior by remember { mutableStateOf(EtapaRecuperacaoSenha.CODIGO_SMS) }
     var ddd by remember(telefoneSalvo) { mutableStateOf(telefoneSalvo.take(2)) }
@@ -140,7 +141,7 @@ fun EsqueciSenhaScreen(
             }
 
             RodapeRecuperacaoSenha(
-                texto = etapa.textoBotao,
+                textoBotao = etapa.textoBotao,
                 enabled = when (etapa) {
                     EtapaRecuperacaoSenha.TELEFONE -> telefoneValido
                     EtapaRecuperacaoSenha.EMAIL -> email.isNotBlank()

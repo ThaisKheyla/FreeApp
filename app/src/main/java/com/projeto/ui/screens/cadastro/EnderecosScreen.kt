@@ -21,7 +21,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.CampoTexto
-
+import com.projeto.ui.components.TipoEntrada
 
 @Composable
 fun EnderecosScreen(
@@ -71,7 +71,8 @@ fun EnderecosScreen(
             CampoTexto(
                 valor = usuario.cep,
                 rotulo = "CEP",
-                onValorChange = viewModel::atualizarCep
+                onValorChange = viewModel::atualizarCep,
+                tipoEntrada = TipoEntrada.APENAS_NUMEROS
             )
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -88,6 +89,7 @@ fun EnderecosScreen(
                     valor = usuario.numero,
                     rotulo = "Nº",
                     onValorChange = viewModel::atualizarNumero,
+                    tipoEntrada = TipoEntrada.APENAS_NUMEROS,
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -102,13 +104,15 @@ fun EnderecosScreen(
             CampoTexto(
                 valor = usuario.bairro,
                 rotulo = "Bairro",
-                onValorChange = viewModel::atualizarBairro
+                onValorChange = viewModel::atualizarBairro,
+                tipoEntrada = TipoEntrada.APENAS_LETRAS
             )
 
             CampoTexto(
                 valor = usuario.cidade,
                 rotulo = "Cidade",
                 onValorChange = viewModel::atualizarCidade,
+                tipoEntrada = TipoEntrada.APENAS_LETRAS,
                 mostrarSearch = true
             )
 
@@ -116,6 +120,7 @@ fun EnderecosScreen(
                 valor = usuario.estado,
                 rotulo = "Estado",
                 onValorChange = viewModel::atualizarEstado,
+                tipoEntrada = TipoEntrada.APENAS_LETRAS,
                 mostrarSearch = true
             )
             }
