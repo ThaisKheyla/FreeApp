@@ -9,7 +9,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import com.example.freeapp.ui.theme.TextFieldBackground
@@ -19,6 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.PrimaryBlue
 
+enum class TipoEntrada {
+    LIVRE,
+    APENAS_LETRAS,
+    APENAS_NUMEROS,
+    NUMEROS_E_BARRA
+}
+
 @Composable
 fun CampoTexto(
     valor: String,
@@ -27,12 +36,30 @@ fun CampoTexto(
     modifier: Modifier = Modifier.fillMaxWidth(),
     mostrarCheck: Boolean = false,
     mostrarSearch: Boolean = false,
-    isError: Boolean = false
+    isError: Boolean = false,
+    tipoEntrada: TipoEntrada = TipoEntrada.LIVRE
 ) {
 
     OutlinedTextField(
         value = valor,
-        onValueChange = onValorChange,
+        onValueChange = { novoValor ->
+            onValorChange(novoValor.filter { caractere ->
+                when (tipoEntrada) {
+                    TipoEntrada.LIVRE -> true
+                    TipoEntrada.APENAS_LETRAS -> caractere.isLetter() || caractere == ' '
+                    TipoEntrada.APENAS_NUMEROS -> caractere.isDigit()
+                    TipoEntrada.NUMEROS_E_BARRA -> caractere.isDigit() || caractere == '/'
+                }
+            })
+        },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = when (tipoEntrada) {
+                TipoEntrada.APENAS_NUMEROS,
+                TipoEntrada.NUMEROS_E_BARRA -> KeyboardType.Number
+                TipoEntrada.APENAS_LETRAS -> KeyboardType.Text
+                TipoEntrada.LIVRE -> KeyboardType.Text
+            }
+        ),
 
         placeholder = {
             Text(

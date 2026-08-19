@@ -41,6 +41,7 @@ import com.example.freeapp.R
 import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.BotaoVoltar
 import com.projeto.ui.components.CampoTexto
+import com.projeto.ui.components.TipoEntrada
 import com.projeto.ui.navigation.Routes
 import com.projeto.ui.viewmodel.UsuarioViewModel
 
@@ -109,6 +110,7 @@ fun PagamentoScreen(
                     valor = usuario.nome,
                     rotulo = "Nome completo",
                     onValorChange = viewModel::atualizarNome,
+                    tipoEntrada = TipoEntrada.APENAS_LETRAS,
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
@@ -119,6 +121,7 @@ fun PagamentoScreen(
                     valor = usuario.numeroCartao,
                     rotulo = "5999       5877     566    599",
                     onValorChange = viewModel::atualizarNumeroCartao,
+                    tipoEntrada = TipoEntrada.APENAS_NUMEROS,
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
@@ -132,6 +135,7 @@ fun PagamentoScreen(
                         valor = usuario.validadeCartao,
                         rotulo = "06/2027",
                         onValorChange = viewModel::atualizarValidadeCartao,
+                        tipoEntrada = TipoEntrada.NUMEROS_E_BARRA,
                         modifier = Modifier
                             .weight(1f)
                             .onFocusChanged { focusState ->
@@ -143,6 +147,7 @@ fun PagamentoScreen(
                         valor = usuario.cvv,
                         rotulo = "915",
                         onValorChange = viewModel::atualizarCvv,
+                        tipoEntrada = TipoEntrada.APENAS_NUMEROS,
                         modifier = Modifier
                             .weight(1f)
                             .onFocusChanged { focusState ->

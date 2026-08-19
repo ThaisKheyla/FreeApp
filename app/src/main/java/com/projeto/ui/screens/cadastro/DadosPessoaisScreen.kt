@@ -29,6 +29,7 @@ import com.example.freeapp.ui.theme.PrimaryBlue
 import com.projeto.ui.components.BotaoBlueFixo
 import com.projeto.ui.components.BotaoVoltar
 import com.projeto.ui.components.CampoTexto
+import com.projeto.ui.components.TipoEntrada
 import com.projeto.ui.components.ModalTermos
 import com.projeto.ui.navigation.Routes
 import com.projeto.ui.validation.UsuarioValidator
@@ -113,6 +114,7 @@ fun DadosPessoaisScreen(
                 valor = usuario.nome,
                 rotulo = "Nome completo",
                 onValorChange = viewModel::atualizarNome,
+                tipoEntrada = TipoEntrada.APENAS_LETRAS,
                 mostrarCheck = nomeValido && usuario.nome.isNotBlank(),
                 isError = usuario.nome.isNotBlank() && !nomeValido
             )
@@ -121,6 +123,7 @@ fun DadosPessoaisScreen(
                 valor = usuario.dataNascimento,
                 rotulo = "Data de nascimento",
                 onValorChange = viewModel::atualizarDataNascimento,
+                tipoEntrada = TipoEntrada.NUMEROS_E_BARRA,
                 mostrarCheck = dataNascimentoValida && usuario.dataNascimento.isNotBlank(),
                 isError = usuario.dataNascimento.isNotBlank() && !dataNascimentoValida
             )
@@ -129,6 +132,7 @@ fun DadosPessoaisScreen(
                 valor = usuario.cpf,
                 rotulo = "CPF",
                 onValorChange = viewModel::atualizarCpf,
+                tipoEntrada = TipoEntrada.APENAS_NUMEROS,
                 mostrarCheck = cpfValido &&
                         usuario.cpf.isNotBlank(),
 
@@ -159,6 +163,7 @@ fun DadosPessoaisScreen(
                 valor = usuario.telefone,
                 rotulo = "Número com DD",
                 onValorChange = viewModel::atualizarTelefone,
+                tipoEntrada = TipoEntrada.APENAS_NUMEROS,
                 mostrarCheck = telefoneValido &&
                         usuario.telefone.isNotBlank(),
 
