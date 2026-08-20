@@ -6,9 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.projeto.data.remote.ClienteIbge
-import com.projeto.data.remote.ClienteRetrofit
 import com.projeto.data.remote.dto.EstadoIbge
-import com.projeto.data.repository.RepositorioAutenticacao
+import com.projeto.data.repository.RepositorioFirebase
 import com.projeto.data.repository.RepositorioIbge
 import com.projeto.domain.model.Usuario
 import kotlinx.coroutines.launch
@@ -16,8 +15,12 @@ import com.projeto.data.firebase.CadastroFirebaseDataSource
 import com.projeto.data.remote.dto.RequisicaoCadastro
 
 class UsuarioViewModel : ViewModel() {
+<<<<<<< Updated upstream
     private val cadastroFirebaseDataSource = CadastroFirebaseDataSource()
     private val repositorioAutenticacao = RepositorioAutenticacao(ClienteRetrofit.servicoAutenticacao)
+=======
+    private val repositorioAutenticacao = RepositorioFirebase()
+>>>>>>> Stashed changes
     private val repositorioIbge = RepositorioIbge(ClienteIbge.servicoIbge)
 
     //dados pessoais
@@ -233,18 +236,6 @@ class UsuarioViewModel : ViewModel() {
 
             if (resultadoRemoto.isSuccess) {
                 onSucesso()
-                return@launch
-            }
-
-            // Fallback local para ambiente sem backend pronto.
-            val emailCorreto = email.trim().equals(
-                usuario.email.trim(),
-                ignoreCase = true
-            )
-            val senhaCorreta = senha == usuario.senha
-
-            if (emailCorreto && senhaCorreta) {
-                onSucesso()
             } else {
                 authErroMensagem = resultadoRemoto.exceptionOrNull()?.message
                     ?: "E-mail ou senha inválidos"
@@ -311,7 +302,6 @@ class UsuarioViewModel : ViewModel() {
 
     fun redefinirSenha(
         email: String,
-        novaSenha: String,
         onSucesso: () -> Unit
     ) {
         if (authCarregando) return
@@ -320,12 +310,11 @@ class UsuarioViewModel : ViewModel() {
             authCarregando = true
             authErroMensagem = null
 
-            val resultado = repositorioAutenticacao.redefinirSenha(email, novaSenha)
+            val resultado = repositorioAutenticacao.redefinirSenha(email)
 
             authCarregando = false
 
             if (resultado.isSuccess) {
-                atualizarSenha(novaSenha)
                 onSucesso()
             } else {
                 authErroMensagem = resultado.exceptionOrNull()?.message

@@ -188,10 +188,17 @@ fun EsqueciSenhaScreen(
                 } else {
                     null
                 },
+                
                 onBotaoClick = {
                     when (etapa) {
                         EtapaRecuperacaoSenha.TELEFONE -> etapa = EtapaRecuperacaoSenha.CODIGO_SMS
-                        EtapaRecuperacaoSenha.EMAIL -> etapa = EtapaRecuperacaoSenha.CODIGO_EMAIL
+                            EtapaRecuperacaoSenha.EMAIL -> {
+                                viewModel.redefinirSenha(
+                                    email = email
+                                ) {
+                                    etapa = EtapaRecuperacaoSenha.SUCESSO
+                                }
+                            }
                         EtapaRecuperacaoSenha.CODIGO_SMS,
                         EtapaRecuperacaoSenha.CODIGO_EMAIL -> {
                             etapaCodigoAnterior = etapa
@@ -201,11 +208,11 @@ fun EsqueciSenhaScreen(
                             val emailRecuperacao = email.ifBlank { viewModel.usuario.email }
                             viewModel.redefinirSenha(
                                 email = emailRecuperacao,
-                                novaSenha = novaSenha
                             ) {
                                 etapa = EtapaRecuperacaoSenha.SUCESSO
                             }
                         }
+
                         EtapaRecuperacaoSenha.SUCESSO -> {
                             navController.navigate(Routes.LOGIN) {
                                 popUpTo(Routes.LOGIN)
