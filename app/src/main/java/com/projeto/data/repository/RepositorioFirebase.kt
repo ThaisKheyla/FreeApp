@@ -41,6 +41,25 @@ class RepositorioFirebase(
         }
     }
 
+    suspend fun buscarNomeUsuarioAtual(): Result<String> {
+        return try {
+            val uid = auth.currentUser?.uid
+                ?: return Result.failure(Exception("Usuário não autenticado."))
+
+            val nome = firestore
+                .collection("usuarios")
+                .document(uid)
+                .get()
+                .await()
+                .getString("nome")
+                .orEmpty()
+
+            Result.success(nome)
+        } catch (erro: Exception) {
+            Result.failure(erro)
+        }
+    }
+
     suspend fun redefinirSenha(email: String): Result<Unit> {
         return try {
             auth.sendPasswordResetEmail(email.trim()).await()

@@ -15,12 +15,8 @@ import com.projeto.data.firebase.CadastroFirebaseDataSource
 import com.projeto.data.remote.dto.RequisicaoCadastro
 
 class UsuarioViewModel : ViewModel() {
-<<<<<<< Updated upstream
     private val cadastroFirebaseDataSource = CadastroFirebaseDataSource()
-    private val repositorioAutenticacao = RepositorioAutenticacao(ClienteRetrofit.servicoAutenticacao)
-=======
     private val repositorioAutenticacao = RepositorioFirebase()
->>>>>>> Stashed changes
     private val repositorioIbge = RepositorioIbge(ClienteIbge.servicoIbge)
 
     //dados pessoais
@@ -235,6 +231,8 @@ class UsuarioViewModel : ViewModel() {
             authCarregando = false
 
             if (resultadoRemoto.isSuccess) {
+                val nome = repositorioAutenticacao.buscarNomeUsuarioAtual().getOrNull().orEmpty()
+                usuario = usuario.copy(nome = nome, email = email)
                 onSucesso()
             } else {
                 authErroMensagem = resultadoRemoto.exceptionOrNull()?.message

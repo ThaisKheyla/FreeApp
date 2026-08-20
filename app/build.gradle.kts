@@ -63,7 +63,6 @@ dependencies {
     implementation(libs.androidx.foundation)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.firebase.auth.ktx)
     implementation(libs.kotlinx.coroutines.android)
     implementation("androidx.compose.material:material-icons-extended")
     implementation(libs.androidx.material3)

@@ -30,7 +30,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.freeapp.R
 import com.example.freeapp.ui.theme.PrimaryBlue
@@ -40,9 +39,12 @@ import com.example.freeapp.ui.theme.neutreColor
 import com.projeto.ui.components.BottomNavigationBar
 import com.projeto.ui.components.ProviderCard
 import com.projeto.ui.components.ServiceCard
+import com.projeto.ui.viewmodel.UsuarioViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: UsuarioViewModel) {
+    val nomeUsuario = viewModel.usuario.nome.substringBefore(" ").ifBlank { "usuário" }
+
     Scaffold(
         bottomBar = {
             BottomNavigationBar()
@@ -51,6 +53,7 @@ fun HomeScreen() {
 
         LazyColumn(
             modifier = Modifier
+                .padding(innerPadding)
                 .padding(24.dp)
                 .fillMaxSize()
                 .background(PrimaryWhite)
@@ -84,7 +87,7 @@ fun HomeScreen() {
                     ) {
 
                         Text(
-                            text = "Hello John",
+                            text = "Hello $nomeUsuario",
                             color = PrimaryBlue
                         )
 
@@ -321,11 +324,3 @@ fun HomeScreen() {
 
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
-@Composable
-fun PreviewHomeScreen() {
-    HomeScreen()
-}

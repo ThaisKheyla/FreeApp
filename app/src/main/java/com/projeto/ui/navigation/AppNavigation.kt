@@ -68,7 +68,7 @@ fun AppNavigation() {
             EsqueciSenhaScreen(navController, viewModel = usuarioViewModel)
         }
         composable(Routes.HOME) {
-            HomeScreen()
+            HomeScreen(viewModel = usuarioViewModel)
         }
     }
 }
