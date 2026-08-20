@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "952888157206",
+    "project_id": "freeapp-d5fbd",
+    "storage_bucket": "freeapp-d5fbd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952888157206:android:0e9c7b3d63d486e7754137",
+        "android_client_info": {
+          "package_name": "com.example.freeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxe0pNiQoQisg7Ogc8mUv6QWFcfscD2vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
