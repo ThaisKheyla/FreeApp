@@ -37,20 +37,25 @@ fun CampoTexto(
     mostrarCheck: Boolean = false,
     mostrarSearch: Boolean = false,
     isError: Boolean = false,
-    tipoEntrada: TipoEntrada = TipoEntrada.LIVRE
+    tipoEntrada: TipoEntrada = TipoEntrada.LIVRE,
+    maxLength: Int? = null
 ) {
 
     OutlinedTextField(
         value = valor,
         onValueChange = { novoValor ->
-            onValorChange(novoValor.filter { caractere ->
+            val valorFiltrado = novoValor.filter { caractere ->
                 when (tipoEntrada) {
                     TipoEntrada.LIVRE -> true
                     TipoEntrada.APENAS_LETRAS -> caractere.isLetter() || caractere == ' '
                     TipoEntrada.APENAS_NUMEROS -> caractere.isDigit()
                     TipoEntrada.NUMEROS_E_BARRA -> caractere.isDigit() || caractere == '/'
                 }
-            })
+            }
+
+            onValorChange(
+                if (maxLength != null) valorFiltrado.take(maxLength) else valorFiltrado
+            )
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = when (tipoEntrada) {
