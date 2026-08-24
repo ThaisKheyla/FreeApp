@@ -106,7 +106,8 @@ fun EnderecosScreen(
                     rotulo = "Nº",
                     onValorChange = viewModel::atualizarNumero,
                     tipoEntrada = TipoEntrada.APENAS_NUMEROS,
-                    modifier = Modifier.weight(1f)
+                    maxLength = 10,
+                    modifier = Modifier.weight(1.4f)
                 )
             }
 
