@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.freeapp.ui.theme.FreeAppTheme
 import com.projeto.ui.navigation.AppNavigation
 import com.projeto.ui.screens.cadastro.DadosPessoaisScreen
-
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
