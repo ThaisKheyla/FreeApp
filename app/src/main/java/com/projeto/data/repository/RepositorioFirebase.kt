@@ -10,6 +10,7 @@ class RepositorioFirebase(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) {
+    
     suspend fun cadastrar(usuario: Usuario): Result<Unit> {
         return try {
             val resultado = auth.createUserWithEmailAndPassword(
@@ -95,7 +96,9 @@ class RepositorioFirebase(
             "conta" to conta,
             "tipoConta" to tipoConta,
             "pix" to pix,
-            "opcaoPagamento" to opcaoPagamento
+            "opcaoPagamento" to opcaoPagamento,
+            "ultimos4DigitosCartao" to numeroCartao.takeLast(4),
+            "validadeCartao" to validadeCartao
         )
     }
 

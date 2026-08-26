@@ -49,14 +49,12 @@ fun DadosPessoaisScreen(
     val dataNascimentoValida = UsuarioValidator.dataValida(usuario.dataNascimento)
     val cpfValido = UsuarioValidator.cpfValido(usuario.cpf)
     val emailValido = UsuarioValidator.emailValido(usuario.email)
-    val emailsIguais = UsuarioValidator.emailsIguais(usuario.email, usuario.confirmarEmail)
     val telefoneValido = UsuarioValidator.telefoneValido(usuario.telefone)
     val dadosPessoaisValidos =
         nomeValido &&
                 dataNascimentoValida &&
                 cpfValido &&
                 emailValido &&
-                emailsIguais &&
                 telefoneValido &&
                 aceitouTermos
 
@@ -114,8 +112,6 @@ fun DadosPessoaisScreen(
                 valor = usuario.confirmarEmail,
                 rotulo = "Confirme seu e-mail",
                 onValorChange = viewModel::atualizarConfirmarEmail,
-                mostrarCheck = emailsIguais && usuario.confirmarEmail.isNotBlank(),
-                isError = usuario.confirmarEmail.isNotBlank() && !emailsIguais
             )
             CampoTexto(
                 valor = usuario.telefone,

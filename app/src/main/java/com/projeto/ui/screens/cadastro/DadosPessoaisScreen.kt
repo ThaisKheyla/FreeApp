@@ -71,7 +71,6 @@ fun DadosPessoaisScreen(
     var aceitouTermos by remember {
         mutableStateOf(false)
     }
-
     val dadosPessoaisValidos =
         nomeValido &&
                 dataNascimentoValida &&

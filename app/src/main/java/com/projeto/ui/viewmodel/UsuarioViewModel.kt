@@ -11,11 +11,8 @@ import com.projeto.data.repository.RepositorioFirebase
 import com.projeto.data.repository.RepositorioIbge
 import com.projeto.domain.model.Usuario
 import kotlinx.coroutines.launch
-import com.projeto.data.firebase.CadastroFirebaseDataSource
-import com.projeto.data.remote.dto.RequisicaoCadastro
 
 class UsuarioViewModel : ViewModel() {
-    private val cadastroFirebaseDataSource = CadastroFirebaseDataSource()
     private val repositorioAutenticacao = RepositorioFirebase()
     private val repositorioIbge = RepositorioIbge(ClienteIbge.servicoIbge)
 
@@ -253,43 +250,8 @@ class UsuarioViewModel : ViewModel() {
             val resultado = repositorioAutenticacao.cadastrar(usuario)
 
             if (resultado.isSuccess) {
-                cadastroFirebaseDataSource.cadastrarUsuario(
-                    dados = RequisicaoCadastro(
-                        nome = usuario.nome,
-                        dataNascimento = usuario.dataNascimento,
-                        cpf = usuario.cpf,
-                        email = usuario.email,
-                        telefone = usuario.telefone,
-                        cep = usuario.cep,
-                        endereco = usuario.endereco,
-                        numero = usuario.numero,
-                        complemento = usuario.complemento,
-                        bairro = usuario.bairro,
-                        cidade = usuario.cidade,
-                        estado = usuario.estado,
-                        profissao = usuario.profissao,
-                        especialidade = usuario.especialidade,
-                        regiao = usuario.regiao,
-                        horario = usuario.horario,
-                        agencia = usuario.agencia,
-                        conta = usuario.conta,
-                        tipoConta = usuario.tipoConta,
-                        pix = usuario.pix,
-                        opcaoPagamento = usuario.opcaoPagamento,
-                        numeroCartao = usuario.numeroCartao,
-                        validadeCartao = usuario.validadeCartao,
-                        cvv = usuario.cvv,
-                        senha = usuario.senha
-                    ),
-                    onSuccess = {
-                        authCarregando = false
-                        onSucesso()
-                    },
-                    onError = { erro ->
-                        authCarregando = false
-                        authErroMensagem = erro.message
-                    }
-                )
+                authCarregando = false
+                onSucesso()
             } else {
                 authCarregando = false
                 authErroMensagem = resultado.exceptionOrNull()?.message
