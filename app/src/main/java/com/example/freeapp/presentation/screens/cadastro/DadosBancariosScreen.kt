@@ -76,7 +76,7 @@ fun DadosBancariosScreen(
             TextField(
                 value = usuario.agencia,
                 label = "Agência",
-                onValueChange = viewModel::atualizarAgencia,
+                onValueChange = viewModel::updateAgency,
                 inputType = InputType.NUMBERS_ONLY
 
             )
@@ -84,14 +84,14 @@ fun DadosBancariosScreen(
             TextField(
                 value = usuario.conta,
                 label = "Conta",
-                onValueChange = viewModel::atualizarConta,
+                onValueChange = viewModel::updateAccount,
                 inputType = InputType.NUMBERS_ONLY
             )
 
             TextField(
                 value = usuario.tipoConta,
                 label = "Qual é o seu tipo de conta",
-                onValueChange = viewModel::atualizarTipoConta
+                onValueChange = viewModel::updateAccountType
             )
 
             AccountTypeOption(
@@ -99,7 +99,7 @@ fun DadosBancariosScreen(
                 selected = tipoContaSelecionado == "Pessoa Física",
                 onSelect = {
                     tipoContaSelecionado = "Pessoa Física"
-                    viewModel.atualizarTipoConta("Pessoa Física")
+                    viewModel.updateAccountType("Pessoa Física")
                 }
             )
 
@@ -108,13 +108,13 @@ fun DadosBancariosScreen(
                 selected = tipoContaSelecionado == "Pessoa Jurídica",
                 onSelect = {
                     tipoContaSelecionado = "Pessoa Jurídica"
-                    viewModel.atualizarTipoConta("Pessoa Jurídica")
+                    viewModel.updateAccountType("Pessoa Jurídica")
                 }
             )
             TextField(
                 value = usuario.pix,
                 label = "PIX",
-                onValueChange = viewModel::atualizarPix
+                onValueChange = viewModel::updatePix
             )
             }
 

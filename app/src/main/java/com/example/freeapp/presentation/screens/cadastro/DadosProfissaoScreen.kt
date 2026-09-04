@@ -63,25 +63,25 @@ fun DadosProfissaoScreen(
             TextField(
                 value = usuario.profissao,
                 label = "Profissão",
-                onValueChange = viewModel::atualizarProfissao,
+                onValueChange = viewModel::updateProfession,
                 inputType = InputType.LETTERS_ONLY
             )
             TextField(
                 value = usuario.especialidade,
                 label = "Especialidade",
-                onValueChange = viewModel::atualizarEspecialidade,
+                onValueChange = viewModel::updateSpecialty,
                 inputType = InputType.LETTERS_ONLY
             )
             TextField(
                 value = usuario.regiao,
                 label = "Qual região atende",
-                onValueChange = viewModel::atualizarRegiao,
+                onValueChange = viewModel::updateRegion,
                 inputType = InputType.LETTERS_ONLY
             )
             TextField(
                 value = usuario.horario,
                 label = "Qual horário tem disponibilidade",
-                onValueChange = viewModel::atualizarHorario
+                onValueChange = viewModel::updateSchedule
             )
             }
 

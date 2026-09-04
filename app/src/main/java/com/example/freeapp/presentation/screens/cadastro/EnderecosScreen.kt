@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.projeto.ui.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,7 +43,7 @@ fun EnderecosScreen(
     var mostrarCidades by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        viewModel.carregarEstadosIbge()
+        viewModel.loadIbgeStates()
     }
 
     val enderecoValido =
@@ -87,7 +87,7 @@ fun EnderecosScreen(
             TextField(
                 value = usuario.cep,
                 label = "CEP",
-                onValueChange = viewModel::atualizarCep,
+                onValueChange = viewModel::updateZipCode,
                 inputType = InputType.NUMBERS_ONLY
             )
             Row(
@@ -97,14 +97,14 @@ fun EnderecosScreen(
                 TextField(
                     value = usuario.endereco,
                     label = "Endereço",
-                    onValueChange = viewModel::atualizarEndereco,
+                    onValueChange = viewModel::updateAddress,
                     modifier = Modifier.weight(3f)
                 )
 
                 TextField(
                     value = usuario.numero,
                     label = "Nº",
-                    onValueChange = viewModel::atualizarNumero,
+                    onValueChange = viewModel::updateNumber,
                     inputType = InputType.NUMBERS_ONLY,
                     maxLength = 10,
                     modifier = Modifier.weight(1.4f)
@@ -115,13 +115,13 @@ fun EnderecosScreen(
             TextField(
                 value = usuario.complemento,
                 label = "Complemento",
-                onValueChange = viewModel::atualizarComplemento
+                    onValueChange = viewModel::updateComplement
             )
 
             TextField(
                 value = usuario.bairro,
                 label = "Bairro",
-                onValueChange = viewModel::atualizarBairro,
+                onValueChange = viewModel::updateNeighborhood,
                 inputType = InputType.LETTERS_ONLY
             )
 
@@ -189,7 +189,7 @@ fun EnderecosScreen(
                     titulo = "Selecione o estado",
                     itens = viewModel.estadosIbge.map { estado -> estado.nome },
                     onSelecionar = { estado ->
-                        viewModel.selecionarEstadoIbge(estado)
+                        viewModel.selectIbgeState(estado)
                         mostrarEstados = false
                     }
                 )
@@ -200,7 +200,7 @@ fun EnderecosScreen(
                     titulo = "Selecione a cidade",
                     itens = viewModel.cidadesIbge,
                     onSelecionar = { cidade ->
-                        viewModel.atualizarCidade(cidade)
+                        viewModel.updateCity(cidade)
                         mostrarCidades = false
                     }
                 )
