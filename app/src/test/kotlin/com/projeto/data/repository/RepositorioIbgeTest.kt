@@ -1,8 +1,9 @@
 package com.projeto.data.repository
 
-import com.projeto.data.remote.ServicoIbgeApi
-import com.projeto.data.remote.dto.EstadoIbge
-import com.projeto.data.remote.dto.MunicipioIbge
+import com.example.freeapp.data.remote.ServicoIbgeApi
+import com.example.freeapp.data.remote.dto.EstadoIbge
+import com.example.freeapp.data.remote.dto.MunicipioIbge
+import com.example.freeapp.data.repository.RepositorioIbge
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals

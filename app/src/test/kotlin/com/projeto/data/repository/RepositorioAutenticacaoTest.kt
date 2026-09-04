@@ -1,8 +1,9 @@
 package com.projeto.data.repository
 
-import com.projeto.data.remote.ServicoAutenticacaoApi
-import com.projeto.data.remote.dto.RespostaAutenticacao
-import com.projeto.domain.model.Usuario
+import com.example.freeapp.data.remote.ServicoAutenticacaoApi
+import com.example.freeapp.data.remote.dto.RespostaAutenticacao
+import com.example.freeapp.data.repository.RepositorioAutenticacao
+import com.example.freeapp.domain.Usuario
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
