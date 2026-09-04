@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.senha
+package com.example.freeapp.presentation.screens.forgotPassword
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,24 +19,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
-import com.projeto.ui.components.BotaoVoltar
-import com.projeto.ui.components.CabecalhoRecuperacaoSenha
-import com.projeto.ui.components.CampoCodigoRecuperacao
-import com.projeto.ui.components.CampoSenha
-import com.projeto.ui.components.CampoTexto
-import com.projeto.ui.components.CamposTelefoneRecuperacao
-import com.projeto.ui.components.LinkRecuperacaoSenha
-import com.projeto.ui.components.RodapeRecuperacaoSenha
-import com.projeto.ui.navigation.Routes
-import com.projeto.ui.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.components.PasswordField
+import com.example.freeapp.presentation.components.PasswordRecoveryCodeField
+import com.example.freeapp.presentation.components.PasswordRecoveryFooter
+import com.example.freeapp.presentation.components.PasswordRecoveryHeader
+import com.example.freeapp.presentation.components.PasswordRecoveryLink
+import com.example.freeapp.presentation.components.PasswordRecoveryPhoneFields
+import com.example.freeapp.presentation.components.TextField
+import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+
 
 @Composable
-fun EsqueciSenhaScreen(
+fun ForgotPasswordScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: UsuarioViewModel = UsuarioViewModel()
@@ -69,7 +68,7 @@ fun EsqueciSenhaScreen(
                     .padding(top = 42.dp, bottom = 148.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                BotaoVoltar(
+                BackButton(
                     onClick = {
                         if (etapa == EtapaRecuperacaoSenha.TELEFONE) {
                             navController.popBackStack()
@@ -85,28 +84,28 @@ fun EsqueciSenhaScreen(
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                CabecalhoRecuperacaoSenha(
-                    imagem = etapa.imagem,
-                    titulo = etapa.titulo,
-                    descricao = etapa.descricao
+                PasswordRecoveryHeader(
+                    image = etapa.imagem,
+                    title = etapa.titulo,
+                    description = etapa.descricao
                 )
 
                 Spacer(modifier = Modifier.height(42.dp))
                 when (etapa) {
                     EtapaRecuperacaoSenha.TELEFONE -> {
-                        CamposTelefoneRecuperacao(
+                        PasswordRecoveryPhoneFields(
                             ddd = ddd,
-                            numero = numeroTelefone,
+                            phoneNumber = numeroTelefone,
                             onDddChange = { ddd = it },
-                            onNumeroChange = { numeroTelefone = it }
+                            onPhoneNumberChange = { numeroTelefone = it }
                         )
                     }
 
                     EtapaRecuperacaoSenha.EMAIL -> {
-                        CampoTexto(
-                            valor = email,
-                            rotulo = "E-mail",
-                            onValorChange = {
+                        TextField(
+                            value = email,
+                            label = "E-mail",
+                            onValueChange = {
                                 email = it
                                 viewModel.limparEstadoAuth()
                             }
@@ -115,37 +114,38 @@ fun EsqueciSenhaScreen(
 
                     EtapaRecuperacaoSenha.CODIGO_SMS,
                     EtapaRecuperacaoSenha.CODIGO_EMAIL -> {
-                        CampoCodigoRecuperacao(
-                            codigo = codigo,
-                            onCodigoChange = { codigo = it }
+                        PasswordRecoveryCodeField(
+                            code = codigo,
+                            onCodeChange = { codigo = it }
                         )
 
                         Spacer(modifier = Modifier.height(18.dp))
-                        LinkRecuperacaoSenha(
-                            texto = "Não recebeu um código? Reenviar",
+                        PasswordRecoveryLink(
+                            text = "Não recebeu um código? Reenviar",
                             onClick = { codigo = "" }
                         )
                     }
 
                     EtapaRecuperacaoSenha.NOVA_SENHA -> {
-                        CampoSenha(
-                            valor = novaSenha,
-                            rotulo = "Nova Senha",
-                            onValorChange = {
+                        PasswordField(
+                            value = novaSenha,
+                            label = "Nova Senha",
+                            onValueChange = {
                                 novaSenha = it
                                 viewModel.limparEstadoAuth()
                             }
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
-                        CampoSenha(
-                            valor = confirmarSenha,
-                            rotulo = "Confirme sua Senha",
-                            onValorChange = {
+                        PasswordField(
+                            value = confirmarSenha,
+                            label = "Confirme sua Senha",
+                            onValueChange = {
                                 confirmarSenha = it
                                 viewModel.limparEstadoAuth()
                             },
-                            isError = confirmarSenha.isNotBlank() && confirmarSenha != novaSenha
+                            isError = confirmarSenha.isNotBlank() &&
+                                    confirmarSenha != novaSenha
                         )
                     }
 
@@ -162,8 +162,11 @@ fun EsqueciSenhaScreen(
                 }
             }
 
-            RodapeRecuperacaoSenha(
-                textoBotao = if (etapa == EtapaRecuperacaoSenha.NOVA_SENHA && carregandoAuth) {
+            PasswordRecoveryFooter(
+                buttonText = if (
+                    etapa == EtapaRecuperacaoSenha.NOVA_SENHA &&
+                    carregandoAuth
+                ) {
                     "REDEFININDO..."
                 } else {
                     etapa.textoBotao
@@ -178,9 +181,21 @@ fun EsqueciSenhaScreen(
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(start = 14.dp, end = 14.dp, bottom = 22.dp),
-                textoLink = if (etapa == EtapaRecuperacaoSenha.TELEFONE) "TENTE DE OUTRA MANEIRA" else null,
-                onLinkClick = if (etapa == EtapaRecuperacaoSenha.TELEFONE) {
+                    .padding(
+                        start = 14.dp,
+                        end = 14.dp,
+                        bottom = 22.dp
+                    ),
+                linkText = if (
+                    etapa == EtapaRecuperacaoSenha.TELEFONE
+                ) {
+                    "TENTE DE OUTRA MANEIRA"
+                } else {
+                    null
+                },
+                onLinkClick = if (
+                    etapa == EtapaRecuperacaoSenha.TELEFONE
+                ) {
                     {
                         etapa = EtapaRecuperacaoSenha.EMAIL
                         codigo = ""
@@ -188,8 +203,7 @@ fun EsqueciSenhaScreen(
                 } else {
                     null
                 },
-                
-                onBotaoClick = {
+                onButtonClick = {
                     when (etapa) {
                         EtapaRecuperacaoSenha.TELEFONE -> etapa = EtapaRecuperacaoSenha.CODIGO_SMS
                             EtapaRecuperacaoSenha.EMAIL -> {
@@ -281,8 +295,4 @@ private enum class EtapaRecuperacaoSenha(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun EsqueciSenhaScreenPreview() {
-    EsqueciSenhaScreen(navController = rememberNavController())
-}
+

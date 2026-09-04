@@ -32,18 +32,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.freeapp.R
+import com.example.freeapp.presentation.components.BottomNavigationBar
+import com.example.freeapp.presentation.components.ProviderCard
+import com.example.freeapp.presentation.components.ServiceCard
 import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.example.freeapp.presentation.theme.PrimaryWhite
 import com.example.freeapp.presentation.theme.fontColor
 import com.example.freeapp.presentation.theme.neutreColor
-import com.projeto.ui.components.BottomNavigationBar
-import com.projeto.ui.components.ProviderCard
-import com.projeto.ui.components.ServiceCard
-import com.projeto.ui.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
 
 @Composable
-fun HomeScreen(viewModel: UsuarioViewModel) {
-    val nomeUsuario = viewModel.usuario.nome.substringBefore(" ").ifBlank { "usuário" }
+fun HomeScreen(
+    viewModel: UsuarioViewModel
+) {
+    val userName = viewModel.usuario.nome
+        .substringBefore(" ")
+        .ifBlank { "usuário" }
 
     Scaffold(
         bottomBar = {
@@ -87,7 +91,7 @@ fun HomeScreen(viewModel: UsuarioViewModel) {
                     ) {
 
                         Text(
-                            text = "Hello $nomeUsuario",
+                            text = "Hello $userName",
                             color = PrimaryBlue
                         )
 
@@ -142,7 +146,9 @@ fun HomeScreen(viewModel: UsuarioViewModel) {
 
             item {
 
-                Box(modifier = Modifier.fillMaxWidth()) {
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
 
                     Card(
                         modifier = Modifier
@@ -197,7 +203,7 @@ fun HomeScreen(viewModel: UsuarioViewModel) {
                             .align(Alignment.TopEnd)
                             .offset(
                                 x = (-2).dp,
-                                y = (0).dp
+                                y = 0.dp
                             )
                     )
                 }
@@ -242,27 +248,28 @@ fun HomeScreen(viewModel: UsuarioViewModel) {
 
                         item {
                             ServiceCard(
-                                titulo = "Plumbing",
-                                imagem = R.drawable.img_plumber
+                                title = "Plumbing",
+                                image = R.drawable.img_plumber
                             )
                         }
 
                         item {
                             ServiceCard(
-                                titulo = "Electric work",
-                                imagem = R.drawable.img_electric
+                                title = "Electric work",
+                                image = R.drawable.img_electric
                             )
                         }
 
                         item {
                             ServiceCard(
-                                titulo = "Solar",
-                                imagem = R.drawable.img_solar
+                                title = "Solar",
+                                image = R.drawable.img_solar
                             )
                         }
                     }
                 }
             }
+
             item {
 
                 Column {
@@ -299,21 +306,21 @@ fun HomeScreen(viewModel: UsuarioViewModel) {
 
                         item {
                             ProviderCard(
-                                nome = "Maskot Kota",
-                                profissao = "Plumber",
-                                avaliacao = "4.8",
-                                imagem = R.drawable.img_provider1,
-                                corFundoImagem = Color(0xFFD4E5F8)
+                                name = "Maskot Kota",
+                                profession = "Plumber",
+                                rating = "4.8",
+                                image = R.drawable.img_provider1,
+                                imageBackgroundColor = Color(0xFFD4E5F8)
                             )
                         }
 
                         item {
                             ProviderCard(
-                                nome = "Shams Jan",
-                                profissao = "Electrician",
-                                avaliacao = "4.8",
-                                imagem = R.drawable.img_provider2,
-                                corFundoImagem = Color(0xFFE7B8E7)
+                                name = "Shams Jan",
+                                profession = "Electrician",
+                                rating = "4.8",
+                                image = R.drawable.img_provider2,
+                                imageBackgroundColor = Color(0xFFE7B8E7)
                             )
                         }
                     }
@@ -321,6 +328,4 @@ fun HomeScreen(viewModel: UsuarioViewModel) {
             }
         }
     }
-
 }
-

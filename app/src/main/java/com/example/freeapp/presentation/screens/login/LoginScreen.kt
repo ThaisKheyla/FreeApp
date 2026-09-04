@@ -35,12 +35,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
 import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.example.freeapp.presentation.theme.PrimaryWhite
-import com.projeto.ui.components.BotaoBlue
-import com.projeto.ui.components.BotaoVoltar
-import com.projeto.ui.components.CampoSenha
-import com.projeto.ui.components.CampoTexto
-import com.projeto.ui.navigation.Routes
-import com.projeto.ui.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.components.BlueButton
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.components.PasswordField
+import com.example.freeapp.presentation.components.TextField
+import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
 
 @Composable
 fun LoginScreen(
@@ -48,11 +48,22 @@ fun LoginScreen(
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
     val usuario = viewModel.usuario
-    var emailLogin by remember(usuario.email) { mutableStateOf(usuario.email) }
-    var senhaLogin by remember { mutableStateOf("") }
+
+    var emailLogin by remember(usuario.email) {
+        mutableStateOf(usuario.email)
+    }
+
+    var senhaLogin by remember {
+        mutableStateOf("")
+    }
+
     val mensagemErroAuth = viewModel.authErroMensagem
     val carregandoAuth = viewModel.authCarregando
-    val camposPreenchidos = emailLogin.isNotBlank() && senhaLogin.isNotBlank() && !carregandoAuth
+
+    val camposPreenchidos =
+        emailLogin.isNotBlank() &&
+                senhaLogin.isNotBlank() &&
+                !carregandoAuth
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -79,8 +90,10 @@ fun LoginScreen(
                         top = 24.dp
                     )
             ) {
-                BotaoVoltar(
-                    onClick = { navController.popBackStack() },
+                BackButton(
+                    onClick = {
+                        navController.popBackStack()
+                    },
                     tint = PrimaryWhite
                 )
             }
@@ -97,16 +110,22 @@ fun LoginScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(
+            modifier = Modifier.height(32.dp)
+        )
 
         Text(
             text = "Bem-vindo de volta!",
             color = PrimaryBlue,
             style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(
+                Alignment.CenterHorizontally
+            )
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(
+            modifier = Modifier.height(24.dp)
+        )
 
         Column(
             modifier = Modifier
@@ -114,22 +133,24 @@ fun LoginScreen(
                 .padding(horizontal = 30.dp)
         ) {
 
-            CampoTexto(
-                valor = emailLogin,
-                rotulo = "E-mail",
-                onValorChange = { email ->
+            TextField(
+                value = emailLogin,
+                label = "E-mail",
+                onValueChange = { email ->
                     emailLogin = email
                     viewModel.limparEstadoAuth()
                 },
                 isError = mensagemErroAuth != null
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(
+                modifier = Modifier.height(24.dp)
+            )
 
-            CampoSenha(
-                valor = senhaLogin,
-                rotulo = "Senha",
-                onValorChange = { senha ->
+            PasswordField(
+                value = senhaLogin,
+                label = "Senha",
+                onValueChange = { senha ->
                     senhaLogin = senha
                     viewModel.limparEstadoAuth()
                 },
@@ -137,7 +158,10 @@ fun LoginScreen(
             )
 
             if (mensagemErroAuth != null) {
-                Spacer(modifier = Modifier.height(8.dp))
+
+                Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
 
                 Text(
                     text = mensagemErroAuth,
@@ -146,7 +170,9 @@ fun LoginScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
 
             Text(
                 text = "Esqueci a senha",
@@ -155,27 +181,39 @@ fun LoginScreen(
                 modifier = Modifier
                     .align(Alignment.End)
                     .clickable {
-                        navController.navigate(Routes.ESQUECI_SENHA)
+                        navController.navigate(
+                            Routes.ESQUECI_SENHA
+                        )
                     }
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(
+                modifier = Modifier.height(40.dp)
+            )
 
-            BotaoBlue(
-                texto = if (carregandoAuth) "ENTRANDO..." else "ENTRAR",
+            BlueButton(
+                text = if (carregandoAuth)
+                    "ENTRANDO..."
+                else
+                    "ENTRAR",
+
                 enabled = camposPreenchidos,
+
                 onClick = {
                     viewModel.loginUsuario(
                         email = emailLogin,
                         senha = senhaLogin
                     ) {
-                        navController.navigate(Routes.HOME)
+                        navController.navigate(
+                            Routes.HOME
+                        )
                     }
                 }
             )
 
-
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(
+                modifier = Modifier.weight(1f)
+            )
 
             Row(
                 modifier = Modifier
@@ -194,7 +232,9 @@ fun LoginScreen(
                     color = Color(0xFF0451FF),
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable {
-                        navController.navigate(Routes.DADOS_PESSOAIS)
+                        navController.navigate(
+                            Routes.DADOS_PESSOAIS
+                        )
                     }
                 )
             }
@@ -202,8 +242,13 @@ fun LoginScreen(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(navController = rememberNavController())
+    LoginScreen(
+        navController = rememberNavController()
+    )
 }

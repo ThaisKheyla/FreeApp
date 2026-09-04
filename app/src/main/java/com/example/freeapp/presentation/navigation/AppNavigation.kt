@@ -13,7 +13,7 @@ import com.example.freeapp.presentation.screens.cadastro.DadosProfissaoScreen
 import com.example.freeapp.presentation.screens.cadastro.EnderecosScreen
 import com.example.freeapp.presentation.screens.cadastro.CriarSenhaScreen
 import com.example.freeapp.presentation.screens.pagamento.PagamentoScreen
-import com.example.freeapp.presentation.screens.senha.EsqueciSenhaScreen
+import com.example.freeapp.presentation.screens.forgotPassword.EsqueciSenhaScreen
 import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
 import com.example.freeapp.presentation.screens.carousel.CarouselScreen
 import com.example.freeapp.presentation.screens.home.HomeScreen
