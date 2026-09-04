@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.ForgotPassword
+package com.example.freeapp.presentation.screens.forgotPassword
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,10 +19,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
 import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.PasswordField
