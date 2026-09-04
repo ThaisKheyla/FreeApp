@@ -17,21 +17,21 @@ import com.example.freeapp.presentation.theme.PrimaryBlue
 
 @Composable
 fun AccountTypeOption(
-    texto: String,
-    selecionado: Boolean,
-    onSelecionar: () -> Unit
+    text: String,
+    selected: Boolean,
+    onSelect: () -> Unit
 ) {
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.clickable {
-            onSelecionar()
+            onSelect()
         }
     ) {
 
         RadioButton(
-            selected = selecionado,
-            onClick = onSelecionar,
+            selected = selected,
+            onClick = onSelect,
             colors = RadioButtonDefaults.colors(
                 selectedColor = PrimaryBlue
             )
@@ -42,7 +42,7 @@ fun AccountTypeOption(
         )
 
         Text(
-            text = texto,
+            text = text,
             style = MaterialTheme.typography.bodySmall
         )
     }

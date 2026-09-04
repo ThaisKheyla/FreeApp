@@ -12,18 +12,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.projeto.ui.components.BotaoBlueFixo
-import com.projeto.ui.components.BotaoVoltar
-import com.projeto.ui.components.CampoTexto
-import com.projeto.ui.components.TipoEntrada
-import com.projeto.ui.navigation.Routes
-import com.projeto.ui.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.components.FixedBlueButton
+import com.example.freeapp.presentation.components.InputType
+import com.example.freeapp.presentation.components.TextField
+import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
 
 @Composable
 fun DadosProfissaoScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: UsuarioViewModel = UsuarioViewModel()
+        viewModel: com.example.freeapp.presentation.viewmodel.UsuarioViewModel = UsuarioViewModel()
 ){
     val usuario = viewModel.usuario
     val dadosProfissionaisValidos =
@@ -46,7 +46,7 @@ fun DadosProfissaoScreen(
                     .padding(bottom = 96.dp),
                 verticalArrangement = Arrangement.spacedBy(22.dp)
             ) {
-            BotaoVoltar(
+            BackButton(
                 onClick = {
                     navController.popBackStack()
                 }
@@ -60,33 +60,33 @@ fun DadosProfissaoScreen(
                 style = MaterialTheme.typography.headlineLarge
             )
 
-            CampoTexto(
-                valor = usuario.profissao,
-                rotulo = "Profissão",
-                onValorChange = viewModel::atualizarProfissao,
-                tipoEntrada = TipoEntrada.APENAS_LETRAS
+            TextField(
+                value = usuario.profissao,
+                label = "Profissão",
+                onValueChange = viewModel::atualizarProfissao,
+                inputType = InputType.LETTERS_ONLY
             )
-            CampoTexto(
-                valor = usuario.especialidade,
-                rotulo = "Especialidade",
-                onValorChange = viewModel::atualizarEspecialidade,
-                tipoEntrada = TipoEntrada.APENAS_LETRAS
+            TextField(
+                value = usuario.especialidade,
+                label = "Especialidade",
+                onValueChange = viewModel::atualizarEspecialidade,
+                inputType = InputType.LETTERS_ONLY
             )
-            CampoTexto(
-                valor = usuario.regiao,
-                rotulo = "Qual região atende",
-                onValorChange = viewModel::atualizarRegiao,
-                tipoEntrada = TipoEntrada.APENAS_LETRAS
+            TextField(
+                value = usuario.regiao,
+                label = "Qual região atende",
+                onValueChange = viewModel::atualizarRegiao,
+                inputType = InputType.LETTERS_ONLY
             )
-            CampoTexto(
-                valor = usuario.horario,
-                rotulo = "Qual horário tem disponibilidade",
-                onValorChange = viewModel::atualizarHorario
+            TextField(
+                value = usuario.horario,
+                label = "Qual horário tem disponibilidade",
+                onValueChange = viewModel::atualizarHorario
             )
             }
 
-            BotaoBlueFixo(
-                texto = "CONTINUAR",
+            FixedBlueButton(
+                text = "CONTINUAR",
                 enabled = dadosProfissionaisValidos,
                 onClick = {
                     navController.navigate(Routes.DADOS_BANCARIOS)
