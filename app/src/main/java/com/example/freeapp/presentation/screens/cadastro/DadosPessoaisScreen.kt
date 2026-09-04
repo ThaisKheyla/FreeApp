@@ -111,7 +111,7 @@ fun DadosPessoaisScreen(
             TextField(
                 value = usuario.nome,
                 label = "Nome completo",
-                onValueChange = viewModel::atualizarNome,
+                onValueChange = viewModel::updateName,
                 inputType = InputType.LETTERS_ONLY,
                 showCheck = nomeValido && usuario.nome.isNotBlank(),
                 isError = usuario.nome.isNotBlank() && !nomeValido
@@ -120,7 +120,7 @@ fun DadosPessoaisScreen(
             TextField(
                 value = usuario.dataNascimento,
                 label = "Data de nascimento",
-                onValueChange = viewModel::atualizarDataNascimento,
+                onValueChange = viewModel::updateBirthDate,
                 inputType = InputType.NUMBERS_AND_SLASH,
                 showCheck = dataNascimentoValida && usuario.dataNascimento.isNotBlank(),
                 isError = usuario.dataNascimento.isNotBlank() && !dataNascimentoValida
@@ -129,7 +129,7 @@ fun DadosPessoaisScreen(
             TextField(
                 value = usuario.cpf,
                 label = "CPF",
-                onValueChange = viewModel::atualizarCpf,
+                onValueChange = viewModel::updateCpf,
                 inputType = InputType.NUMBERS_ONLY,
                 showCheck = cpfValido &&
                         usuario.cpf.isNotBlank(),
@@ -141,7 +141,7 @@ fun DadosPessoaisScreen(
             TextField(
                 value = usuario.email,
                 label = "E-mail",
-                onValueChange = viewModel::atualizarEmail,
+                onValueChange = viewModel::updateEmail,
                 showCheck = emailValido && usuario.email.isNotBlank(),
                 isError = usuario.email.isNotBlank() && !emailValido
             )
@@ -149,7 +149,7 @@ fun DadosPessoaisScreen(
             TextField(
                 value = usuario.confirmarEmail,
                 label = "Confirme seu e-mail",
-                onValueChange = viewModel::atualizarConfirmarEmail,
+                onValueChange = viewModel::updateConfirmEmail,
                 showCheck = emailsIguais &&
                         usuario.confirmarEmail.isNotBlank(),
 
@@ -160,7 +160,7 @@ fun DadosPessoaisScreen(
             TextField(
                 value = usuario.telefone,
                 label = "Número com DD",
-                onValueChange = viewModel::atualizarTelefone,
+                onValueChange = viewModel::updatePhone,
                 inputType = InputType.NUMBERS_ONLY,
                 showCheck = telefoneValido &&
                         usuario.telefone.isNotBlank(),

@@ -76,8 +76,8 @@ fun CriarSenhaScreen(
                     value = usuario.senha,
                     label = "Crie uma senha",
                     onValueChange = {
-                        viewModel.atualizarSenha(it)
-                        viewModel.limparEstadoAuth()
+                        viewModel.updatePassword(it)
+                        viewModel.clearAuthState()
                     }
                 )
 
@@ -86,7 +86,7 @@ fun CriarSenhaScreen(
                     label = "Confirme sua Senha",
                     onValueChange = { senha ->
                         confirmarSenha = senha
-                        viewModel.limparEstadoAuth()
+                        viewModel.clearAuthState()
                     },
                     isError = confirmarSenha.isNotBlank() && confirmarSenha != usuario.senha
                 )
@@ -104,7 +104,7 @@ fun CriarSenhaScreen(
                 text = if (carregandoAuth) "FINALIZANDO..." else "FINALIZAR",
                 enabled = senhasValidas,
                 onClick = {
-                    viewModel.registrarUsuario {
+                    viewModel.registerUser {
                         navController.navigate(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.LOGIN) {
                             popUpTo(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.LOGIN)
                             launchSingleTop = true
