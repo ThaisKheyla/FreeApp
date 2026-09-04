@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.FreeApp" parent="android:Theme.Material.Light.NoActionBar"
-        />
+    <style name="Theme.FreeApp" parent="android:style/Theme.Material.Light.NoActionBar"/>
+
+    <style name="Theme.FreeApp.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/primary_blue</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/transparent_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.FreeApp</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
 </resources>

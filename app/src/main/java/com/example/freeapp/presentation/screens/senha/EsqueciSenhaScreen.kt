@@ -193,7 +193,7 @@ fun EsqueciSenhaScreen(
                     when (etapa) {
                         EtapaRecuperacaoSenha.TELEFONE -> etapa = EtapaRecuperacaoSenha.CODIGO_SMS
                             EtapaRecuperacaoSenha.EMAIL -> {
-                                viewModel.resetPassword(
+                                viewModel.redefinirSenha(
                                     email = email
                                 ) {
                                     etapa = EtapaRecuperacaoSenha.SUCESSO
@@ -206,7 +206,7 @@ fun EsqueciSenhaScreen(
                         }
                         EtapaRecuperacaoSenha.NOVA_SENHA -> {
                             val emailRecuperacao = email.ifBlank { viewModel.usuario.email }
-                            viewModel.resetPassword(
+                            viewModel.redefinirSenha(
                                 email = emailRecuperacao,
                             ) {
                                 etapa = EtapaRecuperacaoSenha.SUCESSO

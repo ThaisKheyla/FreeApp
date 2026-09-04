@@ -6,9 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.freeapp.ui.theme.FreeAppTheme
-import com.projeto.ui.navigation.AppNavigation
-import com.projeto.ui.screens.cadastro.DadosPessoaisScreen
+import com.example.freeapp.presentation.theme.FreeAppTheme
+import com.example.freeapp.presentation.navigation.AppNavigation
 
 class MainActivity : ComponentActivity() {
 
@@ -30,6 +29,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppPreview() {
     FreeAppTheme {
-        AppNavigation()
+       AppNavigation()
     }
 }
