@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.freeapp.R
+import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.projeto.ui.navigation.Routes
 import kotlinx.coroutines.delay

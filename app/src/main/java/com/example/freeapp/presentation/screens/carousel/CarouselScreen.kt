@@ -34,18 +34,20 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.example.freeapp.presentation.theme.neutreColor
-import com.projeto.ui.components.BotaoBlue
-import com.projeto.ui.components.BotaoVoltar
-import com.projeto.ui.navigation.Routes
+import com.example.freeapp.presentation.components.BlueButton
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.navigation.Routes
+
 
 @Composable
 fun CarouselScreen(
     navController: NavController
 ) {
-    var paginaAtual by remember {
+    var currentPage by remember {
         mutableStateOf(0)
     }
-    val pagina = carouselPages[paginaAtual]
+
+    val page = carouselPages[currentPage]
 
     Column(
         modifier = Modifier
@@ -62,15 +64,15 @@ fun CarouselScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
 
-            BotaoVoltar(
-                    onClick = {
+            BackButton(
+                onClick = {
 
-                        if (paginaAtual > 0) {
-                            paginaAtual--
-                        }
-
+                    if (currentPage > 0) {
+                        currentPage--
                     }
-                )
+
+                }
+            )
         }
 
         Spacer(
@@ -79,7 +81,7 @@ fun CarouselScreen(
 
         Image(
             painter = painterResource(
-                id = pagina.imagem
+                id = page.image
             ),
             contentDescription = null,
 
@@ -95,7 +97,7 @@ fun CarouselScreen(
         )
 
         Text(
-            text = pagina.titulo,
+            text = page.title,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
@@ -106,7 +108,7 @@ fun CarouselScreen(
         )
 
         Text(
-            text = pagina.descricao,
+            text = page.description,
             color = neutreColor,
             textAlign = TextAlign.Center
         )
@@ -126,7 +128,7 @@ fun CarouselScreen(
                         .size(12.dp)
                         .background(
                             color =
-                                if (index == paginaAtual)
+                                if (index == currentPage)
                                     PrimaryBlue
                                 else
                                     Color(0xFFD9D9D9),
@@ -141,13 +143,13 @@ fun CarouselScreen(
             modifier = Modifier.height(40.dp)
         )
 
-        BotaoBlue(
-            texto = "Próximo",
+        BlueButton(
+            text = "Próximo",
 
             onClick = {
-                if (paginaAtual < carouselPages.lastIndex) {
+                if (currentPage < carouselPages.lastIndex) {
 
-                    paginaAtual++
+                    currentPage++
 
                 } else {
 
