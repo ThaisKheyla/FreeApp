@@ -24,6 +24,9 @@ class UsuarioViewModel : ViewModel() {
         Usuario()
     )
         private set
+        
+    val user: Usuario
+        get() = usuario
 
     var authCarregando by mutableStateOf(false)
         private set
@@ -47,65 +50,67 @@ class UsuarioViewModel : ViewModel() {
         authErroMensagem = null
     }
 
-    fun atualizarNome(nome: String) {
-        usuario = usuario.copy(nome = nome)
+    fun clearAuthState() = limparEstadoAuth()
+
+    fun updateName(name: String) {
+        usuario = usuario.copy(nome = name)
     }
 
-    fun atualizarDataNascimento(dataNascimento: String) {
-        usuario = usuario.copy(dataNascimento = dataNascimento)
+    fun updateBirthDate(birthDate: String) {
+        usuario = usuario.copy(dataNascimento = birthDate)
     }
 
-    fun atualizarCpf(cpf: String) {
+    fun updateCpf(cpf: String) {
         usuario = usuario.copy(cpf = cpf)
     }
 
-    fun atualizarEmail(email: String) {
+    fun updateEmail(email: String) {
         usuario = usuario.copy(email = email)
     }
 
-    fun atualizarConfirmarEmail(confirmarEmail: String) {
-        usuario = usuario.copy(confirmarEmail = confirmarEmail)
+    fun updateConfirmEmail(confirmEmail: String) {
+        usuario = usuario.copy(confirmarEmail = confirmEmail)
     }
 
-    fun atualizarTelefone(telefone: String) {
-        usuario = usuario.copy(telefone = telefone)
+    fun updatePhone(phone: String) {
+        usuario = usuario.copy(telefone = phone)
     }
 
-    fun atualizarSenha(senha: String) {
-        usuario = usuario.copy(senha = senha)
+    fun updatePassword(password: String) {
+        usuario = usuario.copy(senha = password)
     }
 
     // ENDEREÇO pessoal
 
-    fun atualizarCep(cep: String) {
-        usuario = usuario.copy(cep = cep)
+    fun updateZipCode(zipCode: String) {
+        usuario = usuario.copy(cep = zipCode)
     }
 
-    fun atualizarEndereco(endereco: String) {
-        usuario = usuario.copy(endereco = endereco)
+    fun updateAddress(address: String) {
+        usuario = usuario.copy(endereco = address)
     }
 
-    fun atualizarNumero(numero: String) {
-        usuario = usuario.copy(numero = numero)
+    fun updateNumber(number: String) {
+        usuario = usuario.copy(numero = number)
     }
 
-    fun atualizarComplemento(complemento: String) {
-        usuario = usuario.copy(complemento = complemento)
+    fun updateComplement(complement: String) {
+        usuario = usuario.copy(complemento = complement)
     }
 
-    fun atualizarBairro(bairro: String) {
-        usuario = usuario.copy(bairro = bairro)
+    fun updateNeighborhood(neighborhood: String) {
+        usuario = usuario.copy(bairro = neighborhood)
     }
 
-    fun atualizarCidade(cidade: String) {
-        usuario = usuario.copy(cidade = cidade)
+    fun updateCity(city: String) {
+        usuario = usuario.copy(cidade = city)
     }
 
-    fun atualizarEstado(estado: String) {
-        usuario = usuario.copy(estado = estado)
+    fun updateState(state: String) {
+        usuario = usuario.copy(estado = state)
     }
 
-    fun carregarEstadosIbge() {
+    fun loadIbgeStates() {
         if (estadosIbge.isNotEmpty() || ibgeCarregando) return
 
         viewModelScope.launch {
@@ -124,26 +129,26 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 
-    fun selecionarEstadoIbge(nomeEstado: String) {
-        val estadoSelecionado = estadosIbge.firstOrNull { estado -> estado.nome == nomeEstado }
+    fun selectIbgeState(stateName: String) {
+        val selectedState = estadosIbge.firstOrNull { state -> state.nome == stateName }
 
-        atualizarEstado(nomeEstado)
-        atualizarCidade("")
+        updateState(stateName)
+        updateCity("")
         cidadesIbge = emptyList()
 
-        if (estadoSelecionado != null) {
-            carregarCidadesIbge(estadoSelecionado.sigla)
+        if (selectedState != null) {
+            loadIbgeCities(selectedState.sigla)
         }
     }
 
-    fun carregarCidadesIbge(uf: String) {
+    fun loadIbgeCities(stateCode: String) {
         if (ibgeCarregando) return
 
         viewModelScope.launch {
             ibgeCarregando = true
             ibgeErroMensagem = null
 
-            val resultado = repositorioIbge.buscarCidades(uf)
+            val resultado = repositorioIbge.buscarCidades(stateCode)
 
             ibgeCarregando = false
 
@@ -158,64 +163,64 @@ class UsuarioViewModel : ViewModel() {
 
     // DADOS PROFISSIONAIS
 
-    fun atualizarProfissao(profissao: String) {
-        usuario = usuario.copy(profissao = profissao)
+    fun updateProfession(profession: String) {
+        usuario = usuario.copy(profissao = profession)
     }
 
 
-    fun atualizarEspecialidade(especialidade: String) {
-        usuario = usuario.copy(especialidade = especialidade)
+    fun updateSpecialty(specialty: String) {
+        usuario = usuario.copy(especialidade = specialty)
     }
 
-    fun atualizarRegiao(regiao: String) {
-        usuario = usuario.copy(regiao = regiao)
+    fun updateRegion(region: String) {
+        usuario = usuario.copy(regiao = region)
     }
 
-    fun atualizarHorario(horario: String) {
-        usuario = usuario.copy(horario = horario)
+    fun updateSchedule(schedule: String) {
+        usuario = usuario.copy(horario = schedule)
     }
 
     //Dados bancarios
-    fun atualizarAgencia(agencia: String) {
-        usuario = usuario.copy(agencia = agencia)
+    fun updateAgency(agency: String) {
+        usuario = usuario.copy(agencia = agency)
     }
 
-    fun atualizarConta(conta: String) {
-        usuario = usuario.copy(conta = conta)
+    fun updateAccount(account: String) {
+        usuario = usuario.copy(conta = account)
     }
 
-    fun atualizarTipoConta(tipoConta: String) {
-        usuario = usuario.copy(tipoConta = tipoConta)
+    fun updateAccountType(accountType: String) {
+        usuario = usuario.copy(tipoConta = accountType)
     }
 
-    fun atualizarPix(pix: String) {
+    fun updatePix(pix: String) {
         usuario = usuario.copy(pix = pix)
     }
 
-    fun atualizarOpcaoPagamento(opcaoPagamento: String) {
-        usuario = usuario.copy(opcaoPagamento = opcaoPagamento)
+    fun updatePaymentOption(paymentOption: String) {
+        usuario = usuario.copy(opcaoPagamento = paymentOption)
     }
 
     //Pagamento
-    fun atualizarNumeroCartao(numeroCartao: String) {
+    fun updateCardNumber(cardNumber: String) {
         usuario = usuario.copy(
-            numeroCartao = numeroCartao
+            numeroCartao = cardNumber
         )
     }
 
-    fun atualizarValidadeCartao(validadeCartao: String) {
+    fun updateCardExpiration(cardExpiration: String) {
         usuario = usuario.copy(
-            validadeCartao = validadeCartao
+            validadeCartao = cardExpiration
         )
     }
 
-    fun atualizarCvv(cvv: String) {
+    fun updateCvv(cvv: String) {
         usuario = usuario.copy(
             cvv = cvv
         )
     }
 
-    fun loginUsuario(
+    fun loginUser(
         email: String,
         senha: String,
         onSucesso: () -> Unit
@@ -241,7 +246,7 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 
-    fun registrarUsuario(
+    fun registerUser(
         onSucesso: () -> Unit
     ) {
         if (authCarregando) return
@@ -298,7 +303,7 @@ class UsuarioViewModel : ViewModel() {
         }
     }
 
-    fun redefinirSenha(
+    fun resetPassword(
         email: String,
         onSucesso: () -> Unit
     ) {
