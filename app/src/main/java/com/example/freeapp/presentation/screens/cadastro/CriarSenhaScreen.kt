@@ -23,16 +23,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.freeapp.presentation.components.BotaoBlueFixo
-import com.example.freeapp.presentation.components.BotaoVoltar
-import com.example.freeapp.presentation.components.CampoSenha
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.components.FixedBlueButton
+import com.example.freeapp.presentation.components.PasswordField
 import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
 
 @Composable
 fun CriarSenhaScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: com.example.freeapp.presentation.viewmodel.UsuarioViewModel = _root_ide_package_.com.example.freeapp.ui.viewmodel.UsuarioViewModel()
+        viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
     val usuario = viewModel.usuario
     val mensagemErroAuth = viewModel.authErroMensagem
@@ -57,7 +57,7 @@ fun CriarSenhaScreen(
                     .padding(bottom = 96.dp),
                 verticalArrangement = Arrangement.spacedBy(22.dp)
             ) {
-                _root_ide_package_.com.example.freeapp.ui.components.BotaoVoltar(
+                BackButton(
                     onClick = {
                         navController.popBackStack()
                     }
@@ -72,19 +72,19 @@ fun CriarSenhaScreen(
                     style = MaterialTheme.typography.headlineLarge
                 )
 
-                _root_ide_package_.com.example.freeapp.ui.components.CampoSenha(
-                    valor = usuario.senha,
-                    rotulo = "Crie uma senha",
-                    onValorChange = {
+                PasswordField(
+                    value = usuario.senha,
+                    label = "Crie uma senha",
+                    onValueChange = {
                         viewModel.atualizarSenha(it)
                         viewModel.limparEstadoAuth()
                     }
                 )
 
-                _root_ide_package_.com.example.freeapp.ui.components.CampoSenha(
-                    valor = confirmarSenha,
-                    rotulo = "Confirme sua Senha",
-                    onValorChange = { senha ->
+                PasswordField(
+                    value = confirmarSenha,
+                    label = "Confirme sua Senha",
+                    onValueChange = { senha ->
                         confirmarSenha = senha
                         viewModel.limparEstadoAuth()
                     },
@@ -100,8 +100,8 @@ fun CriarSenhaScreen(
                 }
             }
 
-            BotaoBlueFixo(
-                texto = if (carregandoAuth) "FINALIZANDO..." else "FINALIZAR",
+            FixedBlueButton(
+                text = if (carregandoAuth) "FINALIZANDO..." else "FINALIZAR",
                 enabled = senhasValidas,
                 onClick = {
                     viewModel.registrarUsuario {
@@ -119,5 +119,5 @@ fun CriarSenhaScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CriarSenhaScreenPreview() {
-    _root_ide_package_.com.example.freeapp.ui.screens.cadastro.CriarSenhaScreen(navController = rememberNavController())
+    CriarSenhaScreen(navController = rememberNavController())
 }

@@ -19,24 +19,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
-import com.projeto.ui.components.BotaoVoltar
-import com.projeto.ui.navigation.Routes
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.navigation.Routes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.projeto.ui.components.BotaoBlueFixo
-import com.projeto.ui.components.CampoTexto
-import com.projeto.ui.components.SelectionModal
-import com.projeto.ui.components.TipoEntrada
+import com.example.freeapp.presentation.components.FixedBlueButton
+import com.example.freeapp.presentation.components.InputType
+import com.example.freeapp.presentation.components.SelectionModal
+import com.example.freeapp.presentation.components.TextField
 
 @Composable
 fun EnderecosScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: UsuarioViewModel = UsuarioViewModel()
+        viewModel: com.example.freeapp.presentation.viewmodel.UsuarioViewModel = UsuarioViewModel()
 ){
     val usuario = viewModel.usuario
     var mostrarEstados by remember { mutableStateOf(false) }
@@ -70,7 +70,7 @@ fun EnderecosScreen(
                 verticalArrangement = Arrangement.spacedBy(22.dp)
             ) {
 
-            BotaoVoltar(
+            BackButton(
                 onClick = {
                     navController.popBackStack()
                 }
@@ -84,55 +84,55 @@ fun EnderecosScreen(
                 text = "Endereço Pessoal",
                 style = MaterialTheme.typography.headlineLarge
             )
-            CampoTexto(
-                valor = usuario.cep,
-                rotulo = "CEP",
-                onValorChange = viewModel::atualizarCep,
-                tipoEntrada = TipoEntrada.APENAS_NUMEROS
+            TextField(
+                value = usuario.cep,
+                label = "CEP",
+                onValueChange = viewModel::atualizarCep,
+                inputType = InputType.NUMBERS_ONLY
             )
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
 
-                CampoTexto(
-                    valor = usuario.endereco,
-                    rotulo = "Endereço",
-                    onValorChange = viewModel::atualizarEndereco,
+                TextField(
+                    value = usuario.endereco,
+                    label = "Endereço",
+                    onValueChange = viewModel::atualizarEndereco,
                     modifier = Modifier.weight(3f)
                 )
 
-                CampoTexto(
-                    valor = usuario.numero,
-                    rotulo = "Nº",
-                    onValorChange = viewModel::atualizarNumero,
-                    tipoEntrada = TipoEntrada.APENAS_NUMEROS,
+                TextField(
+                    value = usuario.numero,
+                    label = "Nº",
+                    onValueChange = viewModel::atualizarNumero,
+                    inputType = InputType.NUMBERS_ONLY,
                     maxLength = 10,
                     modifier = Modifier.weight(1.4f)
                 )
             }
 
 
-            CampoTexto(
-                valor = usuario.complemento,
-                rotulo = "Complemento",
-                onValorChange = viewModel::atualizarComplemento
+            TextField(
+                value = usuario.complemento,
+                label = "Complemento",
+                onValueChange = viewModel::atualizarComplemento
             )
 
-            CampoTexto(
-                valor = usuario.bairro,
-                rotulo = "Bairro",
-                onValorChange = viewModel::atualizarBairro,
-                tipoEntrada = TipoEntrada.APENAS_LETRAS
+            TextField(
+                value = usuario.bairro,
+                label = "Bairro",
+                onValueChange = viewModel::atualizarBairro,
+                inputType = InputType.LETTERS_ONLY
             )
 
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                CampoTexto(
-                    valor = usuario.estado,
-                    rotulo = if (viewModel.ibgeCarregando && viewModel.estadosIbge.isEmpty()) "Carregando estados..." else "Estado",
-                    onValorChange = { },
-                    mostrarSearch = true
+                TextField(
+                    value = usuario.estado,
+                    label = if (viewModel.ibgeCarregando && viewModel.estadosIbge.isEmpty()) "Carregando estados..." else "Estado",
+                    onValueChange = { },
+                    showSearch = true
                 )
 
                 Box(
@@ -149,11 +149,11 @@ fun EnderecosScreen(
             Box(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                CampoTexto(
-                    valor = usuario.cidade,
-                    rotulo = if (usuario.estado.isBlank()) "Selecione o estado primeiro" else "Cidade",
-                    onValorChange = { },
-                    mostrarSearch = true
+                TextField(
+                    value = usuario.cidade,
+                    label = if (usuario.estado.isBlank()) "Selecione o estado primeiro" else "Cidade",
+                    onValueChange = { },
+                    showSearch = true
                 )
 
                 Box(
@@ -176,8 +176,8 @@ fun EnderecosScreen(
             }
             }
 
-            BotaoBlueFixo(
-                texto = "CONTINUAR",
+            FixedBlueButton(
+                text = "CONTINUAR",
                 enabled = enderecoValido,
                 onClick = {
                     navController.navigate(Routes.DADOS_PROFISSAO)

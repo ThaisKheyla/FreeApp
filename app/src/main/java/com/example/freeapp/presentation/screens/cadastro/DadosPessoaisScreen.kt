@@ -26,20 +26,19 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.presentation.theme.CheckboxBackground
 import com.example.freeapp.presentation.theme.PrimaryBlue
-import com.projeto.ui.components.BotaoBlueFixo
-import com.projeto.ui.components.BotaoVoltar
-import com.projeto.ui.components.CampoTexto
-import com.projeto.ui.components.TipoEntrada
-import com.projeto.ui.components.ModalTermos
-import com.projeto.ui.navigation.Routes
-import com.projeto.ui.validation.UsuarioValidator
-import com.projeto.ui.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.components.FixedBlueButton
+import com.example.freeapp.presentation.components.InputType
+import com.example.freeapp.presentation.components.TextField
+import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.validation.UsuarioValidator
+import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
 
 @Composable
 fun DadosPessoaisScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: UsuarioViewModel = UsuarioViewModel()
+        viewModel: com.example.freeapp.presentation.viewmodel.UsuarioViewModel = UsuarioViewModel()
 ) {
     val usuario = viewModel.usuario
     var mostrarTermos by remember {
@@ -95,7 +94,7 @@ fun DadosPessoaisScreen(
                 verticalArrangement = Arrangement.spacedBy(22.dp)
             ) {
 
-            BotaoVoltar(
+            BackButton(
                 onClick = {
                     navController.popBackStack()
                 }
@@ -109,61 +108,61 @@ fun DadosPessoaisScreen(
                 text = "Dados Pessoais",
                 style = MaterialTheme.typography.headlineLarge
             )
-            CampoTexto(
-                valor = usuario.nome,
-                rotulo = "Nome completo",
-                onValorChange = viewModel::atualizarNome,
-                tipoEntrada = TipoEntrada.APENAS_LETRAS,
-                mostrarCheck = nomeValido && usuario.nome.isNotBlank(),
+            TextField(
+                value = usuario.nome,
+                label = "Nome completo",
+                onValueChange = viewModel::atualizarNome,
+                inputType = InputType.LETTERS_ONLY,
+                showCheck = nomeValido && usuario.nome.isNotBlank(),
                 isError = usuario.nome.isNotBlank() && !nomeValido
             )
 
-            CampoTexto(
-                valor = usuario.dataNascimento,
-                rotulo = "Data de nascimento",
-                onValorChange = viewModel::atualizarDataNascimento,
-                tipoEntrada = TipoEntrada.NUMEROS_E_BARRA,
-                mostrarCheck = dataNascimentoValida && usuario.dataNascimento.isNotBlank(),
+            TextField(
+                value = usuario.dataNascimento,
+                label = "Data de nascimento",
+                onValueChange = viewModel::atualizarDataNascimento,
+                inputType = InputType.NUMBERS_AND_SLASH,
+                showCheck = dataNascimentoValida && usuario.dataNascimento.isNotBlank(),
                 isError = usuario.dataNascimento.isNotBlank() && !dataNascimentoValida
             )
 
-            CampoTexto(
-                valor = usuario.cpf,
-                rotulo = "CPF",
-                onValorChange = viewModel::atualizarCpf,
-                tipoEntrada = TipoEntrada.APENAS_NUMEROS,
-                mostrarCheck = cpfValido &&
+            TextField(
+                value = usuario.cpf,
+                label = "CPF",
+                onValueChange = viewModel::atualizarCpf,
+                inputType = InputType.NUMBERS_ONLY,
+                showCheck = cpfValido &&
                         usuario.cpf.isNotBlank(),
 
                 isError = usuario.cpf.isNotBlank() &&
                         !cpfValido
             )
 
-            CampoTexto(
-                valor = usuario.email,
-                rotulo = "E-mail",
-                onValorChange = viewModel::atualizarEmail,
-                mostrarCheck = emailValido && usuario.email.isNotBlank(),
+            TextField(
+                value = usuario.email,
+                label = "E-mail",
+                onValueChange = viewModel::atualizarEmail,
+                showCheck = emailValido && usuario.email.isNotBlank(),
                 isError = usuario.email.isNotBlank() && !emailValido
             )
 
-            CampoTexto(
-                valor = usuario.confirmarEmail,
-                rotulo = "Confirme seu e-mail",
-                onValorChange = viewModel::atualizarConfirmarEmail,
-                mostrarCheck = emailsIguais &&
+            TextField(
+                value = usuario.confirmarEmail,
+                label = "Confirme seu e-mail",
+                onValueChange = viewModel::atualizarConfirmarEmail,
+                showCheck = emailsIguais &&
                         usuario.confirmarEmail.isNotBlank(),
 
                 isError = usuario.confirmarEmail.isNotBlank() &&
                         !emailsIguais
             )
 
-            CampoTexto(
-                valor = usuario.telefone,
-                rotulo = "Número com DD",
-                onValorChange = viewModel::atualizarTelefone,
-                tipoEntrada = TipoEntrada.APENAS_NUMEROS,
-                mostrarCheck = telefoneValido &&
+            TextField(
+                value = usuario.telefone,
+                label = "Número com DD",
+                onValueChange = viewModel::atualizarTelefone,
+                inputType = InputType.NUMBERS_ONLY,
+                showCheck = telefoneValido &&
                         usuario.telefone.isNotBlank(),
 
                 isError = usuario.telefone.isNotBlank() &&
@@ -234,8 +233,8 @@ fun DadosPessoaisScreen(
 
             }
 
-            BotaoBlueFixo(
-                texto = "CONTINUAR",
+            FixedBlueButton(
+                text = "CONTINUAR",
                 enabled = dadosPessoaisValidos,
                 onClick = {
                     navController.navigate(Routes.ENDERECOS)

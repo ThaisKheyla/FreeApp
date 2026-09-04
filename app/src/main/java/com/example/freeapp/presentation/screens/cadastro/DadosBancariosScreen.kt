@@ -17,24 +17,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.freeapp.presentation.components.BotaoVoltar
-import com.example.freeapp.presentation.components.CampoTexto
-import com.example.freeapp.presentation.components.OpcaoTipoConta
-import com.example.freeapp.presentation.components.TipoEntrada
+import com.example.freeapp.presentation.components.AccountTypeOption
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.components.FixedBlueButton
+import com.example.freeapp.presentation.components.InputType
+import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.freeapp.presentation.components.BotaoBlueFixo
 import com.example.freeapp.presentation.navigation.Routes
 
 @Composable
 fun DadosBancariosScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: com.example.freeapp.presentation.viewmodel.UsuarioViewModel = _root_ide_package_.com.example.freeapp.ui.viewmodel.UsuarioViewModel()
+        viewModel: com.example.freeapp.presentation.viewmodel.UsuarioViewModel = UsuarioViewModel()
 ) {
     val usuario = viewModel.usuario
     var tipoContaSelecionado by remember {
@@ -60,7 +60,7 @@ fun DadosBancariosScreen(
                     .padding(bottom = 96.dp),
                 verticalArrangement = Arrangement.spacedBy(22.dp)
             ) {
-            BotaoVoltar(
+            BackButton(
                 onClick = {
                     navController.popBackStack()
                 }
@@ -73,53 +73,53 @@ fun DadosBancariosScreen(
                 text = "Dados Bancários Para Recebimento",
                 style = MaterialTheme.typography.headlineLarge
             )
-            CampoTexto(
-                valor = usuario.agencia,
-                rotulo = "Agência",
-                onValorChange = viewModel::atualizarAgencia,
-                tipoEntrada = TipoEntrada.APENAS_NUMEROS
+            TextField(
+                value = usuario.agencia,
+                label = "Agência",
+                onValueChange = viewModel::atualizarAgencia,
+                inputType = InputType.NUMBERS_ONLY
 
             )
 
-            CampoTexto(
-                valor = usuario.conta,
-                rotulo = "Conta",
-                onValorChange = viewModel::atualizarConta,
-                tipoEntrada = TipoEntrada.APENAS_NUMEROS
+            TextField(
+                value = usuario.conta,
+                label = "Conta",
+                onValueChange = viewModel::atualizarConta,
+                inputType = InputType.NUMBERS_ONLY
             )
 
-            CampoTexto(
-                valor = usuario.tipoConta,
-                rotulo = "Qual é o seu tipo de conta",
-                onValorChange = viewModel::atualizarTipoConta
+            TextField(
+                value = usuario.tipoConta,
+                label = "Qual é o seu tipo de conta",
+                onValueChange = viewModel::atualizarTipoConta
             )
 
-            OpcaoTipoConta(
-                texto = "Pessoa Física",
-                selecionado = tipoContaSelecionado == "Pessoa Física",
-                onSelecionar = {
+            AccountTypeOption(
+                text = "Pessoa Física",
+                selected = tipoContaSelecionado == "Pessoa Física",
+                onSelect = {
                     tipoContaSelecionado = "Pessoa Física"
                     viewModel.atualizarTipoConta("Pessoa Física")
                 }
             )
 
-            OpcaoTipoConta(
-                texto = "Pessoa Jurídica",
-                selecionado = tipoContaSelecionado == "Pessoa Jurídica",
-                onSelecionar = {
+            AccountTypeOption(
+                text = "Pessoa Jurídica",
+                selected = tipoContaSelecionado == "Pessoa Jurídica",
+                onSelect = {
                     tipoContaSelecionado = "Pessoa Jurídica"
                     viewModel.atualizarTipoConta("Pessoa Jurídica")
                 }
             )
-            CampoTexto(
-                valor = usuario.pix,
-                rotulo = "PIX",
-                onValorChange = viewModel::atualizarPix
+            TextField(
+                value = usuario.pix,
+                label = "PIX",
+                onValueChange = viewModel::atualizarPix
             )
             }
 
-            BotaoBlueFixo(
-                texto = "CONTINUAR",
+            FixedBlueButton(
+                text = "CONTINUAR",
                 enabled = dadosBancariosValidos,
                 onClick = {
                     navController.navigate(Routes.FORMA_PAGAMENTO)

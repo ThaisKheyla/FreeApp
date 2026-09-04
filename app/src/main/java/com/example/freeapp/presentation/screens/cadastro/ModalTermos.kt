@@ -1,4 +1,4 @@
-package com.projeto.ui.components
+package com.example.freeapp.presentation.screens.cadastro
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,6 +34,7 @@ import com.example.freeapp.R
 import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.example.freeapp.presentation.theme.PrimaryWhite
 import com.example.freeapp.presentation.theme.fontColor
+import com.example.freeapp.presentation.components.BlueButton
 
 @Composable
 fun ModalTermos(
@@ -152,8 +153,8 @@ III – Inverdicidade das informações inseridas pelo usuário/cliente nos regi
                     modifier = Modifier.height(24.dp)
                 )
 
-                BotaoBlue(
-                    texto = "Concordar",
+                BlueButton(
+                    text = "Concordar",
                     onClick = onFechar
                 )
 
