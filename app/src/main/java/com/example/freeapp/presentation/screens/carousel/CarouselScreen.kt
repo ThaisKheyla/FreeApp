@@ -79,7 +79,7 @@ fun CarouselScreen(
 
         Image(
             painter = painterResource(
-                id = pagina.imagem
+                id = pagina.image
             ),
             contentDescription = null,
 
@@ -95,7 +95,7 @@ fun CarouselScreen(
         )
 
         Text(
-            text = pagina.titulo,
+            text = pagina.title,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
@@ -106,7 +106,7 @@ fun CarouselScreen(
         )
 
         Text(
-            text = pagina.descricao,
+            text = pagina.description,
             color = neutreColor,
             textAlign = TextAlign.Center
         )
