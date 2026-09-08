@@ -37,20 +37,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
-import com.projeto.ui.components.BotaoBlueFixo
-import com.projeto.ui.components.BotaoVoltar
-import com.projeto.ui.components.CampoTexto
-import com.projeto.ui.components.TipoEntrada
-import com.projeto.ui.navigation.Routes
-import com.projeto.ui.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.components.FixedBlueButton
+import com.example.freeapp.presentation.components.InputType
+import com.example.freeapp.presentation.components.TextField
+import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.viewmodel.PaymentViewModel
 
 @Composable
 fun PagamentoScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: UsuarioViewModel = UsuarioViewModel()
+    viewModel: PaymentViewModel = PaymentViewModel()
 ) {
-    val usuario = viewModel.usuario
+    val usuario = viewModel.user
     var mostrarVersoCartao by remember { mutableStateOf(false) }
     val pagamentoValido =
         usuario.opcaoPagamento.isNotBlank() &&
@@ -73,7 +73,7 @@ fun PagamentoScreen(
                     .padding(bottom = 96.dp),
                 verticalArrangement = Arrangement.spacedBy(22.dp)
             ) {
-                BotaoVoltar(
+                BackButton(
                     onClick = {
                         navController.popBackStack()
                     }
@@ -95,32 +95,32 @@ fun PagamentoScreen(
                     mostrarVerso = mostrarVersoCartao
                 )
 
-                CampoTexto(
-                    valor = usuario.opcaoPagamento,
-                    rotulo = "Débito",
-                    onValorChange = viewModel::atualizarOpcaoPagamento,
+                TextField(
+                    value = usuario.opcaoPagamento,
+                    label = "Débito",
+                    onValueChange = viewModel::updatePaymentOption,
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
                             if (focusState.isFocused) mostrarVersoCartao = false
                         }
                 )
-                CampoTexto(
-                    valor = usuario.nome,
-                    rotulo = "Nome completo",
-                    onValorChange = viewModel::atualizarNome,
-                    tipoEntrada = TipoEntrada.APENAS_LETRAS,
+                TextField(
+                    value = usuario.nome,
+                    label = "Nome completo",
+                    onValueChange = viewModel::updateName,
+                    inputType = InputType.LETTERS_ONLY,
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
                             if (focusState.isFocused) mostrarVersoCartao = false
                         }
                 )
-                CampoTexto(
-                    valor = usuario.numeroCartao,
-                    rotulo = "5999       5877     566    599",
-                    onValorChange = viewModel::atualizarNumeroCartao,
-                    tipoEntrada = TipoEntrada.APENAS_NUMEROS,
+                TextField(
+                    value = usuario.numeroCartao,
+                    label = "5999       5877     566    599",
+                    onValueChange = viewModel::updateCardNumber,
+                    inputType = InputType.NUMBERS_ONLY,
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
@@ -130,11 +130,11 @@ fun PagamentoScreen(
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    CampoTexto(
-                        valor = usuario.validadeCartao,
-                        rotulo = "06/2027",
-                        onValorChange = viewModel::atualizarValidadeCartao,
-                        tipoEntrada = TipoEntrada.NUMEROS_E_BARRA,
+                    TextField(
+                        value = usuario.validadeCartao,
+                        label = "06/2027",
+                        onValueChange = viewModel::updateCardExpiration,
+                        inputType = InputType.NUMBERS_AND_SLASH,
                         modifier = Modifier
                             .weight(1f)
                             .onFocusChanged { focusState ->
@@ -142,11 +142,11 @@ fun PagamentoScreen(
                             }
                     )
 
-                    CampoTexto(
-                        valor = usuario.cvv,
-                        rotulo = "915",
-                        onValorChange = viewModel::atualizarCvv,
-                        tipoEntrada = TipoEntrada.APENAS_NUMEROS,
+                    TextField(
+                        value = usuario.cvv,
+                        label = "915",
+                        onValueChange = viewModel::updateCvv,
+                        inputType = InputType.NUMBERS_ONLY,
                         modifier = Modifier
                             .weight(1f)
                             .onFocusChanged { focusState ->
@@ -156,8 +156,8 @@ fun PagamentoScreen(
                 }
             }
 
-            BotaoBlueFixo(
-                texto = "CONTINUAR",
+            FixedBlueButton(
+                text = "CONTINUAR",
                 enabled = pagamentoValido,
                 onClick = {
                     navController.navigate(Routes.CRIAR_SENHA)

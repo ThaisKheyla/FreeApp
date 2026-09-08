@@ -17,15 +17,15 @@ import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
-import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.ProfessionalDataViewModel
 
 @Composable
-fun DadosProfissaoScreen(
+fun ProfessionalDataScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-        viewModel: com.example.freeapp.presentation.viewmodel.UsuarioViewModel = UsuarioViewModel()
+    viewModel: ProfessionalDataViewModel = ProfessionalDataViewModel()
 ){
-    val usuario = viewModel.usuario
+    val usuario = viewModel.user
     val dadosProfissionaisValidos =
         usuario.profissao.isNotBlank() &&
                 usuario.especialidade.isNotBlank() &&
@@ -98,6 +98,6 @@ fun DadosProfissaoScreen(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun DadosProfissaoScreenPreview() {
-    DadosProfissaoScreen(navController = rememberNavController())
+fun ProfessionalDataScreenPreview() {
+    ProfessionalDataScreen(navController = rememberNavController())
 }

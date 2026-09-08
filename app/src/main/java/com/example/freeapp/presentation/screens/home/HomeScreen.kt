@@ -39,13 +39,13 @@ import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.example.freeapp.presentation.theme.PrimaryWhite
 import com.example.freeapp.presentation.theme.fontColor
 import com.example.freeapp.presentation.theme.neutreColor
-import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.AuthViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: UsuarioViewModel
+    viewModel: AuthViewModel
 ) {
-    val userName = viewModel.usuario.nome
+    val userName = viewModel.user.nome
         .substringBefore(" ")
         .ifBlank { "usuário" }
 

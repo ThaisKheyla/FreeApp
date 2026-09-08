@@ -38,16 +38,14 @@ import com.example.freeapp.presentation.components.BlueButton
 import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.navigation.Routes
 
-
 @Composable
 fun CarouselScreen(
     navController: NavController
 ) {
-    var currentPage by remember {
+    var paginaAtual by remember {
         mutableStateOf(0)
     }
-
-    val page = carouselPages[currentPage]
+    val pagina = carouselPages[paginaAtual]
 
     Column(
         modifier = Modifier
@@ -65,14 +63,14 @@ fun CarouselScreen(
         ) {
 
             BackButton(
-                onClick = {
+                    onClick = {
 
-                    if (currentPage > 0) {
-                        currentPage--
+                        if (paginaAtual > 0) {
+                            paginaAtual--
+                        }
+
                     }
-
-                }
-            )
+                )
         }
 
         Spacer(
@@ -81,7 +79,7 @@ fun CarouselScreen(
 
         Image(
             painter = painterResource(
-                id = page.image
+                id = pagina.image
             ),
             contentDescription = null,
 
@@ -97,7 +95,7 @@ fun CarouselScreen(
         )
 
         Text(
-            text = page.title,
+            text = pagina.title,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
@@ -108,7 +106,7 @@ fun CarouselScreen(
         )
 
         Text(
-            text = page.description,
+            text = pagina.description,
             color = neutreColor,
             textAlign = TextAlign.Center
         )
@@ -128,7 +126,7 @@ fun CarouselScreen(
                         .size(12.dp)
                         .background(
                             color =
-                                if (index == currentPage)
+                                if (index == paginaAtual)
                                     PrimaryBlue
                                 else
                                     Color(0xFFD9D9D9),
@@ -147,9 +145,9 @@ fun CarouselScreen(
             text = "Próximo",
 
             onClick = {
-                if (currentPage < carouselPages.lastIndex) {
+                if (paginaAtual < carouselPages.lastIndex) {
 
-                    currentPage++
+                    paginaAtual++
 
                 } else {
 

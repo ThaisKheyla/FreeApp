@@ -31,23 +31,23 @@ import com.example.freeapp.presentation.components.PasswordRecoveryLink
 import com.example.freeapp.presentation.components.PasswordRecoveryPhoneFields
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
-import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.AuthViewModel
 
 
 @Composable
 fun ForgotPasswordScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: UsuarioViewModel = UsuarioViewModel()
+    viewModel: AuthViewModel = AuthViewModel()
 ) {
-    val telefoneSalvo = viewModel.usuario.telefone.filter { it.isDigit() }
-    val mensagemErroAuth = viewModel.authErroMensagem
-    val carregandoAuth = viewModel.authCarregando
+    val telefoneSalvo = viewModel.user.telefone.filter { it.isDigit() }
+    val mensagemErroAuth = viewModel.authErrorMessage
+    val carregandoAuth = viewModel.authLoading
     var etapa by remember { mutableStateOf(EtapaRecuperacaoSenha.TELEFONE) }
     var etapaCodigoAnterior by remember { mutableStateOf(EtapaRecuperacaoSenha.CODIGO_SMS) }
     var ddd by remember(telefoneSalvo) { mutableStateOf(telefoneSalvo.take(2)) }
     var numeroTelefone by remember(telefoneSalvo) { mutableStateOf(telefoneSalvo.drop(2).take(9)) }
-    var email by remember(viewModel.usuario.email) { mutableStateOf(viewModel.usuario.email) }
+    var email by remember(viewModel.user.email) { mutableStateOf(viewModel.user.email) }
     var codigo by remember { mutableStateOf("") }
     var novaSenha by remember { mutableStateOf("") }
     var confirmarSenha by remember { mutableStateOf("") }
@@ -107,7 +107,7 @@ fun ForgotPasswordScreen(
                             label = "E-mail",
                             onValueChange = {
                                 email = it
-                                viewModel.limparEstadoAuth()
+                                viewModel.clearAuthState()
                             }
                         )
                     }
@@ -132,7 +132,7 @@ fun ForgotPasswordScreen(
                             label = "Nova Senha",
                             onValueChange = {
                                 novaSenha = it
-                                viewModel.limparEstadoAuth()
+                                viewModel.clearAuthState()
                             }
                         )
 
@@ -142,7 +142,7 @@ fun ForgotPasswordScreen(
                             label = "Confirme sua Senha",
                             onValueChange = {
                                 confirmarSenha = it
-                                viewModel.limparEstadoAuth()
+                                viewModel.clearAuthState()
                             },
                             isError = confirmarSenha.isNotBlank() &&
                                     confirmarSenha != novaSenha
@@ -207,7 +207,7 @@ fun ForgotPasswordScreen(
                     when (etapa) {
                         EtapaRecuperacaoSenha.TELEFONE -> etapa = EtapaRecuperacaoSenha.CODIGO_SMS
                             EtapaRecuperacaoSenha.EMAIL -> {
-                                viewModel.redefinirSenha(
+                                viewModel.resetPassword(
                                     email = email
                                 ) {
                                     etapa = EtapaRecuperacaoSenha.SUCESSO
@@ -219,8 +219,8 @@ fun ForgotPasswordScreen(
                             etapa = EtapaRecuperacaoSenha.NOVA_SENHA
                         }
                         EtapaRecuperacaoSenha.NOVA_SENHA -> {
-                            val emailRecuperacao = email.ifBlank { viewModel.usuario.email }
-                            viewModel.redefinirSenha(
+                            val emailRecuperacao = email.ifBlank { viewModel.user.email }
+                            viewModel.resetPassword(
                                 email = emailRecuperacao,
                             ) {
                                 etapa = EtapaRecuperacaoSenha.SUCESSO

@@ -37,7 +37,7 @@ import com.example.freeapp.presentation.theme.fontColor
 import com.example.freeapp.presentation.components.BlueButton
 
 @Composable
-fun ModalTermos(
+fun TermsModal(
     onFechar: () -> Unit
 ) {
 
@@ -168,6 +168,6 @@ III – Inverdicidade das informações inseridas pelo usuário/cliente nos regi
 
 @Preview(showBackground = true)
 @Composable
-fun ModalTermosPreview() {
-    ModalTermos(onFechar = { })
+fun TermsModalPreview() {
+    TermsModal(onFechar = { })
 }
