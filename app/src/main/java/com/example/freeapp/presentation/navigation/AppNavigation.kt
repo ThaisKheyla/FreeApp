@@ -12,7 +12,7 @@ import com.example.freeapp.presentation.screens.cadastro.PersonalDataScreen
 import com.example.freeapp.presentation.screens.cadastro.ProfessionalDataScreen
 import com.example.freeapp.presentation.screens.cadastro.AddressScreen
 import com.example.freeapp.presentation.screens.cadastro.CreatePasswordScreen
-import com.example.freeapp.presentation.screens.pagamento.PagamentoScreen
+import com.example.freeapp.presentation.screens.payment.PaymentScreen
 import com.example.freeapp.presentation.screens.forgotPassword.ForgotPasswordScreen
 import com.example.freeapp.presentation.viewmodel.AuthViewModel
 import com.example.freeapp.presentation.screens.carousel.CarouselScreen
@@ -54,7 +54,7 @@ fun AppNavigation() {
         }
 
         composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.LOGIN) {
-            _root_ide_package_.com.projeto.ui.screens.LoginScreen(
+            _root_ide_package_.com.example.freeapp.presentation.screens.login.LoginScreen(
                 navController,
                 viewModel = authViewModel
             )
@@ -87,7 +87,7 @@ fun AppNavigation() {
             )
         }
         composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.FORMA_PAGAMENTO) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.pagamento.PagamentoScreen(
+            _root_ide_package_.com.example.freeapp.presentation.screens.payment.PaymentScreen(
                 navController,
                 viewModel = paymentViewModel
             )

@@ -1,4 +1,4 @@
-package com.projeto.ui.screens
+package com.example.freeapp.presentation.screens.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
