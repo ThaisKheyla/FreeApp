@@ -200,7 +200,7 @@ fun LoginScreen(
                 enabled = camposPreenchidos,
 
                 onClick = {
-                    viewModel.loginUsuario(
+                    viewModel.loginUser(
                         email = emailLogin,
                         senha = senhaLogin
                     ) {

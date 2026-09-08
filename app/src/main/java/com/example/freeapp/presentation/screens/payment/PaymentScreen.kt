@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.pagamento
+package com.example.freeapp.presentation.screens.payment
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -37,27 +37,31 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
-import com.projeto.ui.components.BotaoBlueFixo
-import com.projeto.ui.components.BotaoVoltar
-import com.projeto.ui.components.CampoTexto
-import com.projeto.ui.components.TipoEntrada
-import com.projeto.ui.navigation.Routes
-import com.projeto.ui.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.components.FixedBlueButton
+import com.example.freeapp.presentation.components.InputType
+import com.example.freeapp.presentation.components.TextField
+import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
 
 @Composable
-fun PagamentoScreen(
+fun PaymentScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: UsuarioViewModel = UsuarioViewModel()
 ) {
-    val usuario = viewModel.usuario
-    var mostrarVersoCartao by remember { mutableStateOf(false) }
-    val pagamentoValido =
-        usuario.opcaoPagamento.isNotBlank() &&
-                usuario.nome.isNotBlank() &&
-                usuario.numeroCartao.isNotBlank() &&
-                usuario.validadeCartao.isNotBlank() &&
-                usuario.cvv.isNotBlank()
+    val user = viewModel.usuario
+
+    var showCardBack by remember {
+        mutableStateOf(false)
+    }
+
+    val isPaymentValid =
+        user.opcaoPagamento.isNotBlank() &&
+                user.nome.isNotBlank() &&
+                user.numeroCartao.isNotBlank() &&
+                user.validadeCartao.isNotBlank() &&
+                user.cvv.isNotBlank()
 
     Surface(
         modifier = modifier.fillMaxSize()
@@ -73,11 +77,12 @@ fun PagamentoScreen(
                     .padding(bottom = 96.dp),
                 verticalArrangement = Arrangement.spacedBy(22.dp)
             ) {
-                BotaoVoltar(
+                BackButton(
                     onClick = {
                         navController.popBackStack()
                     }
                 )
+
                 Spacer(
                     modifier = Modifier.height(8.dp)
                 )
@@ -86,79 +91,93 @@ fun PagamentoScreen(
                     text = "Formas de Pagamento",
                     style = MaterialTheme.typography.headlineLarge
                 )
-                CartaoPreview(
-                    nome = usuario.nome,
-                    numeroCartao = usuario.numeroCartao,
-                    validadeCartao = usuario.validadeCartao,
-                    tipoCartao = usuario.opcaoPagamento,
-                    cvv = usuario.cvv,
-                    mostrarVerso = mostrarVersoCartao
+
+                CardPreview(
+                    name = user.nome,
+                    cardNumber = user.numeroCartao,
+                    cardExpiration = user.validadeCartao,
+                    cardType = user.opcaoPagamento,
+                    cvv = user.cvv,
+                    showBack = showCardBack
                 )
 
-                CampoTexto(
-                    valor = usuario.opcaoPagamento,
-                    rotulo = "Débito",
-                    onValorChange = viewModel::atualizarOpcaoPagamento,
+                TextField(
+                    value = user.opcaoPagamento,
+                    label = "Débito",
+                    onValueChange = viewModel::updatePaymentOption,
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
-                            if (focusState.isFocused) mostrarVersoCartao = false
+                            if (focusState.isFocused) {
+                                showCardBack = false
+                            }
                         }
                 )
-                CampoTexto(
-                    valor = usuario.nome,
-                    rotulo = "Nome completo",
-                    onValorChange = viewModel::atualizarNome,
-                    tipoEntrada = TipoEntrada.APENAS_LETRAS,
+
+                TextField(
+                    value = user.nome,
+                    label = "Nome completo",
+                    onValueChange = viewModel::updateName,
+                    inputType = InputType.LETTERS_ONLY,
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
-                            if (focusState.isFocused) mostrarVersoCartao = false
+                            if (focusState.isFocused) {
+                                showCardBack = false
+                            }
                         }
                 )
-                CampoTexto(
-                    valor = usuario.numeroCartao,
-                    rotulo = "5999       5877     566    599",
-                    onValorChange = viewModel::atualizarNumeroCartao,
-                    tipoEntrada = TipoEntrada.APENAS_NUMEROS,
+
+                TextField(
+                    value = user.numeroCartao,
+                    label = "5999       5877     566    599",
+                    onValueChange = viewModel::updateCardNumber,
+                    inputType = InputType.NUMBERS_ONLY,
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
-                            if (focusState.isFocused) mostrarVersoCartao = false
+                            if (focusState.isFocused) {
+                                showCardBack = false
+                            }
                         }
                 )
+
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    CampoTexto(
-                        valor = usuario.validadeCartao,
-                        rotulo = "06/2027",
-                        onValorChange = viewModel::atualizarValidadeCartao,
-                        tipoEntrada = TipoEntrada.NUMEROS_E_BARRA,
+                    TextField(
+                        value = user.validadeCartao,
+                        label = "06/2027",
+                        onValueChange = viewModel::updateCardExpiration,
+                        inputType = InputType.NUMBERS_AND_SLASH,
                         modifier = Modifier
                             .weight(1f)
                             .onFocusChanged { focusState ->
-                                if (focusState.isFocused) mostrarVersoCartao = true
+                                if (focusState.isFocused) {
+                                    showCardBack = true
+                                }
                             }
                     )
 
-                    CampoTexto(
-                        valor = usuario.cvv,
-                        rotulo = "915",
-                        onValorChange = viewModel::atualizarCvv,
-                        tipoEntrada = TipoEntrada.APENAS_NUMEROS,
+                    TextField(
+                        value = user.cvv,
+                        label = "915",
+                        onValueChange = viewModel::updateCvv,
+                        inputType = InputType.NUMBERS_ONLY,
                         modifier = Modifier
                             .weight(1f)
                             .onFocusChanged { focusState ->
-                                if (focusState.isFocused) mostrarVersoCartao = true
+                                if (focusState.isFocused) {
+                                    showCardBack = true
+                                }
                             }
                     )
                 }
             }
 
-            BotaoBlueFixo(
-                texto = "CONTINUAR",
-                enabled = pagamentoValido,
+            FixedBlueButton(
+                text = "CONTINUAR",
+                enabled = isPaymentValid,
                 onClick = {
                     navController.navigate(Routes.CRIAR_SENHA)
                 }
@@ -168,66 +187,75 @@ fun PagamentoScreen(
 }
 
 @Composable
-private fun CartaoPreview(
-    nome: String,
-    numeroCartao: String,
-    validadeCartao: String,
-    tipoCartao: String,
+private fun CardPreview(
+    name: String,
+    cardNumber: String,
+    cardExpiration: String,
+    cardType: String,
     cvv: String,
-    mostrarVerso: Boolean
+    showBack: Boolean
 ) {
-    val rotacao by animateFloatAsState(
-        targetValue = if (mostrarVerso) 180f else 0f,
+    val rotation by animateFloatAsState(
+        targetValue = if (showBack) 180f else 0f,
         animationSpec = tween(durationMillis = 450),
-        label = "rotacaoCartao"
+        label = "cardRotation"
     )
 
-    val mostrandoFrente = rotacao <= 90f
+    val isShowingFront = rotation <= 90f
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(180.dp)
             .graphicsLayer {
-                rotationY = rotacao
+                rotationY = rotation
                 cameraDistance = 12f * density
             }
     ) {
-        if (mostrandoFrente) {
-            CartaoFrente(
-                nome = nome,
-                numeroCartao = numeroCartao,
-                validadeCartao = validadeCartao,
-                tipoCartao = tipoCartao
+        if (isShowingFront) {
+            CardFront(
+                name = name,
+                cardNumber = cardNumber,
+                cardExpiration = cardExpiration,
+                cardType = cardType
             )
         } else {
-            CartaoVerso(
+            CardBack(
                 cvv = cvv,
-                validadeCartao = validadeCartao,
-                modifier = Modifier.graphicsLayer { rotationY = 180f }
+                cardExpiration = cardExpiration,
+                modifier = Modifier.graphicsLayer {
+                    rotationY = 180f
+                }
             )
         }
     }
 }
 
 @Composable
-private fun CartaoFrente(
-    nome: String,
-    numeroCartao: String,
-    validadeCartao: String,
-    tipoCartao: String,
+private fun CardFront(
+    name: String,
+    cardNumber: String,
+    cardExpiration: String,
+    cardType: String,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) {
         Image(
-            painter = painterResource(id = R.drawable.card_preview_background),
+            painter = painterResource(
+                id = R.drawable.card_preview_background
+            ),
             contentDescription = "Frente do cartão",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
         )
 
         Text(
-            text = textoOuPlaceholder(tipoCartao, "Débito"),
+            text = textOrPlaceholder(
+                text = cardType,
+                placeholder = "Débito"
+            ),
             color = Color.White,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
@@ -235,11 +263,17 @@ private fun CartaoFrente(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(top = 18.dp, end = 18.dp)
+                .padding(
+                    top = 18.dp,
+                    end = 18.dp
+                )
         )
 
         Text(
-            text = textoOuPlaceholder(formatarNumeroCartao(numeroCartao), "0000 0000 0000 0000"),
+            text = textOrPlaceholder(
+                text = formatCardNumber(cardNumber),
+                placeholder = "0000 0000 0000 0000"
+            ),
             color = Color.White,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
@@ -247,12 +281,19 @@ private fun CartaoFrente(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = 20.dp, end = 20.dp, bottom = 42.dp)
+                .padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    bottom = 42.dp
+                )
                 .fillMaxWidth()
         )
 
         Text(
-            text = textoOuPlaceholder(nome.uppercase(), "NOME COMPLETO"),
+            text = textOrPlaceholder(
+                text = name.uppercase(),
+                placeholder = "NOME COMPLETO"
+            ),
             color = Color.White,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
@@ -260,11 +301,18 @@ private fun CartaoFrente(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = 20.dp, end = 96.dp, bottom = 18.dp)
+                .padding(
+                    start = 20.dp,
+                    end = 96.dp,
+                    bottom = 18.dp
+                )
         )
 
         Text(
-            text = textoOuPlaceholder(validadeCartao, "MM/AA"),
+            text = textOrPlaceholder(
+                text = cardExpiration,
+                placeholder = "MM/AA"
+            ),
             color = Color.White,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
@@ -272,27 +320,37 @@ private fun CartaoFrente(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(end = 20.dp, bottom = 18.dp)
+                .padding(
+                    end = 20.dp,
+                    bottom = 18.dp
+                )
         )
     }
 }
 
 @Composable
-private fun CartaoVerso(
+private fun CardBack(
     cvv: String,
-    validadeCartao: String,
+    cardExpiration: String,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) {
         Image(
-            painter = painterResource(id = R.drawable.card_back_preview_background),
+            painter = painterResource(
+                id = R.drawable.card_back_preview_background
+            ),
             contentDescription = "Verso do cartão",
             contentScale = ContentScale.FillBounds,
             modifier = Modifier.matchParentSize()
         )
 
         Text(
-            text = textoOuPlaceholder(validadeCartao, "MM/AA"),
+            text = textOrPlaceholder(
+                text = cardExpiration,
+                placeholder = "MM/AA"
+            ),
             color = Color.White,
             fontSize = 13.sp,
             fontWeight = FontWeight.SemiBold,
@@ -300,11 +358,17 @@ private fun CartaoVerso(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(start = 20.dp, bottom = 20.dp)
+                .padding(
+                    start = 20.dp,
+                    bottom = 20.dp
+                )
         )
 
         Text(
-            text = textoOuPlaceholder(cvv, "CVV"),
+            text = textOrPlaceholder(
+                text = cvv,
+                placeholder = "CVV"
+            ),
             color = Color(0xFF172033),
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
@@ -312,25 +376,45 @@ private fun CartaoVerso(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
-                .padding(end = 36.dp, bottom = 6.dp)
+                .padding(
+                    end = 36.dp,
+                    bottom = 6.dp
+                )
         )
     }
 }
 
-private fun formatarNumeroCartao(numeroCartao: String): String {
-    return numeroCartao
-        .filter { caractere -> caractere.isDigit() }
+private fun formatCardNumber(
+    cardNumber: String
+): String {
+    return cardNumber
+        .filter { character ->
+            character.isDigit()
+        }
         .take(16)
         .chunked(4)
         .joinToString(" ")
 }
 
-private fun textoOuPlaceholder(texto: String, placeholder: String): String {
-    return texto.trim().takeIf { valor -> valor.isNotBlank() } ?: placeholder
+private fun textOrPlaceholder(
+    text: String,
+    placeholder: String
+): String {
+    return text
+        .trim()
+        .takeIf { value ->
+            value.isNotBlank()
+        }
+        ?: placeholder
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
-fun PagamentoScreenPreview() {
-    PagamentoScreen(navController = rememberNavController())
+fun PaymentScreenPreview() {
+    PaymentScreen(
+        navController = rememberNavController()
+    )
 }
