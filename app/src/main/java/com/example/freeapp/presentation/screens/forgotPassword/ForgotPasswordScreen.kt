@@ -31,65 +31,28 @@ import com.example.freeapp.presentation.components.PasswordRecoveryLink
 import com.example.freeapp.presentation.components.PasswordRecoveryPhoneFields
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
-import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.AuthViewModel
+
 
 @Composable
 fun ForgotPasswordScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: UsuarioViewModel = UsuarioViewModel()
+    viewModel: AuthViewModel = AuthViewModel()
 ) {
-    val savedPhoneNumber = viewModel.usuario.telefone
-        .filter { character ->
-            character.isDigit()
-        }
-
-    val authErrorMessage = viewModel.authErroMensagem
-    val isAuthLoading = viewModel.authCarregando
-
-    var currentStep by remember {
-        mutableStateOf(PasswordRecoveryStep.PHONE)
-    }
-
-    var previousCodeStep by remember {
-        mutableStateOf(PasswordRecoveryStep.SMS_CODE)
-    }
-
-    var areaCode by remember(savedPhoneNumber) {
-        mutableStateOf(savedPhoneNumber.take(2))
-    }
-
-    var phoneNumber by remember(savedPhoneNumber) {
-        mutableStateOf(
-            savedPhoneNumber
-                .drop(2)
-                .take(9)
-        )
-    }
-
-    var email by remember(viewModel.usuario.email) {
-        mutableStateOf(viewModel.usuario.email)
-    }
-
-    var code by remember {
-        mutableStateOf("")
-    }
-
-    var newPassword by remember {
-        mutableStateOf("")
-    }
-
-    var confirmPassword by remember {
-        mutableStateOf("")
-    }
-
-    val isPhoneNumberValid =
-        areaCode.length == 2 &&
-                phoneNumber.length >= 8
-
-    val doPasswordsMatch =
-        newPassword.isNotBlank() &&
-                newPassword == confirmPassword
+    val telefoneSalvo = viewModel.user.telefone.filter { it.isDigit() }
+    val mensagemErroAuth = viewModel.authErrorMessage
+    val carregandoAuth = viewModel.authLoading
+    var etapa by remember { mutableStateOf(EtapaRecuperacaoSenha.TELEFONE) }
+    var etapaCodigoAnterior by remember { mutableStateOf(EtapaRecuperacaoSenha.CODIGO_SMS) }
+    var ddd by remember(telefoneSalvo) { mutableStateOf(telefoneSalvo.take(2)) }
+    var numeroTelefone by remember(telefoneSalvo) { mutableStateOf(telefoneSalvo.drop(2).take(9)) }
+    var email by remember(viewModel.user.email) { mutableStateOf(viewModel.user.email) }
+    var codigo by remember { mutableStateOf("") }
+    var novaSenha by remember { mutableStateOf("") }
+    var confirmarSenha by remember { mutableStateOf("") }
+    val telefoneValido = ddd.length == 2 && numeroTelefone.length >= 8
+    val senhasIguais = novaSenha.isNotBlank() && novaSenha == confirmarSenha
 
     Surface(
         modifier = modifier.fillMaxSize()
@@ -102,127 +65,97 @@ fun ForgotPasswordScreen(
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 14.dp)
-                    .padding(
-                        top = 42.dp,
-                        bottom = 148.dp
-                    ),
+                    .padding(top = 42.dp, bottom = 148.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 BackButton(
                     onClick = {
-                        if (
-                            currentStep == PasswordRecoveryStep.PHONE
-                        ) {
+                        if (etapa == EtapaRecuperacaoSenha.TELEFONE) {
                             navController.popBackStack()
-                        } else if (
-                            currentStep == PasswordRecoveryStep.NEW_PASSWORD
-                        ) {
-                            currentStep = previousCodeStep
+                        } else if (etapa == EtapaRecuperacaoSenha.NOVA_SENHA) {
+                            etapa = etapaCodigoAnterior
                         } else {
-                            currentStep = currentStep.previous()
-                            code = ""
+                            etapa = etapa.anterior()
+                            codigo = ""
                         }
                     },
                     modifier = Modifier.align(Alignment.Start)
                 )
 
-                Spacer(
-                    modifier = Modifier.height(14.dp)
-                )
+                Spacer(modifier = Modifier.height(14.dp))
 
                 PasswordRecoveryHeader(
-                    image = currentStep.image,
-                    title = currentStep.title,
-                    description = currentStep.description
+                    image = etapa.imagem,
+                    title = etapa.titulo,
+                    description = etapa.descricao
                 )
 
-                Spacer(
-                    modifier = Modifier.height(42.dp)
-                )
-
-                when (currentStep) {
-                    PasswordRecoveryStep.PHONE -> {
+                Spacer(modifier = Modifier.height(42.dp))
+                when (etapa) {
+                    EtapaRecuperacaoSenha.TELEFONE -> {
                         PasswordRecoveryPhoneFields(
-                            ddd = areaCode,
-                            phoneNumber = phoneNumber,
-                            onDddChange = {
-                                areaCode = it
-                            },
-                            onPhoneNumberChange = {
-                                phoneNumber = it
-                            }
+                            ddd = ddd,
+                            phoneNumber = numeroTelefone,
+                            onDddChange = { ddd = it },
+                            onPhoneNumberChange = { numeroTelefone = it }
                         )
                     }
 
-                    PasswordRecoveryStep.EMAIL -> {
+                    EtapaRecuperacaoSenha.EMAIL -> {
                         TextField(
                             value = email,
                             label = "E-mail",
                             onValueChange = {
                                 email = it
-                                viewModel.limparEstadoAuth()
+                                viewModel.clearAuthState()
                             }
                         )
                     }
 
-                    PasswordRecoveryStep.SMS_CODE,
-                    PasswordRecoveryStep.EMAIL_CODE -> {
+                    EtapaRecuperacaoSenha.CODIGO_SMS,
+                    EtapaRecuperacaoSenha.CODIGO_EMAIL -> {
                         PasswordRecoveryCodeField(
-                            code = code,
-                            onCodeChange = {
-                                code = it
-                            }
+                            code = codigo,
+                            onCodeChange = { codigo = it }
                         )
 
-                        Spacer(
-                            modifier = Modifier.height(18.dp)
-                        )
-
+                        Spacer(modifier = Modifier.height(18.dp))
                         PasswordRecoveryLink(
                             text = "Não recebeu um código? Reenviar",
-                            onClick = {
-                                code = ""
-                            }
+                            onClick = { codigo = "" }
                         )
                     }
 
-                    PasswordRecoveryStep.NEW_PASSWORD -> {
+                    EtapaRecuperacaoSenha.NOVA_SENHA -> {
                         PasswordField(
-                            value = newPassword,
+                            value = novaSenha,
                             label = "Nova Senha",
                             onValueChange = {
-                                newPassword = it
-                                viewModel.limparEstadoAuth()
+                                novaSenha = it
+                                viewModel.clearAuthState()
                             }
                         )
 
-                        Spacer(
-                            modifier = Modifier.height(16.dp)
-                        )
-
+                        Spacer(modifier = Modifier.height(16.dp))
                         PasswordField(
-                            value = confirmPassword,
+                            value = confirmarSenha,
                             label = "Confirme sua Senha",
                             onValueChange = {
-                                confirmPassword = it
-                                viewModel.limparEstadoAuth()
+                                confirmarSenha = it
+                                viewModel.clearAuthState()
                             },
-                            isError =
-                                confirmPassword.isNotBlank() &&
-                                        confirmPassword != newPassword
+                            isError = confirmarSenha.isNotBlank() &&
+                                    confirmarSenha != novaSenha
                         )
                     }
 
-                    PasswordRecoveryStep.SUCCESS -> Unit
+                    EtapaRecuperacaoSenha.SUCESSO -> Unit
                 }
 
-                if (authErrorMessage != null) {
-                    Spacer(
-                        modifier = Modifier.height(12.dp)
-                    )
-
+                if (mensagemErroAuth != null) {
+                    Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = authErrorMessage,
+                        text = mensagemErroAuth,
                         color = Color.Red,
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -231,29 +164,20 @@ fun ForgotPasswordScreen(
 
             PasswordRecoveryFooter(
                 buttonText = if (
-                    currentStep == PasswordRecoveryStep.NEW_PASSWORD &&
-                    isAuthLoading
+                    etapa == EtapaRecuperacaoSenha.NOVA_SENHA &&
+                    carregandoAuth
                 ) {
                     "REDEFININDO..."
                 } else {
-                    currentStep.buttonText
+                    etapa.textoBotao
                 },
-                enabled = when (currentStep) {
-                    PasswordRecoveryStep.PHONE ->
-                        isPhoneNumberValid
-
-                    PasswordRecoveryStep.EMAIL ->
-                        email.isNotBlank()
-
-                    PasswordRecoveryStep.SMS_CODE,
-                    PasswordRecoveryStep.EMAIL_CODE ->
-                        code.length == 4
-
-                    PasswordRecoveryStep.NEW_PASSWORD ->
-                        doPasswordsMatch && !isAuthLoading
-
-                    PasswordRecoveryStep.SUCCESS ->
-                        true
+                enabled = when (etapa) {
+                    EtapaRecuperacaoSenha.TELEFONE -> telefoneValido
+                    EtapaRecuperacaoSenha.EMAIL -> email.isNotBlank()
+                    EtapaRecuperacaoSenha.CODIGO_SMS,
+                    EtapaRecuperacaoSenha.CODIGO_EMAIL -> codigo.length == 4
+                    EtapaRecuperacaoSenha.NOVA_SENHA -> senhasIguais && !carregandoAuth
+                    EtapaRecuperacaoSenha.SUCESSO -> true
                 },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -263,59 +187,47 @@ fun ForgotPasswordScreen(
                         bottom = 22.dp
                     ),
                 linkText = if (
-                    currentStep == PasswordRecoveryStep.PHONE
+                    etapa == EtapaRecuperacaoSenha.TELEFONE
                 ) {
                     "TENTE DE OUTRA MANEIRA"
                 } else {
                     null
                 },
                 onLinkClick = if (
-                    currentStep == PasswordRecoveryStep.PHONE
+                    etapa == EtapaRecuperacaoSenha.TELEFONE
                 ) {
                     {
-                        currentStep = PasswordRecoveryStep.EMAIL
-                        code = ""
+                        etapa = EtapaRecuperacaoSenha.EMAIL
+                        codigo = ""
                     }
                 } else {
                     null
                 },
                 onButtonClick = {
-                    when (currentStep) {
-                        PasswordRecoveryStep.PHONE -> {
-                            currentStep =
-                                PasswordRecoveryStep.SMS_CODE
+                    when (etapa) {
+                        EtapaRecuperacaoSenha.TELEFONE -> etapa = EtapaRecuperacaoSenha.CODIGO_SMS
+                            EtapaRecuperacaoSenha.EMAIL -> {
+                                viewModel.resetPassword(
+                                    email = email
+                                ) {
+                                    etapa = EtapaRecuperacaoSenha.SUCESSO
+                                }
+                            }
+                        EtapaRecuperacaoSenha.CODIGO_SMS,
+                        EtapaRecuperacaoSenha.CODIGO_EMAIL -> {
+                            etapaCodigoAnterior = etapa
+                            etapa = EtapaRecuperacaoSenha.NOVA_SENHA
                         }
-
-                        PasswordRecoveryStep.EMAIL -> {
+                        EtapaRecuperacaoSenha.NOVA_SENHA -> {
+                            val emailRecuperacao = email.ifBlank { viewModel.user.email }
                             viewModel.resetPassword(
-                                email = email
+                                email = emailRecuperacao,
                             ) {
-                                currentStep =
-                                    PasswordRecoveryStep.SUCCESS
+                                etapa = EtapaRecuperacaoSenha.SUCESSO
                             }
                         }
 
-                        PasswordRecoveryStep.SMS_CODE,
-                        PasswordRecoveryStep.EMAIL_CODE -> {
-                            previousCodeStep = currentStep
-                            currentStep =
-                                PasswordRecoveryStep.NEW_PASSWORD
-                        }
-
-                        PasswordRecoveryStep.NEW_PASSWORD -> {
-                            val recoveryEmail = email.ifBlank {
-                                viewModel.usuario.email
-                            }
-
-                            viewModel.resetPassword(
-                                email = recoveryEmail
-                            ) {
-                                currentStep =
-                                    PasswordRecoveryStep.SUCCESS
-                            }
-                        }
-
-                        PasswordRecoveryStep.SUCCESS -> {
+                        EtapaRecuperacaoSenha.SUCESSO -> {
                             navController.navigate(Routes.LOGIN) {
                                 popUpTo(Routes.LOGIN)
                                 launchSingleTop = true
@@ -328,62 +240,59 @@ fun ForgotPasswordScreen(
     }
 }
 
-private enum class PasswordRecoveryStep(
-    val title: String,
-    val description: String,
-    val buttonText: String,
-    val image: Int
+private enum class EtapaRecuperacaoSenha(
+    val titulo: String,
+    val descricao: String,
+    val textoBotao: String,
+    val imagem: Int
 ) {
-    PHONE(
-        title = "Esqueceu a Senha?",
-        description = "Não se preocupe, nós vamos te ajudar! Informe o número para o qual deseja redefinir a sua senha.",
-        buttonText = "CONTINUAR",
-        image = R.drawable.illustration
+    TELEFONE(
+        titulo = "Esqueceu a Senha?",
+        descricao = "Não se preocupe, nós vamos te ajudar! Informe o número para o qual deseja redefinir a sua senha.",
+        textoBotao = "CONTINUAR",
+        imagem = R.drawable.illustration
     ),
-
     EMAIL(
-        title = "Esqueci minha senha E-mail",
-        description = "Informe seu e-mail para receber o código de redefinição.",
-        buttonText = "CONTINUAR",
-        image = R.drawable.illustration
+        titulo = "Esqueci minha senha E-mail",
+        descricao = "Informe seu e-mail para receber o código de redefinição.",
+        textoBotao = "CONTINUAR",
+        imagem = R.drawable.illustration
     ),
-
-    SMS_CODE(
-        title = "Verifique seu celular",
-        description = "Acabamos de enviar um código para o seu número de telefone.",
-        buttonText = "VERIFICAR",
-        image = R.drawable.illustration__1_
+    CODIGO_SMS(
+        titulo = "Verifique seu celular",
+        descricao = "Acabamos de enviar um código para o seu número de telefone.",
+        textoBotao = "VERIFICAR",
+        imagem = R.drawable.illustration__1_
     ),
-
-    EMAIL_CODE(
-        title = "Verifique seu E-mail",
-        description = "Acabamos de enviar um código para o seu e-mail.",
-        buttonText = "VERIFICAR",
-        image = R.drawable.illustration__1_
+    CODIGO_EMAIL(
+        titulo = "Verifique seu E-mail",
+        descricao = "Acabamos de enviar um código para o seu e-mail.",
+        textoBotao = "VERIFICAR",
+        imagem = R.drawable.illustration__1_
     ),
-
-    NEW_PASSWORD(
-        title = "Redefina sua senha",
-        description = "Preencha os campos abaixo.",
-        buttonText = "REDEFINIR SENHA",
-        image = R.drawable.illustration__2_
+    NOVA_SENHA(
+        titulo = "Redefina sua senha",
+        descricao = "Preencha os campos abaixo.",
+        textoBotao = "REDEFINIR SENHA",
+        imagem = R.drawable.illustration__2_
     ),
-
-    SUCCESS(
-        title = "Redefinido com sucesso",
-        description = "Agora você pode fazer login na sua conta.",
-        buttonText = "CONECTE-SE AGORA",
-        image = R.drawable.illustration__3_
+    SUCESSO(
+        titulo = "Redefinido com sucesso",
+        descricao = "Agora você pode fazer login na sua conta.",
+        textoBotao = "CONECTE-SE AGORA",
+        imagem = R.drawable.illustration__3_
     );
 
-    fun previous(): PasswordRecoveryStep {
+    fun anterior(): EtapaRecuperacaoSenha {
         return when (this) {
-            PHONE -> PHONE
-            EMAIL -> PHONE
-            SMS_CODE -> PHONE
-            EMAIL_CODE -> EMAIL
-            NEW_PASSWORD -> SMS_CODE
-            SUCCESS -> NEW_PASSWORD
+            TELEFONE -> TELEFONE
+            EMAIL -> TELEFONE
+            CODIGO_SMS -> TELEFONE
+            CODIGO_EMAIL -> EMAIL
+            NOVA_SENHA -> CODIGO_SMS
+            SUCESSO -> NOVA_SENHA
         }
     }
 }
+
+

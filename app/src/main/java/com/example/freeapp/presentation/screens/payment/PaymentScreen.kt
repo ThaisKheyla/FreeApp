@@ -42,15 +42,15 @@ import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
-import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.PaymentViewModel
 
 @Composable
 fun PaymentScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: UsuarioViewModel = UsuarioViewModel()
+    viewModel: PaymentViewModel = PaymentViewModel()
 ) {
-    val user = viewModel.usuario
+    val user = viewModel.user
 
     var showCardBack by remember {
         mutableStateOf(false)

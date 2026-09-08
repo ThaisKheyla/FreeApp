@@ -1,4 +1,4 @@
-package com.projeto.ui.screens
+package com.example.freeapp.presentation.screens.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,14 +40,14 @@ import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.PasswordField
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
-import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.AuthViewModel
 
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: UsuarioViewModel = UsuarioViewModel()
+    viewModel: AuthViewModel = AuthViewModel()
 ) {
-    val usuario = viewModel.usuario
+    val usuario = viewModel.user
 
     var emailLogin by remember(usuario.email) {
         mutableStateOf(usuario.email)
@@ -57,8 +57,8 @@ fun LoginScreen(
         mutableStateOf("")
     }
 
-    val mensagemErroAuth = viewModel.authErroMensagem
-    val carregandoAuth = viewModel.authCarregando
+    val mensagemErroAuth = viewModel.authErrorMessage
+    val carregandoAuth = viewModel.authLoading
 
     val camposPreenchidos =
         emailLogin.isNotBlank() &&
@@ -138,7 +138,7 @@ fun LoginScreen(
                 label = "E-mail",
                 onValueChange = { email ->
                     emailLogin = email
-                    viewModel.limparEstadoAuth()
+                    viewModel.clearAuthState()
                 },
                 isError = mensagemErroAuth != null
             )
@@ -152,7 +152,7 @@ fun LoginScreen(
                 label = "Senha",
                 onValueChange = { senha ->
                     senhaLogin = senha
-                    viewModel.limparEstadoAuth()
+                    viewModel.clearAuthState()
                 },
                 isError = mensagemErroAuth != null
             )

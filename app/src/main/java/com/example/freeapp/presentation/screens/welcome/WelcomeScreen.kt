@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
+import com.example.freeapp.presentation.theme.WelcomeTitle
 import com.example.freeapp.presentation.components.BlueButton
 import com.example.freeapp.presentation.components.ButtonWhite
 import com.example.freeapp.presentation.navigation.Routes
-import com.example.freeapp.presentation.theme.WelcomeTitle
 
 @Composable
 fun WelcomeScreen(
