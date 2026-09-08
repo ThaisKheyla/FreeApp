@@ -26,21 +26,21 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.presentation.theme.CheckboxBackground
 import com.example.freeapp.presentation.theme.PrimaryBlue
-import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.FixedBlueButton
+import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.validation.UsuarioValidator
-import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.PersonalDataViewModel
 
 @Composable
-fun DadosPessoaisScreen(
+fun PersonalDataScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-        viewModel: com.example.freeapp.presentation.viewmodel.UsuarioViewModel = UsuarioViewModel()
+    viewModel: PersonalDataViewModel = PersonalDataViewModel()
 ) {
-    val usuario = viewModel.usuario
+    val usuario = viewModel.user
     var mostrarTermos by remember {
         mutableStateOf(false)
     }
@@ -241,7 +241,7 @@ fun DadosPessoaisScreen(
                 }
             )
             if (mostrarTermos) {
-                ModalTermos(
+                TermsModal(
                     onFechar = {
                         mostrarTermos = false
                     }
@@ -253,6 +253,6 @@ fun DadosPessoaisScreen(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun DadosPessoaisScreenPreview() {
-    DadosPessoaisScreen(navController = rememberNavController())
+fun PersonalDataScreenPreview() {
+    PersonalDataScreen(navController = rememberNavController())
 }

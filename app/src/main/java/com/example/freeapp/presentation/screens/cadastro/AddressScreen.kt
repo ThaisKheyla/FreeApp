@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.AddressViewModel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,17 +28,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.presentation.components.FixedBlueButton
-import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.SelectionModal
+import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 
 @Composable
-fun EnderecosScreen(
+fun AddressScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-        viewModel: com.example.freeapp.presentation.viewmodel.UsuarioViewModel = UsuarioViewModel()
+    viewModel: AddressViewModel = AddressViewModel()
 ){
-    val usuario = viewModel.usuario
+    val usuario = viewModel.user
     var mostrarEstados by remember { mutableStateOf(false) }
     var mostrarCidades by remember { mutableStateOf(false) }
 
@@ -51,7 +51,6 @@ fun EnderecosScreen(
                 usuario.endereco.isNotBlank() &&
                 usuario.numero.isNotBlank() &&
                 usuario.complemento.isNotBlank() &&
-                usuario.bairro.isNotBlank() &&
                 usuario.cidade.isNotBlank() &&
                 usuario.estado.isNotBlank()
 
@@ -130,7 +129,7 @@ fun EnderecosScreen(
             ) {
                 TextField(
                     value = usuario.estado,
-                    label = if (viewModel.ibgeCarregando && viewModel.estadosIbge.isEmpty()) "Carregando estados..." else "Estado",
+                    label = if (viewModel.ibgeLoading && viewModel.ibgeStates.isEmpty()) "Carregando estados..." else "Estado",
                     onValueChange = { },
                     showSearch = true
                 )
@@ -139,7 +138,7 @@ fun EnderecosScreen(
                     modifier = Modifier
                         .matchParentSize()
                         .clickable {
-                            if (viewModel.estadosIbge.isNotEmpty()) {
+                            if (viewModel.ibgeStates.isNotEmpty()) {
                                 mostrarEstados = true
                             }
                         }
@@ -160,14 +159,14 @@ fun EnderecosScreen(
                     modifier = Modifier
                         .matchParentSize()
                         .clickable {
-                            if (usuario.estado.isNotBlank() && viewModel.cidadesIbge.isNotEmpty()) {
+                            if (usuario.estado.isNotBlank() && viewModel.ibgeCities.isNotEmpty()) {
                                 mostrarCidades = true
                             }
                         }
                 )
             }
 
-            viewModel.ibgeErroMensagem?.let { mensagem ->
+            viewModel.ibgeErrorMessage?.let { mensagem ->
                 Text(
                     text = mensagem,
                     color = MaterialTheme.colorScheme.error,
@@ -186,9 +185,9 @@ fun EnderecosScreen(
 
             if (mostrarEstados) {
                 SelectionModal(
-                    titulo = "Selecione o estado",
-                    itens = viewModel.estadosIbge.map { estado -> estado.nome },
-                    onSelecionar = { estado ->
+                    title = "Selecione o estado",
+                    items = viewModel.ibgeStates.map { estado -> estado.nome },
+                    onSelect = { estado ->
                         viewModel.selectIbgeState(estado)
                         mostrarEstados = false
                     }
@@ -197,9 +196,9 @@ fun EnderecosScreen(
 
             if (mostrarCidades) {
                 SelectionModal(
-                    titulo = "Selecione a cidade",
-                    itens = viewModel.cidadesIbge,
-                    onSelecionar = { cidade ->
+                    title = "Selecione a cidade",
+                    items = viewModel.ibgeCities,
+                    onSelect = { cidade ->
                         viewModel.updateCity(cidade)
                         mostrarCidades = false
                     }
@@ -212,6 +211,6 @@ fun EnderecosScreen(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun EnderecosScreenPreview() {
-    EnderecosScreen(navController = rememberNavController())
+fun AddressScreenPreview() {
+    AddressScreen(navController = rememberNavController())
 }

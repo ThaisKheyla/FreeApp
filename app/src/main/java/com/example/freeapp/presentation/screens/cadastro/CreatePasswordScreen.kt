@@ -26,17 +26,18 @@ import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.PasswordField
-import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.viewmodel.CreatePasswordViewModel
 
 @Composable
-fun CriarSenhaScreen(
+fun CreatePasswordScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-        viewModel: UsuarioViewModel = UsuarioViewModel()
+    viewModel: CreatePasswordViewModel = CreatePasswordViewModel()
 ) {
-    val usuario = viewModel.usuario
-    val mensagemErroAuth = viewModel.authErroMensagem
-    val carregandoAuth = viewModel.authCarregando
+    val usuario = viewModel.user
+    val mensagemErroAuth = viewModel.authErrorMessage
+    val carregandoAuth = viewModel.authLoading
     var confirmarSenha by remember { mutableStateOf("") }
     val senhasValidas =
         usuario.senha.isNotBlank() &&
@@ -105,8 +106,8 @@ fun CriarSenhaScreen(
                 enabled = senhasValidas,
                 onClick = {
                     viewModel.registerUser {
-                        navController.navigate(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.LOGIN) {
-                            popUpTo(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.LOGIN)
+                        navController.navigate(Routes.LOGIN) {
+                            popUpTo(Routes.LOGIN)
                             launchSingleTop = true
                         }
                     }
@@ -118,6 +119,6 @@ fun CriarSenhaScreen(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun CriarSenhaScreenPreview() {
-    CriarSenhaScreen(navController = rememberNavController())
+fun CreatePasswordScreenPreview() {
+    CreatePasswordScreen(navController = rememberNavController())
 }

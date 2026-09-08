@@ -34,9 +34,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.example.freeapp.presentation.theme.neutreColor
-import com.projeto.ui.components.BotaoBlue
-import com.projeto.ui.components.BotaoVoltar
-import com.projeto.ui.navigation.Routes
+import com.example.freeapp.presentation.components.BlueButton
+import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.navigation.Routes
 
 @Composable
 fun CarouselScreen(
@@ -62,7 +62,7 @@ fun CarouselScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
 
-            BotaoVoltar(
+            BackButton(
                     onClick = {
 
                         if (paginaAtual > 0) {
@@ -141,8 +141,8 @@ fun CarouselScreen(
             modifier = Modifier.height(40.dp)
         )
 
-        BotaoBlue(
-            texto = "Próximo",
+        BlueButton(
+            text = "Próximo",
 
             onClick = {
                 if (paginaAtual < carouselPages.lastIndex) {

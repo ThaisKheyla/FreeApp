@@ -22,21 +22,22 @@ import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
-import com.example.freeapp.presentation.viewmodel.UsuarioViewModel
+import com.example.freeapp.presentation.viewmodel.BankDataViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.navigation.Routes
 
 @Composable
-fun DadosBancariosScreen(
+fun BankDataScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-        viewModel: com.example.freeapp.presentation.viewmodel.UsuarioViewModel = UsuarioViewModel()
+    viewModel: BankDataViewModel = BankDataViewModel()
 ) {
-    val usuario = viewModel.usuario
+    val usuario = viewModel.user
     var tipoContaSelecionado by remember {
         mutableStateOf("Pessoa Física")
     }
@@ -132,6 +133,6 @@ fun DadosBancariosScreen(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun DadosBancariosScreenPreview() {
-    DadosBancariosScreen(navController = rememberNavController())
+fun BankDataScreenPreview() {
+    BankDataScreen(navController = rememberNavController())
 }

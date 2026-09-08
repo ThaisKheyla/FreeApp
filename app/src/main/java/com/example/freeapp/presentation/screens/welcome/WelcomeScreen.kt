@@ -21,9 +21,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
 import com.example.freeapp.presentation.theme.WelcomeTitle
-import com.projeto.ui.components.BotaoBlue
-import com.projeto.ui.components.BotaoWhite
-import com.projeto.ui.navigation.Routes
+import com.example.freeapp.presentation.components.BlueButton
+import com.example.freeapp.presentation.components.ButtonWhite
+import com.example.freeapp.presentation.navigation.Routes
 
 @Composable
 fun WelcomeScreen(
@@ -79,18 +79,18 @@ fun WelcomeScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
 
-                    BotaoBlue(
+                    BlueButton(
                         onClick = {
                             navController.navigate(Routes.DADOS_PESSOAIS)
                         },
-                        texto = "CADASTRAR"
+                        text = "CADASTRAR"
                     )
 
-                    BotaoWhite(
+                    ButtonWhite(
                         onClick = {
                             navController.navigate(Routes.LOGIN)
                         },
-                        texto = "ENTRAR"
+                        text = "ENTRAR"
                     )
                 }
             }
