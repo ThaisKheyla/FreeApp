@@ -123,7 +123,7 @@ fun BankDataScreen(
                 text = "CONTINUAR",
                 enabled = dadosBancariosValidos,
                 onClick = {
-                    navController.navigate(Routes.FORMA_PAGAMENTO)
+                    navController.navigate(Routes.PAYMENT)
                 }
             )
 

@@ -61,45 +61,45 @@ fun AppNavigation() {
             )
         }
 
-        composable(Routes.DADOS_PESSOAIS) {
+        composable(Routes.PERSONAL_DATA) {
             PersonalDataScreen(
                 navController,
                 viewModel = personalDataViewModel
             )
         }
 
-        composable(Routes.ENDERECOS) {
+        composable(Routes.ADDRESS) {
            AddressScreen(
                 navController,
                 viewModel = addressViewModel
             )
         }
 
-        composable(Routes.DADOS_PROFISSAO) {
+        composable(Routes.PROFESSIONAL_DATA) {
             ProfessionalDataScreen(
                 navController,
                 viewModel = professionalDataViewModel
             )
         }
-        composable(Routes.DADOS_BANCARIOS) {
+        composable(Routes.BANK_DETAILS) {
             BankDataScreen(
                 navController,
                 viewModel = bankDataViewModel
             )
         }
-        composable(Routes.FORMA_PAGAMENTO) {
+        composable(Routes.PAYMENT) {
           PaymentScreen(
                 navController,
                 viewModel = paymentViewModel
             )
         }
-        composable(Routes.CRIAR_SENHA) {
+        composable(Routes.CREATE_PASSWORD) {
             CreatePasswordScreen(
                 navController,
                 viewModel = createPasswordViewModel
             )
         }
-        composable(Routes.ESQUECI_SENHA) {
+        composable(Routes.FORGOT_PASSWORD) {
            ForgotPasswordScreen(
                 navController,
                 viewModel = authViewModel
