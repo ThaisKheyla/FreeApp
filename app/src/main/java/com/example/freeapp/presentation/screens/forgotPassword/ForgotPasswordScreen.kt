@@ -40,7 +40,7 @@ fun ForgotPasswordScreen(
     modifier: Modifier = Modifier,
     viewModel: AuthViewModel = AuthViewModel()
 ) {
-    val telefoneSalvo = viewModel.user.telefone.filter { it.isDigit() }
+    val telefoneSalvo = viewModel.user.phone.filter { it.isDigit() }
     val mensagemErroAuth = viewModel.authErrorMessage
     val carregandoAuth = viewModel.authLoading
     var etapa by remember { mutableStateOf(EtapaRecuperacaoSenha.TELEFONE) }

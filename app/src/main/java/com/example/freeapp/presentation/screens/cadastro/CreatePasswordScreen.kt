@@ -40,8 +40,8 @@ fun CreatePasswordScreen(
     val carregandoAuth = viewModel.authLoading
     var confirmarSenha by remember { mutableStateOf("") }
     val senhasValidas =
-        usuario.senha.isNotBlank() &&
-            usuario.senha == confirmarSenha &&
+        usuario.password.isNotBlank() &&
+            usuario.password == confirmarSenha &&
             !carregandoAuth
 
     Surface(
@@ -74,7 +74,7 @@ fun CreatePasswordScreen(
                 )
 
                 PasswordField(
-                    value = usuario.senha,
+                    value = usuario.password,
                     label = "Crie uma senha",
                     onValueChange = {
                         viewModel.updatePassword(it)
@@ -89,7 +89,7 @@ fun CreatePasswordScreen(
                         confirmarSenha = senha
                         viewModel.clearAuthState()
                     },
-                    isError = confirmarSenha.isNotBlank() && confirmarSenha != usuario.senha
+                    isError = confirmarSenha.isNotBlank() && confirmarSenha != usuario.password
                 )
 
                 if (mensagemErroAuth != null) {
