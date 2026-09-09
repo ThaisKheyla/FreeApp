@@ -7,7 +7,7 @@ import com.example.freeapp.data.remote.dto.RequisicaoLogin
 import com.example.freeapp.data.remote.dto.RequisicaoRedefinirSenha
 import com.example.freeapp.data.remote.dto.RespostaAutenticacao
 import com.example.freeapp.data.remote.dto.RespostaErroApi
-import com.example.freeapp.domain.Usuario
+import com.example.freeapp.domain.User
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -25,7 +25,7 @@ class RepositorioAutenticacao(
         }
     }
 
-    suspend fun cadastrar(usuario: Usuario): Result<RespostaAutenticacao> {
+    suspend fun cadastrar(usuario: User): Result<RespostaAutenticacao> {
         return executarRequisicao {
             servicoApi.cadastrar(
                 RequisicaoCadastro(
