@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.cadastro
+package com.example.freeapp.presentation.screens.register
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.clickable

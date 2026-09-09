@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.cadastro
+package com.example.freeapp.presentation.screens.register
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -28,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.navigation.Routes
 
 @Composable

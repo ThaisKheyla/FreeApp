@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.cadastro
+package com.example.freeapp.presentation.screens.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
