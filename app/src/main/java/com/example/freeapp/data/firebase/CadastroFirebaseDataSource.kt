@@ -1,57 +1,64 @@
 package com.example.freeapp.data.firebase
 
+import com.example.freeapp.data.remote.dto.RegisterRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.example.freeapp.data.remote.dto.RequisicaoCadastro
 
-class CadastroFirebaseDataSource {
+class FirebaseRegisterDataSource {
 
     private val auth = FirebaseAuth.getInstance()
     private val firestore = FirebaseFirestore.getInstance()
 
-    fun cadastrarUsuario(
-        dados: RequisicaoCadastro,
+    fun registerUser(
+        data: RegisterRequest,
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
     ) {
-        auth.createUserWithEmailAndPassword(dados.email, dados.senha)
-            .addOnSuccessListener { resultado ->
-                val uid = resultado.user?.uid
+
+        auth.createUserWithEmailAndPassword(
+            data.email,
+            data.password
+        )
+            .addOnSuccessListener { result ->
+
+                val uid = result.user?.uid
 
                 if (uid == null) {
-                    onError(Exception("Usuário não encontrado"))
+                    onError(
+                        Exception("Usuário não encontrado")
+                    )
                     return@addOnSuccessListener
                 }
 
-                val usuario = hashMapOf(
-                    "nome" to dados.nome,
-                    "dataNascimento" to dados.dataNascimento,
-                    "cpf" to dados.cpf,
-                    "email" to dados.email,
-                    "telefone" to dados.telefone,
-                    "cep" to dados.cep,
-                    "endereco" to dados.endereco,
-                    "numero" to dados.numero,
-                    "complemento" to dados.complemento,
-                    "bairro" to dados.bairro,
-                    "cidade" to dados.cidade,
-                    "estado" to dados.estado,
-                    "profissao" to dados.profissao,
-                    "especialidade" to dados.especialidade,
-                    "regiao" to dados.regiao,
-                    "horario" to dados.horario,
-                    "agencia" to dados.agencia,
-                    "conta" to dados.conta,
-                    "tipoConta" to dados.tipoConta,
-                    "pix" to dados.pix,
-                    "opcaoPagamento" to dados.opcaoPagamento,
-                    "ultimos4DigitosCartao" to dados.numeroCartao.takeLast(4),
-                    "validadeCartao" to dados.validadeCartao
+                val user = hashMapOf(
+                    "name" to data.name,
+                    "birthDate" to data.birthDate,
+                    "cpf" to data.cpf,
+                    "email" to data.email,
+                    "phone" to data.phone,
+                    "zipCode" to data.zipCode,
+                    "address" to data.address,
+                    "number" to data.number,
+                    "complement" to data.complement,
+                    "district" to data.district,
+                    "city" to data.city,
+                    "state" to data.state,
+                    "profession" to data.profession,
+                    "specialty" to data.specialty,
+                    "region" to data.region,
+                    "schedule" to data.schedule,
+                    "agency" to data.agency,
+                    "account" to data.account,
+                    "accountType" to data.accountType,
+                    "pix" to data.pix,
+                    "paymentMethod" to data.paymentMethod,
+                    "last4CardDigits" to data.cardNumber.takeLast(4),
+                    "cardExpiration" to data.cardExpiration
                 )
 
-                firestore.collection("usuarios")
+                firestore.collection("users")
                     .document(uid)
-                    .set(usuario)
+                    .set(user)
                     .addOnSuccessListener {
                         onSuccess()
                     }

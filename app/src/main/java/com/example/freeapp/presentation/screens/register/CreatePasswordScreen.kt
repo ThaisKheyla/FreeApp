@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.cadastro
+package com.example.freeapp.presentation.screens.register
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
