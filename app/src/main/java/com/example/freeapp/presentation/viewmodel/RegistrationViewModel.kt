@@ -9,14 +9,14 @@ import com.example.freeapp.data.remote.ClienteIbge
 import com.example.freeapp.data.remote.dto.EstadoIbge
 import com.example.freeapp.data.repository.RepositorioFirebase
 import com.example.freeapp.data.repository.RepositorioIbge
-import com.example.freeapp.domain.Usuario
+import com.example.freeapp.domain.User
 import kotlinx.coroutines.launch
 
 class RegistrationViewModel : ViewModel() {
     private val authenticationRepository = RepositorioFirebase()
     private val ibgeRepository = RepositorioIbge(ClienteIbge.servicoIbge)
 
-    var user by mutableStateOf(Usuario())
+    var user by mutableStateOf(User())
         private set
 
     var authLoading by mutableStateOf(false)
@@ -41,21 +41,21 @@ class RegistrationViewModel : ViewModel() {
         authErrorMessage = null
     }
 
-    fun updateName(value: String) { user = user.copy(nome = value) }
-    fun updateBirthDate(value: String) { user = user.copy(dataNascimento = value) }
-    fun updateCpf(value: String) { user = user.copy(cpf = value) }
-    fun updateEmail(value: String) { user = user.copy(email = value) }
-    fun updateConfirmEmail(value: String) { user = user.copy(confirmarEmail = value) }
-    fun updatePhone(value: String) { user = user.copy(telefone = value) }
-    fun updatePassword(value: String) { user = user.copy(senha = value) }
+    fun updateName(value: String) { user = user.copy(personalData = user.personalData.copy(name = value)) }
+    fun updateBirthDate(value: String) { user = user.copy(personalData = user.personalData.copy(birthDate = value)) }
+    fun updateCpf(value: String) { user = user.copy(personalData = user.personalData.copy(cpf = value)) }
+    fun updateEmail(value: String) { user = user.copy(personalData = user.personalData.copy(email = value)) }
+    fun updateConfirmEmail(value: String) { user = user.copy(personalData = user.personalData.copy(confirmEmail = value)) }
+    fun updatePhone(value: String) { user = user.copy(personalData = user.personalData.copy(phone = value)) }
+    fun updatePassword(value: String) { user = user.copy(personalData = user.personalData.copy(password = value)) }
 
-    fun updateZipCode(value: String) { user = user.copy(cep = value) }
-    fun updateAddress(value: String) { user = user.copy(endereco = value) }
-    fun updateNumber(value: String) { user = user.copy(numero = value) }
-    fun updateComplement(value: String) { user = user.copy(complemento = value) }
-    fun updateNeighborhood(value: String) { user = user.copy(bairro = value) }
-    fun updateCity(value: String) { user = user.copy(cidade = value) }
-    fun updateState(value: String) { user = user.copy(estado = value) }
+    fun updateZipCode(value: String) { user = user.copy(address = user.address.copy(zipCode = value)) }
+    fun updateAddress(value: String) { user = user.copy(address = user.address.copy(street = value)) }
+    fun updateNumber(value: String) { user = user.copy(address = user.address.copy(number = value)) }
+    fun updateComplement(value: String) { user = user.copy(address = user.address.copy(complement = value)) }
+    fun updateNeighborhood(value: String) { user = user.copy(address = user.address.copy(neighborhood = value)) }
+    fun updateCity(value: String) { user = user.copy(address = user.address.copy(city = value)) }
+    fun updateState(value: String) { user = user.copy(address = user.address.copy(state = value)) }
 
     fun loadIbgeStates() {
         if (ibgeStates.isNotEmpty() || ibgeLoading) return
@@ -102,20 +102,20 @@ class RegistrationViewModel : ViewModel() {
         }
     }
 
-    fun updateProfession(value: String) { user = user.copy(profissao = value) }
-    fun updateSpecialty(value: String) { user = user.copy(especialidade = value) }
-    fun updateRegion(value: String) { user = user.copy(regiao = value) }
-    fun updateSchedule(value: String) { user = user.copy(horario = value) }
+    fun updateProfession(value: String) { user = user.copy(professionalData = user.professionalData.copy(profession = value)) }
+    fun updateSpecialty(value: String) { user = user.copy(professionalData = user.professionalData.copy(specialty = value)) }
+    fun updateRegion(value: String) { user = user.copy(professionalData = user.professionalData.copy(region = value)) }
+    fun updateSchedule(value: String) { user = user.copy(professionalData = user.professionalData.copy(schedule = value)) }
 
-    fun updateAgency(value: String) { user = user.copy(agencia = value) }
-    fun updateAccount(value: String) { user = user.copy(conta = value) }
-    fun updateAccountType(value: String) { user = user.copy(tipoConta = value) }
-    fun updatePix(value: String) { user = user.copy(pix = value) }
+    fun updateAgency(value: String) { user = user.copy(bankData = user.bankData.copy(agency = value)) }
+    fun updateAccount(value: String) { user = user.copy(bankData = user.bankData.copy(account = value)) }
+    fun updateAccountType(value: String) { user = user.copy(bankData = user.bankData.copy(accountType = value)) }
+    fun updatePix(value: String) { user = user.copy(bankData = user.bankData.copy(pix = value)) }
 
-    fun updatePaymentOption(value: String) { user = user.copy(opcaoPagamento = value) }
-    fun updateCardNumber(value: String) { user = user.copy(numeroCartao = value) }
-    fun updateCardExpiration(value: String) { user = user.copy(validadeCartao = value) }
-    fun updateCvv(value: String) { user = user.copy(cvv = value) }
+    fun updatePaymentOption(value: String) { user = user.copy(bankData = user.bankData.copy(paymentOption = value)) }
+    fun updateCardNumber(value: String) { user = user.copy(bankData = user.bankData.copy(cardNumber = value)) }
+    fun updateCardExpiration(value: String) { user = user.copy(bankData = user.bankData.copy(cardExpiration = value)) }
+    fun updateCvv(value: String) { user = user.copy(bankData = user.bankData.copy(cvv = value)) }
 
     fun registerUser(onSuccess: () -> Unit) {
         if (authLoading) return
