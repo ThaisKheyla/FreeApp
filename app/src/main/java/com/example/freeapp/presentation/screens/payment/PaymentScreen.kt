@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.pagamento
+package com.example.freeapp.presentation.screens.payment
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -42,10 +42,11 @@ import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.viewmodel.AuthViewModel
 import com.example.freeapp.presentation.viewmodel.PaymentViewModel
 
 @Composable
-fun PagamentoScreen(
+fun PaymentScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: PaymentViewModel = PaymentViewModel()
@@ -160,7 +161,7 @@ fun PagamentoScreen(
                 text = "CONTINUAR",
                 enabled = pagamentoValido,
                 onClick = {
-                    navController.navigate(Routes.CRIAR_SENHA)
+                    navController.navigate(Routes.CREATE_PASSWORD)
                 }
             )
         }
@@ -331,6 +332,6 @@ private fun textoOuPlaceholder(texto: String, placeholder: String): String {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PagamentoScreenPreview() {
-    PagamentoScreen(navController = rememberNavController())
+fun PaymentScreenPreview() {
+    PaymentScreen(navController = rememberNavController())
 }

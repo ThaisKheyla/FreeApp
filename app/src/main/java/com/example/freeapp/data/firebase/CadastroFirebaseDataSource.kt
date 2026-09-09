@@ -14,7 +14,7 @@ class CadastroFirebaseDataSource {
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
     ) {
-        auth.createUserWithEmailAndPassword(dados.email, dados.password)
+        auth.createUserWithEmailAndPassword(dados.email, dados.senha)
             .addOnSuccessListener { resultado ->
                 val uid = resultado.user?.uid
 
@@ -24,29 +24,29 @@ class CadastroFirebaseDataSource {
                 }
 
                 val usuario = hashMapOf(
-                    "nome" to dados.name,
-                    "dataNascimento" to dados.birthDate,
+                    "nome" to dados.nome,
+                    "dataNascimento" to dados.dataNascimento,
                     "cpf" to dados.cpf,
                     "email" to dados.email,
-                    "telefone" to dados.phone,
-                    "cep" to dados.zipCode,
-                    "endereco" to dados.street,
-                    "numero" to dados.number,
-                    "complemento" to dados.complement,
-                    "bairro" to dados.neighborhood,
-                    "cidade" to dados.city,
-                    "estado" to dados.state,
-                    "profissao" to dados.profession,
-                    "especialidade" to dados.specialty,
-                    "regiao" to dados.region,
-                    "horario" to dados.schedule,
-                    "agencia" to dados.agency,
-                    "conta" to dados.account,
-                    "tipoConta" to dados.accountType,
+                    "telefone" to dados.telefone,
+                    "cep" to dados.cep,
+                    "endereco" to dados.endereco,
+                    "numero" to dados.numero,
+                    "complemento" to dados.complemento,
+                    "bairro" to dados.bairro,
+                    "cidade" to dados.cidade,
+                    "estado" to dados.estado,
+                    "profissao" to dados.profissao,
+                    "especialidade" to dados.especialidade,
+                    "regiao" to dados.regiao,
+                    "horario" to dados.horario,
+                    "agencia" to dados.agencia,
+                    "conta" to dados.conta,
+                    "tipoConta" to dados.tipoConta,
                     "pix" to dados.pix,
-                    "opcaoPagamento" to dados.paymentOption,
-                    "ultimos4DigitosCartao" to dados.cardNumber.takeLast(4),
-                    "validadeCartao" to dados.cardExpiration
+                    "opcaoPagamento" to dados.opcaoPagamento,
+                    "ultimos4DigitosCartao" to dados.numeroCartao.takeLast(4),
+                    "validadeCartao" to dados.validadeCartao
                 )
 
                 firestore.collection("usuarios")

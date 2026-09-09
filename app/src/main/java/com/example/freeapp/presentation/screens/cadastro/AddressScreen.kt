@@ -179,7 +179,7 @@ fun AddressScreen(
                 text = "CONTINUAR",
                 enabled = enderecoValido,
                 onClick = {
-                    navController.navigate(Routes.DADOS_PROFISSAO)
+                    navController.navigate(Routes.PROFESSIONAL_DATA)
                 }
             )
 

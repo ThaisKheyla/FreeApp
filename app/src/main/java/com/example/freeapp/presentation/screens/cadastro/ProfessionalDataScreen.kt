@@ -89,7 +89,7 @@ fun ProfessionalDataScreen(
                 text = "CONTINUAR",
                 enabled = dadosProfissionaisValidos,
                 onClick = {
-                    navController.navigate(Routes.DADOS_BANCARIOS)
+                    navController.navigate(Routes.BANK_DETAILS)
                 }
             )
         }

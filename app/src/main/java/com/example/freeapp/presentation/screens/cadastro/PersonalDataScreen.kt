@@ -31,7 +31,7 @@ import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
-import com.example.freeapp.presentation.validation.UsuarioValidator
+import com.example.freeapp.presentation.validation.UserValidator
 import com.example.freeapp.presentation.viewmodel.PersonalDataViewModel
 
 @Composable
@@ -45,27 +45,27 @@ fun PersonalDataScreen(
         mutableStateOf(false)
     }
     val cpfValido =
-        UsuarioValidator.cpfValido(usuario.cpf)
+        UserValidator.isValidCpf(usuario.cpf)
 
     val emailValido =
-        UsuarioValidator.emailValido(usuario.email)
+        UserValidator.isValidEmail(usuario.email)
 
     val emailsIguais =
-        UsuarioValidator.emailsIguais(
+        UserValidator.areEmailsEqual(
             usuario.email,
             usuario.confirmEmail
         )
 
     val telefoneValido =
-        UsuarioValidator.telefoneValido(
+        UserValidator.isValidPhone(
             usuario.phone
         )
 
     val nomeValido =
-        UsuarioValidator.nomeValido(usuario.name)
+        UserValidator.isValidName(usuario.name)
 
     val dataNascimentoValida =
-        UsuarioValidator.dataValida(usuario.birthDate)
+        UserValidator.isValidBirthDate(usuario.birthDate)
 
     var aceitouTermos by remember {
         mutableStateOf(false)
@@ -237,7 +237,7 @@ fun PersonalDataScreen(
                 text = "CONTINUAR",
                 enabled = dadosPessoaisValidos,
                 onClick = {
-                    navController.navigate(Routes.ENDERECOS)
+                    navController.navigate(Routes.ADDRESS)
                 }
             )
             if (mostrarTermos) {

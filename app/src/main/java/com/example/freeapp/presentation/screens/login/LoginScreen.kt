@@ -233,7 +233,7 @@ fun LoginScreen(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable {
                         navController.navigate(
-                            Routes.DADOS_PESSOAIS
+                            Routes.PERSONAL_DATA
                         )
                     }
                 )
