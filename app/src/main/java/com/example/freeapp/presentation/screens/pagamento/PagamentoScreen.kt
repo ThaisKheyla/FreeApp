@@ -53,10 +53,10 @@ fun PagamentoScreen(
     val usuario = viewModel.user
     var mostrarVersoCartao by remember { mutableStateOf(false) }
     val pagamentoValido =
-        usuario.opcaoPagamento.isNotBlank() &&
-                usuario.nome.isNotBlank() &&
-                usuario.numeroCartao.isNotBlank() &&
-                usuario.validadeCartao.isNotBlank() &&
+        usuario.paymentOption.isNotBlank() &&
+            usuario.name.isNotBlank() &&
+            usuario.cardNumber.isNotBlank() &&
+            usuario.cardExpiration.isNotBlank() &&
                 usuario.cvv.isNotBlank()
 
     Surface(
@@ -87,16 +87,16 @@ fun PagamentoScreen(
                     style = MaterialTheme.typography.headlineLarge
                 )
                 CartaoPreview(
-                    nome = usuario.nome,
-                    numeroCartao = usuario.numeroCartao,
-                    validadeCartao = usuario.validadeCartao,
-                    tipoCartao = usuario.opcaoPagamento,
+                    nome = usuario.name,
+                    numeroCartao = usuario.cardNumber,
+                    validadeCartao = usuario.cardExpiration,
+                    tipoCartao = usuario.paymentOption,
                     cvv = usuario.cvv,
                     mostrarVerso = mostrarVersoCartao
                 )
 
                 TextField(
-                    value = usuario.opcaoPagamento,
+                    value = usuario.paymentOption,
                     label = "Débito",
                     onValueChange = viewModel::updatePaymentOption,
                     modifier = Modifier
@@ -106,7 +106,7 @@ fun PagamentoScreen(
                         }
                 )
                 TextField(
-                    value = usuario.nome,
+                    value = usuario.name,
                     label = "Nome completo",
                     onValueChange = viewModel::updateName,
                     inputType = InputType.LETTERS_ONLY,
@@ -117,7 +117,7 @@ fun PagamentoScreen(
                         }
                 )
                 TextField(
-                    value = usuario.numeroCartao,
+                    value = usuario.cardNumber,
                     label = "5999       5877     566    599",
                     onValueChange = viewModel::updateCardNumber,
                     inputType = InputType.NUMBERS_ONLY,
@@ -131,7 +131,7 @@ fun PagamentoScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     TextField(
-                        value = usuario.validadeCartao,
+                        value = usuario.cardExpiration,
                         label = "06/2027",
                         onValueChange = viewModel::updateCardExpiration,
                         inputType = InputType.NUMBERS_AND_SLASH,
