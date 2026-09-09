@@ -31,7 +31,7 @@ import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
-import com.example.freeapp.presentation.validation.UsuarioValidator
+import com.example.freeapp.presentation.validation.UserValidator
 import com.example.freeapp.presentation.viewmodel.PersonalDataViewModel
 
 @Composable
@@ -45,27 +45,27 @@ fun PersonalDataScreen(
         mutableStateOf(false)
     }
     val cpfValido =
-        UsuarioValidator.cpfValido(usuario.cpf)
+        UserValidator.isValidCpf(usuario.cpf)
 
     val emailValido =
-        UsuarioValidator.emailValido(usuario.email)
+        UserValidator.isValidEmail(usuario.email)
 
     val emailsIguais =
-        UsuarioValidator.emailsIguais(
+        UserValidator.areEmailsEqual(
             usuario.email,
             usuario.confirmarEmail
         )
 
     val telefoneValido =
-        UsuarioValidator.telefoneValido(
+        UserValidator.isValidPhone(
             usuario.telefone
         )
 
     val nomeValido =
-        UsuarioValidator.nomeValido(usuario.nome)
+        UserValidator.isValidName(usuario.nome)
 
     val dataNascimentoValida =
-        UsuarioValidator.dataValida(usuario.dataNascimento)
+        UserValidator.isValidBirthDate(usuario.dataNascimento)
 
     var aceitouTermos by remember {
         mutableStateOf(false)

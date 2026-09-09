@@ -17,6 +17,7 @@ import com.example.freeapp.presentation.screens.forgotPassword.ForgotPasswordScr
 import com.example.freeapp.presentation.viewmodel.AuthViewModel
 import com.example.freeapp.presentation.screens.carousel.CarouselScreen
 import com.example.freeapp.presentation.screens.home.HomeScreen
+import com.example.freeapp.presentation.screens.login.LoginScreen
 import com.example.freeapp.presentation.viewmodel.AddressViewModel
 import com.example.freeapp.presentation.viewmodel.BankDataViewModel
 import com.example.freeapp.presentation.viewmodel.CreatePasswordViewModel
@@ -38,74 +39,74 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = _root_ide_package_.com.example.freeapp.presentation.navigation.Routes.SPLASH
+        startDestination = Routes.SPLASH
     ) {
 
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.SPLASH) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.splash.SplashScreen(navController)
+        composable(Routes.SPLASH) {
+           SplashScreen(navController)
         }
 
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.WELCOME) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.welcome.WelcomeScreen(navController)
+        composable(Routes.WELCOME) {
+            WelcomeScreen(navController)
         }
 
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.CAROUSEL) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.carousel.CarouselScreen(navController)
+        composable(Routes.CAROUSEL) {
+           CarouselScreen(navController)
         }
 
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.LOGIN) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.login.LoginScreen(
+        composable(Routes.LOGIN) {
+           LoginScreen(
                 navController,
                 viewModel = authViewModel
             )
         }
 
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.DADOS_PESSOAIS) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.cadastro.PersonalDataScreen(
+        composable(Routes.DADOS_PESSOAIS) {
+            PersonalDataScreen(
                 navController,
                 viewModel = personalDataViewModel
             )
         }
 
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.ENDERECOS) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.cadastro.AddressScreen(
+        composable(Routes.ENDERECOS) {
+           AddressScreen(
                 navController,
                 viewModel = addressViewModel
             )
         }
 
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.DADOS_PROFISSAO) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.cadastro.ProfessionalDataScreen(
+        composable(Routes.DADOS_PROFISSAO) {
+            ProfessionalDataScreen(
                 navController,
                 viewModel = professionalDataViewModel
             )
         }
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.DADOS_BANCARIOS) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.cadastro.BankDataScreen(
+        composable(Routes.DADOS_BANCARIOS) {
+            BankDataScreen(
                 navController,
                 viewModel = bankDataViewModel
             )
         }
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.FORMA_PAGAMENTO) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.payment.PaymentScreen(
+        composable(Routes.FORMA_PAGAMENTO) {
+          PaymentScreen(
                 navController,
                 viewModel = paymentViewModel
             )
         }
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.CRIAR_SENHA) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.cadastro.CreatePasswordScreen(
+        composable(Routes.CRIAR_SENHA) {
+            CreatePasswordScreen(
                 navController,
                 viewModel = createPasswordViewModel
             )
         }
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.ESQUECI_SENHA) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.forgotPassword.ForgotPasswordScreen(
+        composable(Routes.ESQUECI_SENHA) {
+           ForgotPasswordScreen(
                 navController,
                 viewModel = authViewModel
             )
         }
-        composable(_root_ide_package_.com.example.freeapp.presentation.navigation.Routes.HOME) {
-            _root_ide_package_.com.example.freeapp.presentation.screens.home.HomeScreen(viewModel = authViewModel)
+        composable(Routes.HOME) {
+            HomeScreen(viewModel = authViewModel)
         }
     }
 }
