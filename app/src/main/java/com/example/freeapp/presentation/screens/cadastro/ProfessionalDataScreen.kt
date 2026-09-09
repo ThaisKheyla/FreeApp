@@ -27,10 +27,10 @@ fun ProfessionalDataScreen(
 ){
     val usuario = viewModel.user
     val dadosProfissionaisValidos =
-        usuario.profissao.isNotBlank() &&
-                usuario.especialidade.isNotBlank() &&
-                usuario.regiao.isNotBlank() &&
-                usuario.horario.isNotBlank()
+        usuario.profession.isNotBlank() &&
+            usuario.specialty.isNotBlank() &&
+            usuario.region.isNotBlank() &&
+            usuario.schedule.isNotBlank()
 
     Surface(
         modifier = modifier.fillMaxSize()
@@ -61,25 +61,25 @@ fun ProfessionalDataScreen(
             )
 
             TextField(
-                value = usuario.profissao,
+                value = usuario.profession,
                 label = "Profissão",
                 onValueChange = viewModel::updateProfession,
                 inputType = InputType.LETTERS_ONLY
             )
             TextField(
-                value = usuario.especialidade,
+                value = usuario.specialty,
                 label = "Especialidade",
                 onValueChange = viewModel::updateSpecialty,
                 inputType = InputType.LETTERS_ONLY
             )
             TextField(
-                value = usuario.regiao,
+                value = usuario.region,
                 label = "Qual região atende",
                 onValueChange = viewModel::updateRegion,
                 inputType = InputType.LETTERS_ONLY
             )
             TextField(
-                value = usuario.horario,
+                value = usuario.schedule,
                 label = "Qual horário tem disponibilidade",
                 onValueChange = viewModel::updateSchedule
             )
@@ -89,7 +89,7 @@ fun ProfessionalDataScreen(
                 text = "CONTINUAR",
                 enabled = dadosProfissionaisValidos,
                 onClick = {
-                    navController.navigate(Routes.DADOS_BANCARIOS)
+                    navController.navigate(Routes.BANK_DETAILS)
                 }
             )
         }

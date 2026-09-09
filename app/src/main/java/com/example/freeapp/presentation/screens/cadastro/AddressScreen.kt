@@ -47,12 +47,12 @@ fun AddressScreen(
     }
 
     val enderecoValido =
-        usuario.cep.isNotBlank() &&
-                usuario.endereco.isNotBlank() &&
-                usuario.numero.isNotBlank() &&
-                usuario.complemento.isNotBlank() &&
-                usuario.cidade.isNotBlank() &&
-                usuario.estado.isNotBlank()
+        usuario.zipCode.isNotBlank() &&
+            usuario.street.isNotBlank() &&
+                usuario.number.isNotBlank() &&
+                usuario.complement.isNotBlank() &&
+                usuario.city.isNotBlank() &&
+                usuario.state.isNotBlank()
 
     Surface(
         modifier = modifier.fillMaxSize()
@@ -84,7 +84,7 @@ fun AddressScreen(
                 style = MaterialTheme.typography.headlineLarge
             )
             TextField(
-                value = usuario.cep,
+                value = usuario.zipCode,
                 label = "CEP",
                 onValueChange = viewModel::updateZipCode,
                 inputType = InputType.NUMBERS_ONLY
@@ -94,14 +94,14 @@ fun AddressScreen(
             ) {
 
                 TextField(
-                    value = usuario.endereco,
+                    value = usuario.street,
                     label = "Endereço",
                     onValueChange = viewModel::updateAddress,
                     modifier = Modifier.weight(3f)
                 )
 
                 TextField(
-                    value = usuario.numero,
+                    value = usuario.number,
                     label = "Nº",
                     onValueChange = viewModel::updateNumber,
                     inputType = InputType.NUMBERS_ONLY,
@@ -112,13 +112,13 @@ fun AddressScreen(
 
 
             TextField(
-                value = usuario.complemento,
+                value = usuario.complement,
                 label = "Complemento",
                     onValueChange = viewModel::updateComplement
             )
 
             TextField(
-                value = usuario.bairro,
+                value = usuario.neighborhood,
                 label = "Bairro",
                 onValueChange = viewModel::updateNeighborhood,
                 inputType = InputType.LETTERS_ONLY
@@ -128,7 +128,7 @@ fun AddressScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 TextField(
-                    value = usuario.estado,
+                    value = usuario.state,
                     label = if (viewModel.ibgeLoading && viewModel.ibgeStates.isEmpty()) "Carregando estados..." else "Estado",
                     onValueChange = { },
                     showSearch = true
@@ -149,8 +149,8 @@ fun AddressScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 TextField(
-                    value = usuario.cidade,
-                    label = if (usuario.estado.isBlank()) "Selecione o estado primeiro" else "Cidade",
+                    value = usuario.city,
+                    label = if (usuario.state.isBlank()) "Selecione o estado primeiro" else "Cidade",
                     onValueChange = { },
                     showSearch = true
                 )
@@ -159,7 +159,7 @@ fun AddressScreen(
                     modifier = Modifier
                         .matchParentSize()
                         .clickable {
-                            if (usuario.estado.isNotBlank() && viewModel.ibgeCities.isNotEmpty()) {
+                            if (usuario.state.isNotBlank() && viewModel.ibgeCities.isNotEmpty()) {
                                 mostrarCidades = true
                             }
                         }
@@ -179,7 +179,7 @@ fun AddressScreen(
                 text = "CONTINUAR",
                 enabled = enderecoValido,
                 onClick = {
-                    navController.navigate(Routes.DADOS_PROFISSAO)
+                    navController.navigate(Routes.PROFESSIONAL_DATA)
                 }
             )
 

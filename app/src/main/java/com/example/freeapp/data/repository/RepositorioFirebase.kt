@@ -15,7 +15,7 @@ class RepositorioFirebase(
         return try {
             val resultado = auth.createUserWithEmailAndPassword(
                 usuario.email.trim(),
-                usuario.senha
+                usuario.password
             ).await()
 
             val uid = resultado.user?.uid
@@ -76,29 +76,29 @@ class RepositorioFirebase(
 
     private fun User.toFirestoreMap(): Map<String, String> {
         return mapOf(
-            "nome" to nome,
-            "dataNascimento" to dataNascimento,
+            "nome" to name,
+            "dataNascimento" to birthDate,
             "cpf" to cpf,
             "email" to email,
-            "telefone" to telefone,
-            "cep" to cep,
-            "endereco" to endereco,
-            "numero" to numero,
-            "complemento" to complemento,
-            "bairro" to bairro,
-            "cidade" to cidade,
-            "estado" to estado,
-            "profissao" to profissao,
-            "especialidade" to especialidade,
-            "regiao" to regiao,
-            "horario" to horario,
-            "agencia" to agencia,
-            "conta" to conta,
-            "tipoConta" to tipoConta,
+            "telefone" to phone,
+            "cep" to zipCode,
+            "endereco" to street,
+            "numero" to number,
+            "complemento" to complement,
+            "bairro" to neighborhood,
+            "cidade" to city,
+            "estado" to state,
+            "profissao" to profession,
+            "especialidade" to specialty,
+            "regiao" to region,
+            "horario" to schedule,
+            "agencia" to agency,
+            "conta" to account,
+            "tipoConta" to accountType,
             "pix" to pix,
-            "opcaoPagamento" to opcaoPagamento,
-            "ultimos4DigitosCartao" to numeroCartao.takeLast(4),
-            "validadeCartao" to validadeCartao
+            "opcaoPagamento" to paymentOption,
+            "ultimos4DigitosCartao" to cardNumber.takeLast(4),
+            "validadeCartao" to cardExpiration
         )
     }
 

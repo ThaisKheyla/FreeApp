@@ -43,10 +43,10 @@ class AuthViewModel : ViewModel() {
             authLoading = false
 
             if (resultadoRemoto.isSuccess) {
-                val nome = repositorioAutenticacao.buscarNomeUsuarioAtual().getOrNull().orEmpty()
+                val name = repositorioAutenticacao.buscarNomeUsuarioAtual().getOrNull().orEmpty()
                 user = user.copy(
                     personalData = user.personalData.copy(
-                        name = nome,
+                        name = name,
                         email = email
                     )
                 )

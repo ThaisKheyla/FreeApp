@@ -53,19 +53,19 @@ fun PersonalDataScreen(
     val emailsIguais =
         UserValidator.areEmailsEqual(
             usuario.email,
-            usuario.confirmarEmail
+            usuario.confirmEmail
         )
 
     val telefoneValido =
         UserValidator.isValidPhone(
-            usuario.telefone
+            usuario.phone
         )
 
     val nomeValido =
-        UserValidator.isValidName(usuario.nome)
+        UserValidator.isValidName(usuario.name)
 
     val dataNascimentoValida =
-        UserValidator.isValidBirthDate(usuario.dataNascimento)
+        UserValidator.isValidBirthDate(usuario.birthDate)
 
     var aceitouTermos by remember {
         mutableStateOf(false)
@@ -109,21 +109,21 @@ fun PersonalDataScreen(
                 style = MaterialTheme.typography.headlineLarge
             )
             TextField(
-                value = usuario.nome,
+                value = usuario.name,
                 label = "Nome completo",
                 onValueChange = viewModel::updateName,
                 inputType = InputType.LETTERS_ONLY,
-                showCheck = nomeValido && usuario.nome.isNotBlank(),
-                isError = usuario.nome.isNotBlank() && !nomeValido
+                showCheck = nomeValido && usuario.name.isNotBlank(),
+                isError = usuario.name.isNotBlank() && !nomeValido
             )
 
             TextField(
-                value = usuario.dataNascimento,
+                value = usuario.birthDate,
                 label = "Data de nascimento",
                 onValueChange = viewModel::updateBirthDate,
                 inputType = InputType.NUMBERS_AND_SLASH,
-                showCheck = dataNascimentoValida && usuario.dataNascimento.isNotBlank(),
-                isError = usuario.dataNascimento.isNotBlank() && !dataNascimentoValida
+                showCheck = dataNascimentoValida && usuario.birthDate.isNotBlank(),
+                isError = usuario.birthDate.isNotBlank() && !dataNascimentoValida
             )
 
             TextField(
@@ -147,25 +147,25 @@ fun PersonalDataScreen(
             )
 
             TextField(
-                value = usuario.confirmarEmail,
+                value = usuario.confirmEmail,
                 label = "Confirme seu e-mail",
                 onValueChange = viewModel::updateConfirmEmail,
                 showCheck = emailsIguais &&
-                        usuario.confirmarEmail.isNotBlank(),
+                        usuario.confirmEmail.isNotBlank(),
 
-                isError = usuario.confirmarEmail.isNotBlank() &&
+                isError = usuario.confirmEmail.isNotBlank() &&
                         !emailsIguais
             )
 
             TextField(
-                value = usuario.telefone,
+                value = usuario.phone,
                 label = "Número com DD",
                 onValueChange = viewModel::updatePhone,
                 inputType = InputType.NUMBERS_ONLY,
                 showCheck = telefoneValido &&
-                        usuario.telefone.isNotBlank(),
+                        usuario.phone.isNotBlank(),
 
-                isError = usuario.telefone.isNotBlank() &&
+                isError = usuario.phone.isNotBlank() &&
                         !telefoneValido
             )
 
@@ -237,7 +237,7 @@ fun PersonalDataScreen(
                 text = "CONTINUAR",
                 enabled = dadosPessoaisValidos,
                 onClick = {
-                    navController.navigate(Routes.ENDERECOS)
+                    navController.navigate(Routes.ADDRESS)
                 }
             )
             if (mostrarTermos) {

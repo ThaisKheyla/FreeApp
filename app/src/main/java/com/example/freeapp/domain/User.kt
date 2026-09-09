@@ -6,33 +6,33 @@ data class User(
     val professionalData: ProfessionalData = ProfessionalData(),
     val bankData: BankData = BankData()
 ) {
-    val nome get() = personalData.name
-    val dataNascimento get() = personalData.birthDate
+    val name get() = personalData.name
+    val birthDate get() = personalData.birthDate
     val cpf get() = personalData.cpf
     val email get() = personalData.email
-    val confirmarEmail get() = personalData.confirmEmail
-    val telefone get() = personalData.phone
-    val senha get() = personalData.password
+    val confirmEmail get() = personalData.confirmEmail
+    val phone get() = personalData.phone
+    val password get() = personalData.password
 
-    val cep get() = address.zipCode
-    val endereco get() = address.street
-    val numero get() = address.number
-    val complemento get() = address.complement
-    val bairro get() = address.neighborhood
-    val cidade get() = address.city
-    val estado get() = address.state
+    val zipCode get() = address.zipCode
+    val street get() = address.street
+    val number get() = address.number
+    val complement get() = address.complement
+    val neighborhood get() = address.neighborhood
+    val city get() = address.city
+    val state get() = address.state
 
-    val profissao get() = professionalData.profession
-    val especialidade get() = professionalData.specialty
-    val regiao get() = professionalData.region
-    val horario get() = professionalData.schedule
+    val profession get() = professionalData.profession
+    val specialty get() = professionalData.specialty
+    val region get() = professionalData.region
+    val schedule get() = professionalData.schedule
 
-    val agencia get() = bankData.agency
-    val conta get() = bankData.account
-    val tipoConta get() = bankData.accountType
+    val agency get() = bankData.agency
+    val account get() = bankData.account
+    val accountType get() = bankData.accountType
     val pix get() = bankData.pix
-    val opcaoPagamento get() = bankData.paymentOption
-    val numeroCartao get() = bankData.cardNumber
-    val validadeCartao get() = bankData.cardExpiration
+    val paymentOption get() = bankData.paymentOption
+    val cardNumber get() = bankData.cardNumber
+    val cardExpiration get() = bankData.cardExpiration
     val cvv get() = bankData.cvv
 }

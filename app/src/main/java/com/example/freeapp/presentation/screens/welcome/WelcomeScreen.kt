@@ -81,7 +81,7 @@ fun WelcomeScreen(
 
                     BlueButton(
                         onClick = {
-                            navController.navigate(Routes.DADOS_PESSOAIS)
+                            navController.navigate(Routes.PERSONAL_DATA)
                         },
                         text = "CADASTRAR"
                     )
