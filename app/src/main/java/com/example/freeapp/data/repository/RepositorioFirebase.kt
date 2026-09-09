@@ -3,7 +3,7 @@ package com.example.freeapp.data.repository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.firestore.FirebaseFirestore
-import com.example.freeapp.domain.Usuario
+import com.example.freeapp.domain.User
 import kotlinx.coroutines.tasks.await
 
 class RepositorioFirebase(
@@ -11,7 +11,7 @@ class RepositorioFirebase(
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) {
     
-    suspend fun cadastrar(usuario: Usuario): Result<Unit> {
+    suspend fun cadastrar(usuario: User): Result<Unit> {
         return try {
             val resultado = auth.createUserWithEmailAndPassword(
                 usuario.email.trim(),
@@ -74,7 +74,7 @@ class RepositorioFirebase(
         auth.signOut()
     }
 
-    private fun Usuario.toFirestoreMap(): Map<String, String> {
+    private fun User.toFirestoreMap(): Map<String, String> {
         return mapOf(
             "nome" to nome,
             "dataNascimento" to dataNascimento,
