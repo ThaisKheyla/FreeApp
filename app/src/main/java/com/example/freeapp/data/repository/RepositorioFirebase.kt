@@ -15,7 +15,7 @@ class RepositorioFirebase(
         return try {
             val resultado = auth.createUserWithEmailAndPassword(
                 usuario.email.trim(),
-                usuario.senha
+                usuario.password
             ).await()
 
             val uid = resultado.user?.uid

@@ -31,7 +31,7 @@ import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
-import com.example.freeapp.presentation.validation.UserValidator
+import com.example.freeapp.presentation.validation.UsuarioValidator
 import com.example.freeapp.presentation.viewmodel.PersonalDataViewModel
 
 @Composable
@@ -45,27 +45,27 @@ fun PersonalDataScreen(
         mutableStateOf(false)
     }
     val cpfValido =
-        UserValidator.isValidCpf(usuario.cpf)
+        UsuarioValidator.cpfValido(usuario.cpf)
 
     val emailValido =
-        UserValidator.isValidEmail(usuario.email)
+        UsuarioValidator.emailValido(usuario.email)
 
     val emailsIguais =
-        UserValidator.areEmailsEqual(
+        UsuarioValidator.emailsIguais(
             usuario.email,
-            usuario.confirmarEmail
+            usuario.confirmEmail
         )
 
     val telefoneValido =
-        UserValidator.isValidPhone(
-            usuario.telefone
+        UsuarioValidator.telefoneValido(
+            usuario.phone
         )
 
     val nomeValido =
-        UserValidator.isValidName(usuario.nome)
+        UsuarioValidator.nomeValido(usuario.name)
 
     val dataNascimentoValida =
-        UserValidator.isValidBirthDate(usuario.dataNascimento)
+        UsuarioValidator.dataValida(usuario.birthDate)
 
     var aceitouTermos by remember {
         mutableStateOf(false)
@@ -109,21 +109,21 @@ fun PersonalDataScreen(
                 style = MaterialTheme.typography.headlineLarge
             )
             TextField(
-                value = usuario.nome,
+                value = usuario.name,
                 label = "Nome completo",
                 onValueChange = viewModel::updateName,
                 inputType = InputType.LETTERS_ONLY,
-                showCheck = nomeValido && usuario.nome.isNotBlank(),
-                isError = usuario.nome.isNotBlank() && !nomeValido
+                showCheck = nomeValido && usuario.name.isNotBlank(),
+                isError = usuario.name.isNotBlank() && !nomeValido
             )
 
             TextField(
-                value = usuario.dataNascimento,
+                value = usuario.birthDate,
                 label = "Data de nascimento",
                 onValueChange = viewModel::updateBirthDate,
                 inputType = InputType.NUMBERS_AND_SLASH,
-                showCheck = dataNascimentoValida && usuario.dataNascimento.isNotBlank(),
-                isError = usuario.dataNascimento.isNotBlank() && !dataNascimentoValida
+                showCheck = dataNascimentoValida && usuario.birthDate.isNotBlank(),
+                isError = usuario.birthDate.isNotBlank() && !dataNascimentoValida
             )
 
             TextField(
@@ -147,25 +147,25 @@ fun PersonalDataScreen(
             )
 
             TextField(
-                value = usuario.confirmarEmail,
+                value = usuario.confirmEmail,
                 label = "Confirme seu e-mail",
                 onValueChange = viewModel::updateConfirmEmail,
                 showCheck = emailsIguais &&
-                        usuario.confirmarEmail.isNotBlank(),
+                        usuario.confirmEmail.isNotBlank(),
 
-                isError = usuario.confirmarEmail.isNotBlank() &&
+                isError = usuario.confirmEmail.isNotBlank() &&
                         !emailsIguais
             )
 
             TextField(
-                value = usuario.telefone,
+                value = usuario.phone,
                 label = "Número com DD",
                 onValueChange = viewModel::updatePhone,
                 inputType = InputType.NUMBERS_ONLY,
                 showCheck = telefoneValido &&
-                        usuario.telefone.isNotBlank(),
+                        usuario.phone.isNotBlank(),
 
-                isError = usuario.telefone.isNotBlank() &&
+                isError = usuario.phone.isNotBlank() &&
                         !telefoneValido
             )
 

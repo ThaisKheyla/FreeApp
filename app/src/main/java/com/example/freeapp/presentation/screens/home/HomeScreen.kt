@@ -45,7 +45,7 @@ import com.example.freeapp.presentation.viewmodel.AuthViewModel
 fun HomeScreen(
     viewModel: AuthViewModel
 ) {
-    val userName = viewModel.user.nome
+    val userName = viewModel.user.name
         .substringBefore(" ")
         .ifBlank { "usuário" }
 

@@ -42,9 +42,9 @@ fun BankDataScreen(
         mutableStateOf("Pessoa Física")
     }
     val dadosBancariosValidos =
-        usuario.agencia.isNotBlank() &&
-                usuario.conta.isNotBlank() &&
-                usuario.tipoConta.isNotBlank() &&
+        usuario.agency.isNotBlank() &&
+            usuario.account.isNotBlank() &&
+            usuario.accountType.isNotBlank() &&
                 usuario.pix.isNotBlank()
 
     Surface(
@@ -75,7 +75,7 @@ fun BankDataScreen(
                 style = MaterialTheme.typography.headlineLarge
             )
             TextField(
-                value = usuario.agencia,
+                value = usuario.agency,
                 label = "Agência",
                 onValueChange = viewModel::updateAgency,
                 inputType = InputType.NUMBERS_ONLY
@@ -83,14 +83,14 @@ fun BankDataScreen(
             )
 
             TextField(
-                value = usuario.conta,
+                value = usuario.account,
                 label = "Conta",
                 onValueChange = viewModel::updateAccount,
                 inputType = InputType.NUMBERS_ONLY
             )
 
             TextField(
-                value = usuario.tipoConta,
+                value = usuario.accountType,
                 label = "Qual é o seu tipo de conta",
                 onValueChange = viewModel::updateAccountType
             )
