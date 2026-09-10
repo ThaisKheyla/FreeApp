@@ -7,10 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.freeapp.data.repository.RepositorioFirebase
 import com.example.freeapp.domain.User
+import com.example.freeapp.domain.repository.AuthRepository
 import kotlinx.coroutines.launch
 
-class AuthViewModel : ViewModel() {
-    private val repositorioAutenticacao = RepositorioFirebase()
+class AuthViewModel(
+    private val repositorioAutenticacao: AuthRepository = RepositorioFirebase()
+) : ViewModel() {
 
     var user by mutableStateOf(
         User()
