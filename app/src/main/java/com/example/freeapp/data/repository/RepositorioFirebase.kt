@@ -4,14 +4,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.freeapp.domain.User
+import com.example.freeapp.domain.repository.AuthRepository
 import kotlinx.coroutines.tasks.await
 
 class RepositorioFirebase(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-) {
+) : AuthRepository {
     
-    suspend fun cadastrar(usuario: User): Result<Unit> {
+    override suspend fun cadastrar(usuario: User): Result<Unit> {
         return try {
             val resultado = auth.createUserWithEmailAndPassword(
                 usuario.email.trim(),
@@ -33,7 +34,7 @@ class RepositorioFirebase(
         }
     }
 
-    suspend fun login(email: String, senha: String): Result<Unit> {
+    override suspend fun login(email: String, senha: String): Result<Unit> {
         return try {
             auth.signInWithEmailAndPassword(email.trim(), senha).await()
             Result.success(Unit)
@@ -42,7 +43,7 @@ class RepositorioFirebase(
         }
     }
 
-    suspend fun buscarNomeUsuarioAtual(): Result<String> {
+    override suspend fun buscarNomeUsuarioAtual(): Result<String> {
         return try {
             val uid = auth.currentUser?.uid
                 ?: return Result.failure(Exception("Usuário não autenticado."))
@@ -61,7 +62,7 @@ class RepositorioFirebase(
         }
     }
 
-    suspend fun redefinirSenha(email: String): Result<Unit> {
+    override suspend fun redefinirSenha(email: String): Result<Unit> {
         return try {
             auth.sendPasswordResetEmail(email.trim()).await()
             Result.success(Unit)
@@ -70,7 +71,7 @@ class RepositorioFirebase(
         }
     }
 
-    fun sair() {
+    override fun sair() {
         auth.signOut()
     }
 

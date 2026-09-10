@@ -9,11 +9,13 @@ import com.example.freeapp.data.remote.ClienteIbge
 import com.example.freeapp.data.remote.dto.EstadoIbge
 import com.example.freeapp.data.repository.RepositorioFirebase
 import com.example.freeapp.data.repository.RepositorioIbge
+import com.example.freeapp.domain.repository.AuthRepository
 import com.example.freeapp.domain.User
 import kotlinx.coroutines.launch
 
-class RegistrationViewModel : ViewModel() {
-    private val authenticationRepository = RepositorioFirebase()
+class RegistrationViewModel(
+    private val authenticationRepository: AuthRepository = RepositorioFirebase()
+) : ViewModel() {
     private val ibgeRepository = RepositorioIbge(ClienteIbge.servicoIbge)
 
     var user by mutableStateOf(User())
