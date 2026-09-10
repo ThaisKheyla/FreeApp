@@ -4,10 +4,10 @@ import com.example.freeapp.data.remote.dto.RegisterRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class FirebaseRegisterDataSource {
-
-    private val auth = FirebaseAuth.getInstance()
-    private val firestore = FirebaseFirestore.getInstance()
+class FirebaseRegisterDataSource(
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+) {
 
     fun registerUser(
         data: RegisterRequest,
