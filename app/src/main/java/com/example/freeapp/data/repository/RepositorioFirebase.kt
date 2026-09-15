@@ -3,7 +3,7 @@ package com.example.freeapp.data.repository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.firestore.FirebaseFirestore
-import com.example.freeapp.domain.User
+import com.example.freeapp.domain.auth.RegistrationUser
 import com.example.freeapp.domain.repository.AuthRepository
 import kotlinx.coroutines.tasks.await
 
@@ -12,13 +12,13 @@ class RepositorioFirebase(
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) : AuthRepository {
     
-    override suspend fun cadastrar(usuario: User): Result<Unit> {
+    override suspend fun cadastrar(usuario: RegistrationUser): Result<Unit> {
         return try {
             val resultado = auth.createUserWithEmailAndPassword(
                 usuario.email.trim(),
                 usuario.password
             ).await()
-
+            
             val uid = resultado.user?.uid
                 ?: return Result.failure(Exception("Usuário não identificado."))
 
@@ -75,7 +75,7 @@ class RepositorioFirebase(
         auth.signOut()
     }
 
-    private fun User.toFirestoreMap(): Map<String, String> {
+    private fun RegistrationUser.toFirestoreMap(): Map<String, String> {
         return mapOf(
             "nome" to name,
             "dataNascimento" to birthDate,

@@ -47,7 +47,7 @@ fun LoginScreen(
     navController: NavController,
     viewModel: AuthViewModel = AuthViewModel()
 ) {
-    val usuario = viewModel.user
+    val usuario = viewModel.authenticatedUser
 
     var emailLogin by remember(usuario.email) {
         mutableStateOf(usuario.email)

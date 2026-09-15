@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.presentation.navigation.Routes
 
+
 @Composable
 fun BankDataScreen(
     navController: NavController,

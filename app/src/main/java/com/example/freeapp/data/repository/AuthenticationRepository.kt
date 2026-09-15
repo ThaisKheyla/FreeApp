@@ -6,7 +6,7 @@ import com.example.freeapp.data.remote.dto.AuthenticationResponse
 import com.example.freeapp.data.remote.dto.LoginRequest
 import com.example.freeapp.data.remote.dto.RegisterRequest
 import com.example.freeapp.data.remote.dto.ResetPasswordRequest
-import com.example.freeapp.domain.User
+import com.example.freeapp.domain.auth.RegistrationUser
 import com.google.gson.Gson
 import retrofit2.HttpException
 import java.io.IOException
@@ -32,7 +32,7 @@ class AuthenticationRepository(
     }
 
     suspend fun register(
-        user: User
+        user: RegistrationUser
     ): Result<AuthenticationResponse> {
 
         return executeRequest {

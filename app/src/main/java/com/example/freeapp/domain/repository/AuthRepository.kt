@@ -1,9 +1,9 @@
 package com.example.freeapp.domain.repository
 
-import com.example.freeapp.domain.User
+import com.example.freeapp.domain.auth.RegistrationUser
 
 interface AuthRepository {
-    suspend fun cadastrar(usuario: User): Result<Unit>
+    suspend fun cadastrar(usuario: RegistrationUser): Result<Unit>
 
     suspend fun login(email: String, senha: String): Result<Unit>
 

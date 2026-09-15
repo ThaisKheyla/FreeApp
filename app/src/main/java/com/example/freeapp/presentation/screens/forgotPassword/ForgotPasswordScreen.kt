@@ -40,14 +40,14 @@ fun ForgotPasswordScreen(
     modifier: Modifier = Modifier,
     viewModel: AuthViewModel = AuthViewModel()
 ) {
-    val telefoneSalvo = viewModel.user.phone.filter { it.isDigit() }
+    val telefoneSalvo = viewModel.authenticatedUser.phone.filter { it.isDigit() }
     val mensagemErroAuth = viewModel.authErrorMessage
     val carregandoAuth = viewModel.authLoading
     var etapa by remember { mutableStateOf(EtapaRecuperacaoSenha.TELEFONE) }
     var etapaCodigoAnterior by remember { mutableStateOf(EtapaRecuperacaoSenha.CODIGO_SMS) }
     var ddd by remember(telefoneSalvo) { mutableStateOf(telefoneSalvo.take(2)) }
     var numeroTelefone by remember(telefoneSalvo) { mutableStateOf(telefoneSalvo.drop(2).take(9)) }
-    var email by remember(viewModel.user.email) { mutableStateOf(viewModel.user.email) }
+    var email by remember(viewModel.authenticatedUser.email) { mutableStateOf(viewModel.authenticatedUser.email) }
     var codigo by remember { mutableStateOf("") }
     var novaSenha by remember { mutableStateOf("") }
     var confirmarSenha by remember { mutableStateOf("") }
@@ -219,7 +219,7 @@ fun ForgotPasswordScreen(
                             etapa = EtapaRecuperacaoSenha.NOVA_SENHA
                         }
                         EtapaRecuperacaoSenha.NOVA_SENHA -> {
-                            val emailRecuperacao = email.ifBlank { viewModel.user.email }
+                            val emailRecuperacao = email.ifBlank { viewModel.authenticatedUser.email }
                             viewModel.resetPassword(
                                 email = emailRecuperacao,
                             ) {
@@ -294,5 +294,4 @@ private enum class EtapaRecuperacaoSenha(
         }
     }
 }
-
 

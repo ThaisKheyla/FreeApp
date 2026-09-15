@@ -40,7 +40,6 @@ import com.example.freeapp.presentation.components.BlueButton
 fun TermsModal(
     onFechar: () -> Unit
 ) {
-
     Box(
         modifier = Modifier
             .fillMaxSize()
