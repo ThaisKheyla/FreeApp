@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.freeapp.data.repository.RepositorioFirebase
-import com.example.freeapp.domain.User
+import com.example.freeapp.domain.auth.AuthUser
 import com.example.freeapp.domain.repository.AuthRepository
 import kotlinx.coroutines.launch
 
@@ -14,8 +14,8 @@ class AuthViewModel(
     private val repositorioAutenticacao: AuthRepository = RepositorioFirebase()
 ) : ViewModel() {
 
-    var user by mutableStateOf(
-        User()
+    var authenticatedUser by mutableStateOf(
+        AuthUser()
     )
         private set
 
@@ -46,11 +46,9 @@ class AuthViewModel(
 
             if (resultadoRemoto.isSuccess) {
                 val name = repositorioAutenticacao.buscarNomeUsuarioAtual().getOrNull().orEmpty()
-                user = user.copy(
-                    personalData = user.personalData.copy(
-                        name = name,
-                        email = email
-                    )
+                authenticatedUser = authenticatedUser.copy(
+                    name = name,
+                    email = email
                 )
                 onSuccess()
             } else {

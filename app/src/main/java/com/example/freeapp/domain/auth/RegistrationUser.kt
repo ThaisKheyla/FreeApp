@@ -1,8 +1,12 @@
-package com.example.freeapp.domain
+package com.example.freeapp.domain.auth
 
-data class User(
+import com.example.freeapp.domain.BankData
+import com.example.freeapp.domain.PersonalData
+import com.example.freeapp.domain.ProfessionalData
+
+data class RegistrationUser(
     val personalData: PersonalData = PersonalData(),
-    val address: Address = Address(),
+    val address: AddressData = AddressData(),
     val professionalData: ProfessionalData = ProfessionalData(),
     val bankData: BankData = BankData()
 ) {
