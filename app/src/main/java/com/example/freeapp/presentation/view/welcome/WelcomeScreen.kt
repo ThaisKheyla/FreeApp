@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.welcome
+package com.example.freeapp.presentation.view.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -61,14 +62,18 @@ fun WelcomeScreen(
                         painter = painterResource(
                             id = R.drawable.logo_free_blue
                         ),
-                        contentDescription = "Logo",
+                        contentDescription = stringResource(
+                            R.string.welcome_logo
+                        ),
                         modifier = Modifier
                             .size(60.dp)
                     )
 
                     Text(
                         modifier = Modifier.padding(top = 60.dp),
-                        text = "Bem Vindo!",
+                        text = stringResource(
+                            R.string.welcome_title
+                        ),
                         style = WelcomeTitle,
                         color = Color.White
                     )
@@ -83,14 +88,18 @@ fun WelcomeScreen(
                         onClick = {
                             navController.navigate(Routes.PERSONAL_DATA)
                         },
-                        text = "CADASTRAR"
+                        text = stringResource(
+                            R.string.welcome_register_button
+                        )
                     )
 
                     ButtonWhite(
                         onClick = {
                             navController.navigate(Routes.LOGIN)
                         },
-                        text = "ENTRAR"
+                        text = stringResource(
+                            R.string.common_login
+                        )
                     )
                 }
             }

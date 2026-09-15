@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.freeapp.data.remote.ClienteIbge
 import com.example.freeapp.data.remote.dto.EstadoIbge
 import com.example.freeapp.data.repository.RepositorioFirebase
-import com.example.freeapp.data.repository.RepositorioIbge
+import com.example.freeapp.data.repository.IbgeRepository
 import com.example.freeapp.domain.auth.RegistrationUser
 import com.example.freeapp.domain.repository.AuthRepository
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class RegistrationViewModel(
     private val authenticationRepository: AuthRepository = RepositorioFirebase()
 ) : ViewModel() {
-    private val ibgeRepository = RepositorioIbge(ClienteIbge.servicoIbge)
+    private val ibgeRepository = IbgeRepository(ClienteIbge.servicoIbge)
 
     var user by mutableStateOf(RegistrationUser())
         private set

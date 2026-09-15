@@ -17,7 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.freeapp.R
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -89,14 +91,18 @@ fun SelectionModal(
                     ) {
 
                         Text(
-                            text = "Digite aqui para pesquisar",
+                            text = stringResource(
+                                R.string.selection_modal_search_placeholder
+                            ),
                             color = Color.Gray,
                             modifier = Modifier.weight(1f)
                         )
 
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = "Pesquisar",
+                            contentDescription = stringResource(
+                                R.string.selection_modal_search_description
+                            ),
                             tint = PrimaryBlue
                         )
                     }

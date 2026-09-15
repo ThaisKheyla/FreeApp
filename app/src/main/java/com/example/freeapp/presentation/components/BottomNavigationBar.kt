@@ -6,10 +6,10 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.freeapp.R
 import com.example.freeapp.presentation.theme.PrimaryBlue
-
 
 @Composable
 fun BottomNavigationBar() {
@@ -25,12 +25,16 @@ fun BottomNavigationBar() {
                         id = R.drawable.fi_rr_home
                     ),
                     tint = PrimaryBlue,
-                    contentDescription = "Home"
+                    contentDescription = stringResource(
+                        R.string.bottom_nav_home
+                    )
                 )
             },
             label = {
                 Text(
-                    text = "Home",
+                    text = stringResource(
+                        R.string.bottom_nav_home
+                    ),
                     color = PrimaryBlue
                 )
             }
@@ -44,11 +48,17 @@ fun BottomNavigationBar() {
                     painter = painterResource(
                         id = R.drawable.fi_rr_calendar
                     ),
-                    contentDescription = "Calendar"
+                    contentDescription = stringResource(
+                        R.string.bottom_nav_calendar
+                    )
                 )
             },
             label = {
-                Text("Calendar")
+                Text(
+                    text = stringResource(
+                        R.string.bottom_nav_calendar
+                    )
+                )
             }
         )
 
@@ -60,11 +70,17 @@ fun BottomNavigationBar() {
                     painter = painterResource(
                         id = R.drawable.fi_rr_message
                     ),
-                    contentDescription = "Chat"
+                    contentDescription = stringResource(
+                        R.string.bottom_nav_chat
+                    )
                 )
             },
             label = {
-                Text( "Chat")
+                Text(
+                    text = stringResource(
+                        R.string.bottom_nav_chat
+                    )
+                )
             }
         )
 
@@ -73,15 +89,21 @@ fun BottomNavigationBar() {
             onClick = { },
             icon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.fi_rr_profile),
-                    contentDescription = "Profile"
+                    painter = painterResource(
+                        id = R.drawable.fi_rr_profile
+                    ),
+                    contentDescription = stringResource(
+                        R.string.bottom_nav_profile
+                    )
                 )
             },
             label = {
-                Text("Profile")
-            }
+                Text(
+                    text = stringResource(
+                        R.string.bottom_nav_profile
+                    )
                 )
             }
+        )
     }
-
-
+}

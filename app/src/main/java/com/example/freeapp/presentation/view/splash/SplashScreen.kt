@@ -1,5 +1,4 @@
-package com.example.freeapp.presentation.screens.splash
-
+package com.example.freeapp.presentation.view.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -11,12 +10,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.freeapp.R
-import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.theme.PrimaryBlue
 import kotlinx.coroutines.delay
 
 @Composable
@@ -25,10 +25,16 @@ fun SplashScreen(
 ) {
 
     LaunchedEffect(Unit) {
+
         delay(2500)
 
-        navController.navigate(Routes.CAROUSEL) {
-            popUpTo(Routes.SPLASH) {
+        navController.navigate(
+            Routes.CAROUSEL
+        ) {
+
+            popUpTo(
+                Routes.SPLASH
+            ) {
                 inclusive = true
             }
         }
@@ -39,6 +45,7 @@ fun SplashScreen(
 
 @Composable
 private fun SplashContent() {
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -50,13 +57,20 @@ private fun SplashContent() {
             painter = painterResource(
                 id = R.drawable.logo_free_white
             ),
-            contentDescription = "Logo App Freelancer",
-            modifier = Modifier.size(100.dp)
+            contentDescription = stringResource(
+                R.string.login_logo_description
+            ),
+            modifier = Modifier.size(
+                100.dp
+            )
         )
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
 fun SplashScreenPreview() {
     SplashContent()

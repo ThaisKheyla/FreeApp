@@ -4,7 +4,7 @@ import com.example.freeapp.data.remote.ServicoIbgeApi
 import com.example.freeapp.data.remote.dto.EstadoIbge
 import java.io.IOException
 
-class RepositorioIbge(
+class IbgeRepository(
     private val servicoIbgeApi: ServicoIbgeApi
 ) {
     suspend fun buscarEstados(): Result<List<EstadoIbge>> {
