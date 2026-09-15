@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.register
+package com.example.freeapp.presentation.view.register.personal
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -24,11 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.freeapp.R
 import com.example.freeapp.presentation.theme.CheckboxBackground
 import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.InputType
+import com.example.freeapp.presentation.components.TermsModal
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.validation.UserValidator
@@ -104,13 +107,17 @@ fun PersonalDataScreen(
                 modifier = Modifier.height(4.dp)
             )
 
-            Text(
-                text = "Dados Pessoais",
-                style = MaterialTheme.typography.headlineLarge
-            )
+                Text(
+                    text = stringResource(
+                        R.string.personal_data_title
+                    ),
+                    style = MaterialTheme.typography.headlineLarge
+                )
             TextField(
                 value = usuario.name,
-                label = "Nome completo",
+                label = stringResource(
+                    R.string.personal_data_full_name
+                ),
                 onValueChange = viewModel::updateName,
                 inputType = InputType.LETTERS_ONLY,
                 showCheck = nomeValido && usuario.name.isNotBlank(),
@@ -119,7 +126,9 @@ fun PersonalDataScreen(
 
             TextField(
                 value = usuario.birthDate,
-                label = "Data de nascimento",
+                label = stringResource(
+                    R.string.personal_data_birth_date
+                ),
                 onValueChange = viewModel::updateBirthDate,
                 inputType = InputType.NUMBERS_AND_SLASH,
                 showCheck = dataNascimentoValida && usuario.birthDate.isNotBlank(),
@@ -128,7 +137,9 @@ fun PersonalDataScreen(
 
             TextField(
                 value = usuario.cpf,
-                label = "CPF",
+                label = stringResource(
+                    R.string.personal_data_cpf
+                ),
                 onValueChange = viewModel::updateCpf,
                 inputType = InputType.NUMBERS_ONLY,
                 showCheck = cpfValido &&
@@ -140,7 +151,9 @@ fun PersonalDataScreen(
 
             TextField(
                 value = usuario.email,
-                label = "E-mail",
+                label = stringResource(
+                    R.string.common_email
+                ),
                 onValueChange = viewModel::updateEmail,
                 showCheck = emailValido && usuario.email.isNotBlank(),
                 isError = usuario.email.isNotBlank() && !emailValido
@@ -148,7 +161,9 @@ fun PersonalDataScreen(
 
             TextField(
                 value = usuario.confirmEmail,
-                label = "Confirme seu e-mail",
+                label = stringResource(
+                    R.string.personal_data_confirm_email
+                ),
                 onValueChange = viewModel::updateConfirmEmail,
                 showCheck = emailsIguais &&
                         usuario.confirmEmail.isNotBlank(),
@@ -159,7 +174,9 @@ fun PersonalDataScreen(
 
             TextField(
                 value = usuario.phone,
-                label = "Número com DD",
+                label = stringResource(
+                    R.string.personal_data_phone
+                ),
                 onValueChange = viewModel::updatePhone,
                 inputType = InputType.NUMBERS_ONLY,
                 showCheck = telefoneValido &&
@@ -191,7 +208,13 @@ fun PersonalDataScreen(
 
                 val annotatedText = buildAnnotatedString {
 
-                    append("Li e concordo com os ")
+                    append(
+                        stringResource(
+                            R.string.personal_data_terms_prefix
+                        )
+                    )
+
+                    append(" ")
 
                     pushStringAnnotation(
                         tag = "TERMS",
@@ -206,7 +229,12 @@ fun PersonalDataScreen(
                     )
 
                     {
-                        append("Termo de Uso e Política de Privacidade")
+                        append(
+                            stringResource(
+                                R.string.personal_data_terms_link
+                            )
+                        )
+
                     }
 
                     pop()
@@ -234,7 +262,9 @@ fun PersonalDataScreen(
             }
 
             FixedBlueButton(
-                text = "CONTINUAR",
+                text = stringResource(
+                    R.string.common_continue
+                ),
                 enabled = dadosPessoaisValidos,
                 onClick = {
                     navController.navigate(Routes.ADDRESS)

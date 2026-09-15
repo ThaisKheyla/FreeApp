@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.carousel
+package com.example.freeapp.presentation.view.carousel
 //imports
 import com.example.freeapp.R
 

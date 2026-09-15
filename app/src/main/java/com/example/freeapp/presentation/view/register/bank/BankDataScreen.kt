@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.register
+package com.example.freeapp.presentation.view.register.bank
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -26,8 +26,10 @@ import com.example.freeapp.presentation.viewmodel.BankDataViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.freeapp.R
 import com.example.freeapp.presentation.navigation.Routes
 
 @Composable
@@ -37,9 +39,18 @@ fun BankDataScreen(
     viewModel: BankDataViewModel = BankDataViewModel()
 ) {
     val usuario = viewModel.user
+    val individualAccount = stringResource(
+        R.string.bank_data_individual_account
+    )
+
+    val businessAccount = stringResource(
+        R.string.bank_data_business_account
+    )
+
     var tipoContaSelecionado by remember {
-        mutableStateOf("Pessoa Física")
+        mutableStateOf(individualAccount)
     }
+
     val dadosBancariosValidos =
         usuario.agency.isNotBlank() &&
             usuario.account.isNotBlank() &&
@@ -69,13 +80,17 @@ fun BankDataScreen(
                 modifier = Modifier.height(4.dp)
             )
 
-            Text(
-                text = "Dados Bancários Para Recebimento",
-                style = MaterialTheme.typography.headlineLarge
-            )
+                Text(
+                    text = stringResource(
+                        R.string.bank_data_title
+                    ),
+                    style = MaterialTheme.typography.headlineLarge
+                )
             TextField(
                 value = usuario.agency,
-                label = "Agência",
+                label = stringResource(
+                    R.string.bank_data_agency
+                ),
                 onValueChange = viewModel::updateAgency,
                 inputType = InputType.NUMBERS_ONLY
 
@@ -83,43 +98,55 @@ fun BankDataScreen(
 
             TextField(
                 value = usuario.account,
-                label = "Conta",
+                label = stringResource(
+                    R.string.bank_data_account
+                ),
                 onValueChange = viewModel::updateAccount,
                 inputType = InputType.NUMBERS_ONLY
             )
 
             TextField(
                 value = usuario.accountType,
-                label = "Qual é o seu tipo de conta",
+                label = stringResource(
+                    R.string.bank_data_account_type
+                ),
                 onValueChange = viewModel::updateAccountType
             )
+                AccountTypeOption(
+                    text = individualAccount,
+                    selected = tipoContaSelecionado == individualAccount,
+                    onSelect = {
+                        tipoContaSelecionado = individualAccount
+                        viewModel.updateAccountType(
+                            individualAccount
+                        )
+                    }
+                )
 
-            AccountTypeOption(
-                text = "Pessoa Física",
-                selected = tipoContaSelecionado == "Pessoa Física",
-                onSelect = {
-                    tipoContaSelecionado = "Pessoa Física"
-                    viewModel.updateAccountType("Pessoa Física")
-                }
-            )
+                AccountTypeOption(
+                    text = businessAccount,
+                    selected = tipoContaSelecionado == businessAccount,
+                    onSelect = {
+                        tipoContaSelecionado = businessAccount
+                        viewModel.updateAccountType(
+                            businessAccount
+                        )
+                    }
+                )
 
-            AccountTypeOption(
-                text = "Pessoa Jurídica",
-                selected = tipoContaSelecionado == "Pessoa Jurídica",
-                onSelect = {
-                    tipoContaSelecionado = "Pessoa Jurídica"
-                    viewModel.updateAccountType("Pessoa Jurídica")
-                }
-            )
             TextField(
                 value = usuario.pix,
-                label = "PIX",
+                label = stringResource(
+                    R.string.bank_data_pix
+                ),
                 onValueChange = viewModel::updatePix
             )
             }
 
             FixedBlueButton(
-                text = "CONTINUAR",
+                text = stringResource(
+                    R.string.common_continue
+                ),
                 enabled = dadosBancariosValidos,
                 onClick = {
                     navController.navigate(Routes.PAYMENT)
@@ -128,10 +155,4 @@ fun BankDataScreen(
 
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun BankDataScreenPreview() {
-    BankDataScreen(navController = rememberNavController())
 }

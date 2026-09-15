@@ -19,10 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.freeapp.R
 import com.example.freeapp.presentation.theme.PrimaryWhite
 
 @Composable
@@ -39,7 +40,9 @@ fun AlertModal(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.35f)),
+            .background(
+                Color.Black.copy(alpha = 0.35f)
+            ),
         contentAlignment = Alignment.Center
     ) {
 
@@ -56,17 +59,21 @@ fun AlertModal(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment =
+                    Alignment.CenterHorizontally
             ) {
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement =
+                        Arrangement.End
                 ) {
 
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Close",
+                        contentDescription = stringResource(
+                            R.string.terms_modal_close
+                        ),
                         modifier = Modifier.clickable {
                             onClose()
                         }
@@ -97,6 +104,8 @@ fun AlertModal(
                 Spacer(
                     modifier = Modifier.height(24.dp)
                 )
+
+
 
                 Text(
                     text = title,

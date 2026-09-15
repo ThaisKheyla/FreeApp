@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.home
+package com.example.freeapp.presentation.view.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.freeapp.R
@@ -45,9 +46,15 @@ import com.example.freeapp.presentation.viewmodel.AuthViewModel
 fun HomeScreen(
     viewModel: AuthViewModel
 ) {
+    val defaultUserName = stringResource(
+        R.string.home_default_user
+    )
+
     val userName = viewModel.user.name
         .substringBefore(" ")
-        .ifBlank { "usuário" }
+        .ifBlank {
+            defaultUserName
+        }
 
     Scaffold(
         bottomBar = {
@@ -78,7 +85,9 @@ fun HomeScreen(
                         painter = painterResource(
                             id = R.drawable.img_perfil
                         ),
-                        contentDescription = "Imagem de Perfil",
+                        contentDescription = stringResource(
+                            R.string.home_profile_image_description
+                        ),
                         modifier = Modifier
                             .size(50.dp)
                             .clip(CircleShape)
@@ -91,12 +100,17 @@ fun HomeScreen(
                     ) {
 
                         Text(
-                            text = "Hello $userName",
+                            text = stringResource(
+                                R.string.home_greeting,
+                                userName
+                            ),
                             color = PrimaryBlue
                         )
 
                         Text(
-                            text = "Your finances are looking good",
+                            text = stringResource(
+                                R.string.home_finance_message
+                            ),
                             color = fontColor
                         )
                     }
@@ -118,7 +132,9 @@ fun HomeScreen(
                                 painter = painterResource(
                                     id = R.drawable.ic_laucher_bell
                                 ),
-                                contentDescription = "Notificações",
+                                contentDescription = stringResource(
+                                    R.string.home_notifications_description
+                                ),
                                 tint = PrimaryWhite
                             )
                         }
@@ -136,7 +152,9 @@ fun HomeScreen(
                                     id = R.drawable.fi_rr_search
                                 ),
                                 modifier = Modifier.size(15.dp),
-                                contentDescription = "Pesquisar",
+                                contentDescription = stringResource(
+                                    R.string.home_search_description
+                                ),
                                 tint = PrimaryWhite
                             )
                         }
@@ -155,9 +173,7 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .height(135.dp)
                             .align(Alignment.BottomStart),
-
                         shape = RoundedCornerShape(24.dp),
-
                         colors = CardDefaults.cardColors(
                             containerColor = PrimaryBlue
                         )
@@ -175,7 +191,9 @@ fun HomeScreen(
                         ) {
 
                             Text(
-                                text = "Get 30% off",
+                                text = stringResource(
+                                    R.string.home_discount_title
+                                ),
                                 color = PrimaryWhite,
                                 style = MaterialTheme.typography.headlineLarge,
                                 fontWeight = FontWeight.Bold
@@ -186,7 +204,9 @@ fun HomeScreen(
                             )
 
                             Text(
-                                text = "Just by Booking Home Services",
+                                text = stringResource(
+                                    R.string.home_discount_subtitle
+                                ),
                                 color = PrimaryWhite
                             )
                         }
@@ -196,8 +216,9 @@ fun HomeScreen(
                         painter = painterResource(
                             id = R.drawable.img_banner
                         ),
-                        contentDescription = "Banner",
-
+                        contentDescription = stringResource(
+                            R.string.home_discount_banner_description
+                        ),
                         modifier = Modifier
                             .size(140.dp)
                             .align(Alignment.TopEnd)
@@ -223,7 +244,9 @@ fun HomeScreen(
                     ) {
 
                         Text(
-                            text = "Popular Services",
+                            text = stringResource(
+                                R.string.home_popular_services
+                            ),
                             modifier = Modifier.weight(1f),
                             color = neutreColor,
                             style = MaterialTheme.typography.titleLarge,
@@ -231,7 +254,9 @@ fun HomeScreen(
                         )
 
                         Text(
-                            text = "Ver tudo",
+                            text = stringResource(
+                                R.string.home_see_all
+                            ),
                             color = PrimaryBlue,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium
@@ -242,27 +267,35 @@ fun HomeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp),
-
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
 
                         item {
+
                             ServiceCard(
-                                title = "Plumbing",
+                                title = stringResource(
+                                    R.string.service_plumbing
+                                ),
                                 image = R.drawable.img_plumber
                             )
                         }
 
                         item {
+
                             ServiceCard(
-                                title = "Electric work",
+                                title = stringResource(
+                                    R.string.service_electric_work
+                                ),
                                 image = R.drawable.img_electric
                             )
                         }
 
                         item {
+
                             ServiceCard(
-                                title = "Solar",
+                                title = stringResource(
+                                    R.string.service_solar
+                                ),
                                 image = R.drawable.img_solar
                             )
                         }
@@ -284,7 +317,9 @@ fun HomeScreen(
                     ) {
 
                         Text(
-                            text = "Service Providers",
+                            text = stringResource(
+                                R.string.home_service_providers
+                            ),
                             modifier = Modifier.weight(1f),
                             color = neutreColor,
                             style = MaterialTheme.typography.titleLarge,
@@ -292,7 +327,9 @@ fun HomeScreen(
                         )
 
                         Text(
-                            text = "Ver tudo",
+                            text = stringResource(
+                                R.string.home_see_all
+                            ),
                             color = PrimaryBlue,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium
@@ -305,20 +342,34 @@ fun HomeScreen(
                     ) {
 
                         item {
+
                             ProviderCard(
-                                name = "Maskot Kota",
-                                profession = "Plumber",
-                                rating = "4.8",
+                                name = stringResource(
+                                    R.string.provider_maskot_kota
+                                ),
+                                profession = stringResource(
+                                    R.string.provider_plumber
+                                ),
+                                rating = stringResource(
+                                    R.string.provider_rating
+                                ),
                                 image = R.drawable.img_provider1,
                                 imageBackgroundColor = Color(0xFFD4E5F8)
                             )
                         }
 
                         item {
+
                             ProviderCard(
-                                name = "Shams Jan",
-                                profession = "Electrician",
-                                rating = "4.8",
+                                name = stringResource(
+                                    R.string.provider_shams_jan
+                                ),
+                                profession = stringResource(
+                                    R.string.provider_electrician
+                                ),
+                                rating = stringResource(
+                                    R.string.provider_rating
+                                ),
                                 image = R.drawable.img_provider2,
                                 imageBackgroundColor = Color(0xFFE7B8E7)
                             )

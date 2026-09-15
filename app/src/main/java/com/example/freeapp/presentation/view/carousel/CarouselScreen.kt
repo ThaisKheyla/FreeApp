@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.carousel
+package com.example.freeapp.presentation.view.carousel
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

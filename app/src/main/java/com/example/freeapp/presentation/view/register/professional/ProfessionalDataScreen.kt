@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.register
+package com.example.freeapp.presentation.view.register.professional
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.*
@@ -8,8 +8,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.freeapp.R
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.presentation.components.BackButton
@@ -55,38 +57,50 @@ fun ProfessionalDataScreen(
                 modifier = Modifier.height(4.dp)
             )
 
-            Text(
-                text = "Dados Profissionais",
-                style = MaterialTheme.typography.headlineLarge
-            )
+                Text(
+                    text = stringResource(
+                        R.string.professional_data_title
+                    ),
+                    style = MaterialTheme.typography.headlineLarge
+                )
 
-            TextField(
-                value = usuario.profession,
-                label = "Profissão",
-                onValueChange = viewModel::updateProfession,
-                inputType = InputType.LETTERS_ONLY
-            )
-            TextField(
-                value = usuario.specialty,
-                label = "Especialidade",
-                onValueChange = viewModel::updateSpecialty,
-                inputType = InputType.LETTERS_ONLY
-            )
-            TextField(
-                value = usuario.region,
-                label = "Qual região atende",
-                onValueChange = viewModel::updateRegion,
-                inputType = InputType.LETTERS_ONLY
-            )
-            TextField(
-                value = usuario.schedule,
-                label = "Qual horário tem disponibilidade",
-                onValueChange = viewModel::updateSchedule
-            )
+                TextField(
+                    value = usuario.profession,
+                    label = stringResource(
+                        R.string.professional_data_profession
+                    ),
+                    onValueChange = viewModel::updateProfession,
+                    inputType = InputType.LETTERS_ONLY
+                )
+                TextField(
+                    value = usuario.specialty,
+                    label = stringResource(
+                        R.string.professional_data_specialty
+                    ),
+                    onValueChange = viewModel::updateSpecialty,
+                    inputType = InputType.LETTERS_ONLY
+                )
+                TextField(
+                    value = usuario.region,
+                    label = stringResource(
+                        R.string.professional_data_region
+                    ),
+                    onValueChange = viewModel::updateRegion,
+                    inputType = InputType.LETTERS_ONLY
+                )
+                TextField(
+                    value = usuario.schedule,
+                    label = stringResource(
+                        R.string.professional_data_schedule
+                    ),
+                    onValueChange = viewModel::updateSchedule
+                )
             }
 
             FixedBlueButton(
-                text = "CONTINUAR",
+                text = stringResource(
+                    R.string.common_continue
+                ),
                 enabled = dadosProfissionaisValidos,
                 onClick = {
                     navController.navigate(Routes.BANK_DETAILS)

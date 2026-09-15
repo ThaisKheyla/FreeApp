@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -78,7 +79,9 @@ fun PasswordRecoveryPhoneFields(
     ) {
         TextField(
             value = ddd,
-            label = "DD",
+                label = stringResource(
+                    R.string.forgot_password_area_code
+                ),
             onValueChange = { value ->
                 onDddChange(value.filter { it.isDigit() }.take(2))
             },
@@ -87,7 +90,9 @@ fun PasswordRecoveryPhoneFields(
 
         TextField(
             value = phoneNumber,
-            label = "Número",
+                label = stringResource(
+                    R.string.forgot_password_phone_number
+                ),
             onValueChange = { value ->
                 onPhoneNumberChange(value.filter { it.isDigit() }.take(9))
             },
@@ -104,7 +109,9 @@ fun PasswordRecoveryCodeField(
 ) {
     TextField(
         value = code,
-        label = "Código de verificação",
+            label = stringResource(
+                R.string.forgot_password_verification_code
+            ),
         onValueChange = { value ->
             onCodeChange(value.filter { it.isDigit() }.take(4))
         },

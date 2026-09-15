@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.register
+package com.example.freeapp.presentation.view.register.password
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,10 +19,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.freeapp.R
 import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.PasswordField
@@ -69,13 +71,17 @@ fun CreatePasswordScreen(
                 )
 
                 Text(
-                    text = "Crie uma senha",
+                    text = stringResource(
+                        R.string.create_password_title
+                    ),
                     style = MaterialTheme.typography.headlineLarge
                 )
 
                 PasswordField(
                     value = usuario.password,
-                    label = "Crie uma senha",
+                    label = stringResource(
+                        R.string.create_password_label
+                    ),
                     onValueChange = {
                         viewModel.updatePassword(it)
                         viewModel.clearAuthState()
@@ -84,12 +90,16 @@ fun CreatePasswordScreen(
 
                 PasswordField(
                     value = confirmarSenha,
-                    label = "Confirme sua Senha",
+                    label = stringResource(
+                        R.string.create_password_confirm_label
+                    ),
                     onValueChange = { senha ->
                         confirmarSenha = senha
                         viewModel.clearAuthState()
                     },
-                    isError = confirmarSenha.isNotBlank() && confirmarSenha != usuario.password
+                    isError =
+                        confirmarSenha.isNotBlank() &&
+                                confirmarSenha != usuario.password
                 )
 
                 if (mensagemErroAuth != null) {
@@ -102,7 +112,15 @@ fun CreatePasswordScreen(
             }
 
             FixedBlueButton(
-                text = if (carregandoAuth) "FINALIZANDO..." else "FINALIZAR",
+                text =
+                    if (carregandoAuth)
+                        stringResource(
+                            R.string.create_password_finishing
+                        )
+                    else
+                        stringResource(
+                            R.string.create_password_finish
+                        ),
                 enabled = senhasValidas,
                 onClick = {
                     viewModel.registerUser {

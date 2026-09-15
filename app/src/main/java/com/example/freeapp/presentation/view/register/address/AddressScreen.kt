@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.register
+package com.example.freeapp.presentation.view.register.address
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.clickable
@@ -24,9 +24,9 @@ import com.example.freeapp.presentation.navigation.Routes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.example.freeapp.R
 import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.SelectionModal
 import com.example.freeapp.presentation.components.InputType
@@ -80,12 +80,16 @@ fun AddressScreen(
             )
 
             Text(
-                text = "Endereço Pessoal",
+                text = stringResource(
+                    R.string.address_title
+                ),
                 style = MaterialTheme.typography.headlineLarge
             )
             TextField(
                 value = usuario.zipCode,
-                label = "CEP",
+                label = stringResource(
+                    R.string.address_zip_code
+                ),
                 onValueChange = viewModel::updateZipCode,
                 inputType = InputType.NUMBERS_ONLY
             )
@@ -95,14 +99,18 @@ fun AddressScreen(
 
                 TextField(
                     value = usuario.street,
-                    label = "Endereço",
+                    label = stringResource(
+                        R.string.address_street
+                    ),
                     onValueChange = viewModel::updateAddress,
                     modifier = Modifier.weight(3f)
                 )
 
                 TextField(
                     value = usuario.number,
-                    label = "Nº",
+                    label = stringResource(
+                        R.string.address_number
+                    ),
                     onValueChange = viewModel::updateNumber,
                     inputType = InputType.NUMBERS_ONLY,
                     maxLength = 10,
@@ -113,13 +121,17 @@ fun AddressScreen(
 
             TextField(
                 value = usuario.complement,
-                label = "Complemento",
+                label = stringResource(
+                    R.string.address_complement
+                ),
                     onValueChange = viewModel::updateComplement
             )
 
             TextField(
                 value = usuario.neighborhood,
-                label = "Bairro",
+                label = stringResource(
+                    R.string.address_neighborhood
+                ),
                 onValueChange = viewModel::updateNeighborhood,
                 inputType = InputType.LETTERS_ONLY
             )
@@ -129,7 +141,15 @@ fun AddressScreen(
             ) {
                 TextField(
                     value = usuario.state,
-                    label = if (viewModel.ibgeLoading && viewModel.ibgeStates.isEmpty()) "Carregando estados..." else "Estado",
+                    label =
+                        if (viewModel.ibgeLoading && viewModel.ibgeStates.isEmpty())
+                            stringResource(
+                                R.string.address_loading_states
+                            )
+                        else
+                            stringResource(
+                                R.string.address_state
+                            ),
                     onValueChange = { },
                     showSearch = true
                 )
@@ -150,7 +170,15 @@ fun AddressScreen(
             ) {
                 TextField(
                     value = usuario.city,
-                    label = if (usuario.state.isBlank()) "Selecione o estado primeiro" else "Cidade",
+                    label =
+                        if (usuario.state.isBlank())
+                            stringResource(
+                                R.string.address_select_state_first
+                            )
+                        else
+                            stringResource(
+                                R.string.address_city
+                            ),
                     onValueChange = { },
                     showSearch = true
                 )
@@ -176,7 +204,9 @@ fun AddressScreen(
             }
 
             FixedBlueButton(
-                text = "CONTINUAR",
+                text = stringResource(
+                    R.string.common_continue
+                ),
                 enabled = enderecoValido,
                 onClick = {
                     navController.navigate(Routes.PROFESSIONAL_DATA)
@@ -185,7 +215,9 @@ fun AddressScreen(
 
             if (mostrarEstados) {
                 SelectionModal(
-                    title = "Selecione o estado",
+                    title = stringResource(
+                        R.string.address_select_state
+                    ),
                     items = viewModel.ibgeStates.map { estado -> estado.nome },
                     onSelect = { estado ->
                         viewModel.selectIbgeState(estado)
@@ -196,7 +228,9 @@ fun AddressScreen(
 
             if (mostrarCidades) {
                 SelectionModal(
-                    title = "Selecione a cidade",
+                    title = stringResource(
+                        R.string.address_select_city
+                    ),
                     items = viewModel.ibgeCities,
                     onSelect = { cidade ->
                         viewModel.updateCity(cidade)
@@ -209,8 +243,3 @@ fun AddressScreen(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun AddressScreenPreview() {
-    AddressScreen(navController = rememberNavController())
-}
