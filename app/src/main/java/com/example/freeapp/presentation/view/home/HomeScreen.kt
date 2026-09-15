@@ -50,7 +50,7 @@ fun HomeScreen(
         R.string.home_default_user
     )
 
-    val userName = viewModel.user.name
+    val userName = viewModel.authenticatedUser.name
         .substringBefore(" ")
         .ifBlank {
             defaultUserName

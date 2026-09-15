@@ -1,6 +1,6 @@
-package com.example.freeapp.domain
+package com.example.freeapp.domain.auth
 
-data class Address(
+data class AddressData(
     val zipCode: String = "",
     val street: String = "",
     val number: String = "",
