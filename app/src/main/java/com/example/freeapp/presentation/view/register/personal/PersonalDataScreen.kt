@@ -1,6 +1,15 @@
 package com.example.freeapp.presentation.view.register.personal
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
@@ -26,14 +35,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.R
-import com.example.freeapp.presentation.theme.CheckboxBackground
-import com.example.freeapp.presentation.theme.PrimaryBlue
-import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.BackButton
+import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TermsModal
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.theme.CheckboxBackground
+import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.example.freeapp.presentation.validation.UserValidator
 import com.example.freeapp.presentation.viewmodel.PersonalDataViewModel
 
@@ -43,44 +52,84 @@ fun PersonalDataScreen(
     modifier: Modifier = Modifier,
     viewModel: PersonalDataViewModel = PersonalDataViewModel()
 ) {
-    val usuario = viewModel.user
-    var mostrarTermos by remember {
+    val user = viewModel.user
+
+    var showTerms by remember {
         mutableStateOf(false)
     }
-    val cpfValido =
-        UserValidator.isValidCpf(usuario.cpf)
 
-    val emailValido =
-        UserValidator.isValidEmail(usuario.email)
+    var hasAcceptedTerms by remember {
+        mutableStateOf(false)
+    }
 
-    val emailsIguais =
+    val isCpfValid =
+        UserValidator.isValidCpf(
+            user.cpf
+        )
+
+    val isEmailValid =
+        UserValidator.isValidEmail(
+            user.email
+        )
+
+    val areEmailsEqual =
         UserValidator.areEmailsEqual(
-            usuario.email,
-            usuario.confirmEmail
+            email = user.email,
+            confirmEmail = user.confirmEmail
         )
 
-    val telefoneValido =
+    val isPhoneValid =
         UserValidator.isValidPhone(
-            usuario.phone
+            user.phone
         )
 
-    val nomeValido =
-        UserValidator.isValidName(usuario.name)
+    val isNameValid =
+        UserValidator.isValidName(
+            user.name
+        )
 
-    val dataNascimentoValida =
-        UserValidator.isValidBirthDate(usuario.birthDate)
+    val isBirthDateValid =
+        UserValidator.isValidBirthDate(
+            user.birthDate
+        )
 
-    var aceitouTermos by remember {
-        mutableStateOf(false)
+    val isPersonalDataValid =
+        isNameValid &&
+                isBirthDateValid &&
+                isCpfValid &&
+                isEmailValid &&
+                areEmailsEqual &&
+                isPhoneValid &&
+                hasAcceptedTerms
+
+    val termsPrefix = stringResource(
+        R.string.personal_data_terms_prefix
+    )
+
+    val termsLink = stringResource(
+        R.string.personal_data_terms_link
+    )
+
+    val annotatedTermsText = buildAnnotatedString {
+        append(termsPrefix)
+        append(" ")
+
+        pushStringAnnotation(
+            tag = "TERMS",
+            annotation = "termos"
+        )
+
+        withStyle(
+            style = SpanStyle(
+                color = PrimaryBlue,
+                fontWeight = FontWeight.Normal
+            )
+        ) {
+            append(termsLink)
+        }
+
+        pop()
     }
-    val dadosPessoaisValidos =
-        nomeValido &&
-                dataNascimentoValida &&
-                cpfValido &&
-                emailValido &&
-                emailsIguais &&
-                telefoneValido &&
-                aceitouTermos
 
     Surface(
         modifier = modifier.fillMaxSize()
@@ -91,21 +140,22 @@ fun PersonalDataScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(
+                        rememberScrollState()
+                    )
                     .padding(24.dp)
                     .padding(bottom = 96.dp),
                 verticalArrangement = Arrangement.spacedBy(22.dp)
             ) {
+                BackButton(
+                    onClick = {
+                        navController.popBackStack()
+                    }
+                )
 
-            BackButton(
-                onClick = {
-                    navController.popBackStack()
-                }
-            )
-
-            Spacer(
-                modifier = Modifier.height(4.dp)
-            )
+                Spacer(
+                    modifier = Modifier.height(4.dp)
+                )
 
                 Text(
                     text = stringResource(
@@ -113,77 +163,87 @@ fun PersonalDataScreen(
                     ),
                     style = MaterialTheme.typography.headlineLarge
                 )
-            TextField(
-                value = usuario.name,
-                label = stringResource(
-                    R.string.personal_data_full_name
-                ),
-                onValueChange = viewModel::updateName,
-                inputType = InputType.LETTERS_ONLY,
-                showCheck = nomeValido && usuario.name.isNotBlank(),
-                isError = usuario.name.isNotBlank() && !nomeValido
-            )
 
-            TextField(
-                value = usuario.birthDate,
-                label = stringResource(
-                    R.string.personal_data_birth_date
-                ),
-                onValueChange = viewModel::updateBirthDate,
-                inputType = InputType.NUMBERS_AND_SLASH,
-                showCheck = dataNascimentoValida && usuario.birthDate.isNotBlank(),
-                isError = usuario.birthDate.isNotBlank() && !dataNascimentoValida
-            )
+                TextField(
+                    value = user.name,
+                    label = stringResource(
+                        R.string.personal_data_full_name
+                    ),
+                    onValueChange = viewModel::updateName,
+                    inputType = InputType.LETTERS_ONLY,
+                    showCheck =
+                        isNameValid &&
+                                user.name.isNotBlank(),
+                    isError =
+                        user.name.isNotBlank() &&
+                                !isNameValid
+                )
 
-            TextField(
-                value = usuario.cpf,
-                label = stringResource(
-                    R.string.personal_data_cpf
-                ),
-                onValueChange = viewModel::updateCpf,
-                inputType = InputType.NUMBERS_ONLY,
-                showCheck = cpfValido &&
-                        usuario.cpf.isNotBlank(),
+                TextField(
+                    value = user.birthDate,
+                    label = stringResource(
+                        R.string.personal_data_birth_date
+                    ),
+                    onValueChange = viewModel::updateBirthDate,
+                    inputType = InputType.NUMBERS_AND_SLASH,
+                    showCheck =
+                        isBirthDateValid &&
+                                user.birthDate.isNotBlank(),
+                    isError =
+                        user.birthDate.isNotBlank() &&
+                                !isBirthDateValid
+                )
 
-                isError = usuario.cpf.isNotBlank() &&
-                        !cpfValido
-            )
+                TextField(
+                    value = user.cpf,
+                    label = stringResource(
+                        R.string.personal_data_cpf
+                    ),
+                    onValueChange = viewModel::updateCpf,
+                    inputType = InputType.NUMBERS_ONLY,
+                    showCheck =
+                        isCpfValid &&
+                                user.cpf.isNotBlank(),
+                    isError =
+                        user.cpf.isNotBlank() &&
+                                !isCpfValid
+                )
 
-            TextField(
-                value = usuario.email,
+                TextField(
+                value = user.email,
                 label = stringResource(
                     R.string.common_email
                 ),
                 onValueChange = viewModel::updateEmail,
-                showCheck = emailValido && usuario.email.isNotBlank(),
-                isError = usuario.email.isNotBlank() && !emailValido
+                showCheck = isEmailValid && user.email.isNotBlank(),
+                isError = user.email.isNotBlank() && !isEmailValid
             )
 
             TextField(
-                value = usuario.confirmEmail,
+                value = user.confirmEmail,
                 label = stringResource(
                     R.string.personal_data_confirm_email
                 ),
                 onValueChange = viewModel::updateConfirmEmail,
-                showCheck = emailsIguais &&
-                        usuario.confirmEmail.isNotBlank(),
+                showCheck = areEmailsEqual &&
+                        user.confirmEmail.isNotBlank(),
 
-                isError = usuario.confirmEmail.isNotBlank() &&
-                        !emailsIguais
+                isError = user.confirmEmail.isNotBlank() &&
+                        !areEmailsEqual
             )
 
             TextField(
-                value = usuario.phone,
+                value = user.phone,
                 label = stringResource(
                     R.string.personal_data_phone
                 ),
                 onValueChange = viewModel::updatePhone,
                 inputType = InputType.NUMBERS_ONLY,
-                showCheck = telefoneValido &&
-                        usuario.phone.isNotBlank(),
+                showCheck = isPhoneValid &&
+                        user.phone.isNotBlank(),
 
-                isError = usuario.phone.isNotBlank() &&
-                        !telefoneValido
+                isError = user.phone.isNotBlank() &&
+                        !isPhoneValid
             )
 
             Row(
@@ -192,9 +252,9 @@ fun PersonalDataScreen(
 
                 Checkbox(
                     modifier = Modifier.size(20.dp),
-                    checked = aceitouTermos,
+                    checked = hasAcceptedTerms,
                     onCheckedChange = {
-                        aceitouTermos = it
+                        hasAcceptedTerms = it
                     },
                     colors = CheckboxDefaults.colors(
                         uncheckedColor = CheckboxBackground,
@@ -253,7 +313,7 @@ fun PersonalDataScreen(
                             )
                             .firstOrNull()
                             ?.let {
-                                mostrarTermos = true
+                                showTerms = true
                             }
                     }
                 )
@@ -265,15 +325,15 @@ fun PersonalDataScreen(
                 text = stringResource(
                     R.string.common_continue
                 ),
-                enabled = dadosPessoaisValidos,
+                enabled = isPersonalDataValid,
                 onClick = {
                     navController.navigate(Routes.ADDRESS)
                 }
             )
-            if (mostrarTermos) {
+            if (showTerms) {
                 TermsModal(
                     onFechar = {
-                        mostrarTermos = false
+                        showTerms = false
                     }
                 )
             }

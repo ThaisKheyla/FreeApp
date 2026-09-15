@@ -27,13 +27,13 @@ fun ProfessionalDataScreen(
     modifier: Modifier = Modifier,
     viewModel: ProfessionalDataViewModel = ProfessionalDataViewModel()
 ){
-    val usuario = viewModel.user
-    val dadosProfissionaisValidos =
-        usuario.profession.isNotBlank() &&
-            usuario.specialty.isNotBlank() &&
-            usuario.region.isNotBlank() &&
-            usuario.schedule.isNotBlank()
+    val user = viewModel.user
 
+    val isProfessionalDataValid =
+        user.profession.isNotBlank() &&
+                user.specialty.isNotBlank() &&
+                user.region.isNotBlank() &&
+                user.schedule.isNotBlank()
     Surface(
         modifier = modifier.fillMaxSize()
     ) {
@@ -65,7 +65,7 @@ fun ProfessionalDataScreen(
                 )
 
                 TextField(
-                    value = usuario.profession,
+                    value = user.profession,
                     label = stringResource(
                         R.string.professional_data_profession
                     ),
@@ -73,7 +73,7 @@ fun ProfessionalDataScreen(
                     inputType = InputType.LETTERS_ONLY
                 )
                 TextField(
-                    value = usuario.specialty,
+                    value = user.specialty,
                     label = stringResource(
                         R.string.professional_data_specialty
                     ),
@@ -81,7 +81,7 @@ fun ProfessionalDataScreen(
                     inputType = InputType.LETTERS_ONLY
                 )
                 TextField(
-                    value = usuario.region,
+                    value = user.region,
                     label = stringResource(
                         R.string.professional_data_region
                     ),
@@ -89,7 +89,7 @@ fun ProfessionalDataScreen(
                     inputType = InputType.LETTERS_ONLY
                 )
                 TextField(
-                    value = usuario.schedule,
+                    value = user.schedule,
                     label = stringResource(
                         R.string.professional_data_schedule
                     ),
@@ -101,7 +101,7 @@ fun ProfessionalDataScreen(
                 text = stringResource(
                     R.string.common_continue
                 ),
-                enabled = dadosProfissionaisValidos,
+                enabled = isProfessionalDataValid ,
                 onClick = {
                     navController.navigate(Routes.BANK_DETAILS)
                 }
