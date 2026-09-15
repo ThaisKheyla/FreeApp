@@ -40,7 +40,7 @@ fun ForgotPasswordScreen(
     modifier: Modifier = Modifier,
     viewModel: AuthViewModel = AuthViewModel()
 ) {
-    val savedPhone = viewModel.user.phone
+    val savedPhone = viewModel.authenticatedUser.phone
         .filter { character ->
             character.isDigit()
         }
@@ -74,9 +74,9 @@ fun ForgotPasswordScreen(
         )
     }
 
-    var email by remember(viewModel.user.email) {
+    var email by remember(viewModel.authenticatedUser.email) {
         mutableStateOf(
-            viewModel.user.email
+            viewModel.authenticatedUser.email
         )
     }
 
@@ -366,7 +366,7 @@ fun ForgotPasswordScreen(
                         PasswordRecoveryStep.NEW_PASSWORD -> {
                             val recoveryEmail =
                                 email.ifBlank {
-                                    viewModel.user.email
+                                viewModel.authenticatedUser.email
                                 }
 
                             viewModel.resetPassword(
