@@ -31,12 +31,13 @@ import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.SelectionModal
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
+import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 @Composable
 fun AddressScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: AddressViewModel = AddressViewModel()
+    viewModel: AddressViewModel
 ){
     val usuario = viewModel.user
     var mostrarEstados by remember { mutableStateOf(false) }
@@ -186,7 +187,7 @@ fun AddressScreen(
             if (mostrarEstados) {
                 SelectionModal(
                     title = "Selecione o estado",
-                    items = viewModel.ibgeStates.map { estado -> estado.nome },
+                    items = viewModel.ibgeStates.map { estado -> estado.name },
                     onSelect = { estado ->
                         viewModel.selectIbgeState(estado)
                         mostrarEstados = false
@@ -212,5 +213,9 @@ fun AddressScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun AddressScreenPreview() {
-    AddressScreen(navController = rememberNavController())
+    val registrationViewModel = previewRegistrationViewModel()
+    AddressScreen(
+        navController = rememberNavController(),
+        viewModel = AddressViewModel(registrationViewModel)
+    )
 }

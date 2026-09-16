@@ -42,14 +42,14 @@ import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
-import com.example.freeapp.presentation.viewmodel.AuthViewModel
 import com.example.freeapp.presentation.viewmodel.PaymentViewModel
+import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 @Composable
 fun PaymentScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PaymentViewModel = PaymentViewModel()
+    viewModel: PaymentViewModel
 ) {
     val usuario = viewModel.user
     var mostrarVersoCartao by remember { mutableStateOf(false) }
@@ -333,5 +333,9 @@ private fun textoOuPlaceholder(texto: String, placeholder: String): String {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PaymentScreenPreview() {
-    PaymentScreen(navController = rememberNavController())
+    val registrationViewModel = previewRegistrationViewModel()
+    PaymentScreen(
+        navController = rememberNavController(),
+        viewModel = PaymentViewModel(registrationViewModel)
+    )
 }

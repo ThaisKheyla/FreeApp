@@ -1,19 +1,25 @@
 package com.example.freeapp.data.repository
 
 import com.example.freeapp.data.remote.ServicoIbgeApi
-import com.example.freeapp.data.remote.dto.EstadoIbge
+import com.example.freeapp.domain.StateOptionData
+import com.example.freeapp.domain.repository.LocationRepository
 import java.io.IOException
 
 class RepositorioIbge(
     private val servicoIbgeApi: ServicoIbgeApi
-) {
-    suspend fun buscarEstados(): Result<List<EstadoIbge>> {
+) : LocationRepository {
+    override suspend fun buscarEstados(): Result<List<StateOptionData>> {
         return executarRequisicao {
-            servicoIbgeApi.buscarEstados()
+            servicoIbgeApi.buscarEstados().map { estado ->
+                StateOptionData(
+                    code = estado.sigla,
+                    name = estado.nome
+                )
+            }
         }
     }
 
-    suspend fun buscarCidades(uf: String): Result<List<String>> {
+    override suspend fun buscarCidades(uf: String): Result<List<String>> {
         return executarRequisicao {
             servicoIbgeApi.buscarMunicipiosPorEstado(uf).map { municipio -> municipio.nome }
         }

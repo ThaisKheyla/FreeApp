@@ -5,19 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.freeapp.data.remote.ClienteIbge
-import com.example.freeapp.data.remote.dto.EstadoIbge
-import com.example.freeapp.data.repository.RepositorioFirebase
-import com.example.freeapp.data.repository.RepositorioIbge
+import com.example.freeapp.domain.StateOptionData
 import com.example.freeapp.domain.auth.RegistrationUser
 import com.example.freeapp.domain.repository.AuthRepository
+import com.example.freeapp.domain.repository.LocationRepository
 import kotlinx.coroutines.launch
 
 class RegistrationViewModel(
-    private val authenticationRepository: AuthRepository = RepositorioFirebase()
+    private val authRepository: AuthRepository,
+    private val locationRepository: LocationRepository
 ) : ViewModel() {
-    private val ibgeRepository = RepositorioIbge(ClienteIbge.servicoIbge)
-
     var user by mutableStateOf(RegistrationUser())
         private set
 
@@ -27,7 +24,7 @@ class RegistrationViewModel(
     var authErrorMessage by mutableStateOf<String?>(null)
         private set
 
-    var ibgeStates by mutableStateOf<List<EstadoIbge>>(emptyList())
+    var ibgeStates by mutableStateOf<List<StateOptionData>>(emptyList())
         private set
 
     var ibgeCities by mutableStateOf<List<String>>(emptyList())
@@ -65,7 +62,7 @@ class RegistrationViewModel(
         viewModelScope.launch {
             ibgeLoading = true
             ibgeErrorMessage = null
-            val result = ibgeRepository.buscarEstados()
+            val result = locationRepository.buscarEstados()
             ibgeLoading = false
 
             if (result.isSuccess) {
@@ -77,13 +74,13 @@ class RegistrationViewModel(
     }
 
     fun selectIbgeState(stateName: String) {
-        val selectedState = ibgeStates.firstOrNull { it.nome == stateName }
+        val selectedState = ibgeStates.firstOrNull { it.name == stateName }
         updateState(stateName)
         updateCity("")
         ibgeCities = emptyList()
 
         if (selectedState != null) {
-            loadIbgeCities(selectedState.sigla)
+            loadIbgeCities(selectedState.code)
         }
     }
 
@@ -93,7 +90,7 @@ class RegistrationViewModel(
         viewModelScope.launch {
             ibgeLoading = true
             ibgeErrorMessage = null
-            val result = ibgeRepository.buscarCidades(stateCode)
+            val result = locationRepository.buscarCidades(stateCode)
             ibgeLoading = false
 
             if (result.isSuccess) {
@@ -125,7 +122,7 @@ class RegistrationViewModel(
         viewModelScope.launch {
             authLoading = true
             authErrorMessage = null
-            val result = authenticationRepository.cadastrar(user)
+            val result = authRepository.cadastrar(user)
             authLoading = false
 
             if (result.isSuccess) {

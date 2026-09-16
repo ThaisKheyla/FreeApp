@@ -33,12 +33,13 @@ import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.validation.UserValidator
 import com.example.freeapp.presentation.viewmodel.PersonalDataViewModel
+import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 @Composable
 fun PersonalDataScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PersonalDataViewModel = PersonalDataViewModel()
+    viewModel: PersonalDataViewModel
 ) {
     val usuario = viewModel.user
     var mostrarTermos by remember {
@@ -254,5 +255,9 @@ fun PersonalDataScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PersonalDataScreenPreview() {
-    PersonalDataScreen(navController = rememberNavController())
+    val registrationViewModel = previewRegistrationViewModel()
+    PersonalDataScreen(
+        navController = rememberNavController(),
+        viewModel = PersonalDataViewModel(registrationViewModel)
+    )
 }

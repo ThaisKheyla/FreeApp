@@ -41,11 +41,12 @@ import com.example.freeapp.presentation.components.PasswordField
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.AuthViewModel
+import com.example.freeapp.presentation.viewmodel.previewAuthViewModel
 
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: AuthViewModel = AuthViewModel()
+    viewModel: AuthViewModel
 ) {
     val usuario = viewModel.authenticatedUser
 
@@ -249,6 +250,7 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        viewModel = previewAuthViewModel()
     )
 }

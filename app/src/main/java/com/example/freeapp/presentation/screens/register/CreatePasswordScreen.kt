@@ -28,12 +28,13 @@ import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.PasswordField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.CreatePasswordViewModel
+import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 @Composable
 fun CreatePasswordScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: CreatePasswordViewModel = CreatePasswordViewModel()
+    viewModel: CreatePasswordViewModel
 ) {
     val usuario = viewModel.user
     val mensagemErroAuth = viewModel.authErrorMessage
@@ -120,5 +121,9 @@ fun CreatePasswordScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CreatePasswordScreenPreview() {
-    CreatePasswordScreen(navController = rememberNavController())
+    val registrationViewModel = previewRegistrationViewModel()
+    CreatePasswordScreen(
+        navController = rememberNavController(),
+        viewModel = CreatePasswordViewModel(registrationViewModel)
+    )
 }

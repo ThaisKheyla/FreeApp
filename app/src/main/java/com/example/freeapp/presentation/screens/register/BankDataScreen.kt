@@ -29,13 +29,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.presentation.navigation.Routes
+import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 
 @Composable
 fun BankDataScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: BankDataViewModel = BankDataViewModel()
+    viewModel: BankDataViewModel
 ) {
     val usuario = viewModel.user
     var tipoContaSelecionado by remember {
@@ -134,5 +135,9 @@ fun BankDataScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun BankDataScreenPreview() {
-    BankDataScreen(navController = rememberNavController())
+    val registrationViewModel = previewRegistrationViewModel()
+    BankDataScreen(
+        navController = rememberNavController(),
+        viewModel = BankDataViewModel(registrationViewModel)
+    )
 }

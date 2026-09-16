@@ -5,6 +5,9 @@ import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.freeapp.data.remote.ClienteIbge
+import com.example.freeapp.data.repository.RepositorioFirebase
+import com.example.freeapp.data.repository.RepositorioIbge
 import com.example.freeapp.presentation.screens.register.BankDataScreen
 import com.example.freeapp.presentation.screens.splash.SplashScreen
 import com.example.freeapp.presentation.screens.welcome.WelcomeScreen
@@ -28,8 +31,10 @@ import com.example.freeapp.presentation.viewmodel.RegistrationViewModel
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    val authViewModel = remember { AuthViewModel() }
-    val registrationViewModel = remember { RegistrationViewModel() }
+    val authRepository = remember { RepositorioFirebase() }
+    val locationRepository = remember { RepositorioIbge(ClienteIbge.servicoIbge) }
+    val authViewModel = remember { AuthViewModel(authRepository) }
+    val registrationViewModel = remember { RegistrationViewModel(authRepository, locationRepository) }
     val personalDataViewModel = remember { PersonalDataViewModel(registrationViewModel) }
     val addressViewModel = remember { AddressViewModel(registrationViewModel) }
     val professionalDataViewModel = remember { ProfessionalDataViewModel(registrationViewModel) }

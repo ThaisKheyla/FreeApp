@@ -3,7 +3,7 @@ package com.example.freeapp.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 
 class CreatePasswordViewModel(
-    private val registrationViewModel: RegistrationViewModel = RegistrationViewModel()
+    private val registrationViewModel: RegistrationViewModel
 ) : ViewModel() {
     val user get() = registrationViewModel.user
     val authLoading get() = registrationViewModel.authLoading
