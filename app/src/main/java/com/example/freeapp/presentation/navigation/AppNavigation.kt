@@ -8,6 +8,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.data.remote.ClienteIbge
 import com.example.freeapp.data.repository.RepositorioFirebase
 import com.example.freeapp.data.repository.IbgeRepository
+import com.example.freeapp.domain.usecase.auth.GetCurrentUserNameUseCase
+import com.example.freeapp.domain.usecase.auth.LoginUseCase
+import com.example.freeapp.domain.usecase.auth.RegisterUserUseCase
+import com.example.freeapp.domain.usecase.auth.ResetPasswordUseCase
+import com.example.freeapp.domain.usecase.location.LoadCitiesUseCase
+import com.example.freeapp.domain.usecase.location.LoadStatesUseCase
 import com.example.freeapp.presentation.view.register.bank.BankDataScreen
 import com.example.freeapp.presentation.view.splash.SplashScreen
 import com.example.freeapp.presentation.view.welcome.WelcomeScreen
@@ -33,8 +39,26 @@ fun AppNavigation() {
     val navController = rememberNavController()
     val authRepository = remember { RepositorioFirebase() }
     val locationRepository = remember { IbgeRepository(ClienteIbge.servicoIbge) }
-    val authViewModel = remember { AuthViewModel(authRepository) }
-    val registrationViewModel = remember { RegistrationViewModel(authRepository, locationRepository) }
+    val loginUseCase = remember { LoginUseCase(authRepository) }
+    val getCurrentUserNameUseCase = remember { GetCurrentUserNameUseCase(authRepository) }
+    val resetPasswordUseCase = remember { ResetPasswordUseCase(authRepository) }
+    val registerUserUseCase = remember { RegisterUserUseCase(authRepository) }
+    val loadStatesUseCase = remember { LoadStatesUseCase(locationRepository) }
+    val loadCitiesUseCase = remember { LoadCitiesUseCase(locationRepository) }
+    val authViewModel = remember {
+        AuthViewModel(
+            loginUseCase = loginUseCase,
+            getCurrentUserNameUseCase = getCurrentUserNameUseCase,
+            resetPasswordUseCase = resetPasswordUseCase
+        )
+    }
+    val registrationViewModel = remember {
+        RegistrationViewModel(
+            registerUserUseCase = registerUserUseCase,
+            loadStatesUseCase = loadStatesUseCase,
+            loadCitiesUseCase = loadCitiesUseCase
+        )
+    }
     val personalDataViewModel = remember { PersonalDataViewModel(registrationViewModel) }
     val addressViewModel = remember { AddressViewModel(registrationViewModel) }
     val professionalDataViewModel = remember { ProfessionalDataViewModel(registrationViewModel) }

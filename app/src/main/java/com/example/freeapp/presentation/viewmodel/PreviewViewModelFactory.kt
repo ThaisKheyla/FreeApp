@@ -4,6 +4,12 @@ import com.example.freeapp.domain.StateOptionData
 import com.example.freeapp.domain.auth.RegistrationUser
 import com.example.freeapp.domain.repository.AuthRepository
 import com.example.freeapp.domain.repository.LocationRepository
+import com.example.freeapp.domain.usecase.auth.GetCurrentUserNameUseCase
+import com.example.freeapp.domain.usecase.auth.LoginUseCase
+import com.example.freeapp.domain.usecase.auth.RegisterUserUseCase
+import com.example.freeapp.domain.usecase.auth.ResetPasswordUseCase
+import com.example.freeapp.domain.usecase.location.LoadCitiesUseCase
+import com.example.freeapp.domain.usecase.location.LoadStatesUseCase
 
 private class PreviewAuthRepository : AuthRepository {
     override suspend fun cadastrar(usuario: RegistrationUser): Result<Unit> = Result.success(Unit)
@@ -26,9 +32,14 @@ private class PreviewLocationRepository : LocationRepository {
 private val previewAuthRepository = PreviewAuthRepository()
 private val previewLocationRepository = PreviewLocationRepository()
 
-fun previewAuthViewModel(): AuthViewModel = AuthViewModel(previewAuthRepository)
+fun previewAuthViewModel(): AuthViewModel = AuthViewModel(
+    loginUseCase = LoginUseCase(previewAuthRepository),
+    getCurrentUserNameUseCase = GetCurrentUserNameUseCase(previewAuthRepository),
+    resetPasswordUseCase = ResetPasswordUseCase(previewAuthRepository)
+)
 
 fun previewRegistrationViewModel(): RegistrationViewModel = RegistrationViewModel(
-    authRepository = previewAuthRepository,
-    locationRepository = previewLocationRepository
+    registerUserUseCase = RegisterUserUseCase(previewAuthRepository),
+    loadStatesUseCase = LoadStatesUseCase(previewLocationRepository),
+    loadCitiesUseCase = LoadCitiesUseCase(previewLocationRepository)
 )
