@@ -1,14 +1,17 @@
 package com.example.freeapp.presentation.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.freeapp.domain.auth.AuthUser
 import com.example.freeapp.domain.usecase.auth.GetCurrentUserNameUseCase
 import com.example.freeapp.domain.usecase.auth.LoginUseCase
 import com.example.freeapp.domain.usecase.auth.ResetPasswordUseCase
+import com.example.freeapp.presentation.viewmodel.contract.AuthEvent
+import com.example.freeapp.presentation.viewmodel.contract.AuthUiState
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
@@ -17,73 +20,82 @@ class AuthViewModel(
     private val resetPasswordUseCase: ResetPasswordUseCase
 ) : ViewModel() {
 
-    var authenticatedUser by mutableStateOf(
-        AuthUser()
-    )
-        private set
+    private val _uiState = MutableStateFlow(AuthUiState())
+    val uiState = _uiState.asStateFlow()
 
-    var authLoading by mutableStateOf(false)
-        private set
-
-    var authErrorMessage by mutableStateOf<String?>(null)
-        private set
+    private val _events = Channel<AuthEvent>(Channel.BUFFERED)
+    val events = _events.receiveAsFlow()
 
     fun clearAuthState() {
-        authErrorMessage = null
+        _uiState.update { state ->
+            state.copy(errorMessage = null)
+        }
     }
 
     fun loginUser(
         email: String,
-        senha: String,
-        onSuccess: () -> Unit
+        senha: String
     ) {
-        if (authLoading) return
+        if (_uiState.value.isLoading) return
 
         viewModelScope.launch {
-            authLoading = true
-            authErrorMessage = null
+            _uiState.update { state ->
+                state.copy(isLoading = true, errorMessage = null)
+            }
 
             val resultadoRemoto = loginUseCase(email, senha)
 
-            authLoading = false
-
             if (resultadoRemoto.isSuccess) {
                 val name = getCurrentUserNameUseCase().getOrNull().orEmpty()
-                authenticatedUser = authenticatedUser.copy(
-                    name = name,
-                    email = email
-                )
-                onSuccess()
+                _uiState.update { state ->
+                    state.copy(
+                        authenticatedUser = state.authenticatedUser.copy(
+                            name = name,
+                            email = email
+                        ),
+                        isLoading = false,
+                        errorMessage = null
+                    )
+                }
+                _events.send(AuthEvent.LoginSuccess)
             } else {
-                authErrorMessage = resultadoRemoto.exceptionOrNull()?.message
-                    ?: "E-mail ou senha inválidos"
+                _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        errorMessage = resultadoRemoto.exceptionOrNull()?.message
+                            ?: "E-mail ou senha inválidos"
+                    )
+                }
             }
         }
     }
 
     fun resetPassword(
-        email: String,
-        onSuccess: () -> Unit
+        email: String
     ) {
-        if (authLoading) return
+        if (_uiState.value.isLoading) return
 
         viewModelScope.launch {
-            authLoading = true
-            authErrorMessage = null
+            _uiState.update { state ->
+                state.copy(isLoading = true, errorMessage = null)
+            }
 
             val resultado = resetPasswordUseCase(email)
 
-            authLoading = false
-
             if (resultado.isSuccess) {
-                onSuccess()
+                _uiState.update { state ->
+                    state.copy(isLoading = false, errorMessage = null)
+                }
+                _events.send(AuthEvent.ResetPasswordSuccess)
             } else {
-                authErrorMessage = resultado.exceptionOrNull()?.message
-                    ?: "Não foi possível redefinir a senha"
+                _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        errorMessage = resultado.exceptionOrNull()?.message
+                            ?: "Não foi possível redefinir a senha"
+                    )
+                }
             }
         }
     }
-
-
-
 }

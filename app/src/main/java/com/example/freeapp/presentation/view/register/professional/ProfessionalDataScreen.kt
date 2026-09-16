@@ -7,6 +7,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,7 +30,8 @@ fun ProfessionalDataScreen(
     modifier: Modifier = Modifier,
     viewModel: ProfessionalDataViewModel
 ){
-    val user = viewModel.user
+    val uiState by viewModel.uiState.collectAsState()
+    val user = uiState.user
 
     val isProfessionalDataValid =
         user.profession.isNotBlank() &&

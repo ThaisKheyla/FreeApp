@@ -13,15 +13,12 @@ import com.example.freeapp.domain.usecase.location.LoadStatesUseCase
 
 private class PreviewAuthRepository : AuthRepository {
     override suspend fun cadastrar(usuario: RegistrationUser): Result<Unit> = Result.success(Unit)
-
     override suspend fun login(email: String, senha: String): Result<Unit> = Result.success(Unit)
-
     override suspend fun buscarNomeUsuarioAtual(): Result<String> = Result.success("Preview User")
-
     override suspend fun redefinirSenha(email: String): Result<Unit> = Result.success(Unit)
-
     override fun sair() = Unit
 }
+
 
 private class PreviewLocationRepository : LocationRepository {
     override suspend fun buscarEstados(): Result<List<StateOptionData>> = Result.success(emptyList())

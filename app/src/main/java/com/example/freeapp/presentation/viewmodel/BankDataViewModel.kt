@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 class BankDataViewModel(
     private val registrationViewModel: RegistrationViewModel
 ) : ViewModel() {
-    val user get() = registrationViewModel.user
+    val uiState = registrationViewModel.uiState
 
     fun updateAgency(value: String) = registrationViewModel.updateAgency(value)
     fun updateAccount(value: String) = registrationViewModel.updateAccount(value)

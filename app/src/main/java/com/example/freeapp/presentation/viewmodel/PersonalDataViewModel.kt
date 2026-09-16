@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 class PersonalDataViewModel(
     private val registrationViewModel: RegistrationViewModel
 ) : ViewModel() {
-    val user get() = registrationViewModel.user
+    val uiState = registrationViewModel.uiState
 
     fun updateName(value: String) = registrationViewModel.updateName(value)
     fun updateBirthDate(value: String) = registrationViewModel.updateBirthDate(value)

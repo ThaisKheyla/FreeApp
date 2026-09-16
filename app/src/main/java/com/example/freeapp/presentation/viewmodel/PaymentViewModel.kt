@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 class PaymentViewModel(
     private val registrationViewModel: RegistrationViewModel
 ) : ViewModel() {
-    val user get() = registrationViewModel.user
+    val uiState = registrationViewModel.uiState
 
     fun updatePaymentOption(value: String) = registrationViewModel.updatePaymentOption(value)
     fun updateName(value: String) = registrationViewModel.updateName(value)

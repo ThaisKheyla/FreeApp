@@ -18,10 +18,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +43,7 @@ import com.example.freeapp.presentation.components.PasswordField
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.AuthViewModel
+import com.example.freeapp.presentation.viewmodel.contract.AuthEvent
 import com.example.freeapp.presentation.viewmodel.previewAuthViewModel
 import androidx.compose.ui.res.stringResource
 
@@ -49,7 +52,8 @@ fun LoginScreen(
     navController: NavController,
     viewModel: AuthViewModel
 ) {
-    val usuario = viewModel.authenticatedUser
+    val uiState by viewModel.uiState.collectAsState()
+    val usuario = uiState.authenticatedUser
 
     var emailLogin by remember(usuario.email) {
         mutableStateOf(usuario.email)
@@ -59,8 +63,16 @@ fun LoginScreen(
         mutableStateOf("")
     }
 
-    val mensagemErroAuth = viewModel.authErrorMessage
-    val carregandoAuth = viewModel.authLoading
+    val mensagemErroAuth = uiState.errorMessage
+    val carregandoAuth = uiState.isLoading
+
+    LaunchedEffect(viewModel) {
+        viewModel.events.collect { event ->
+            if (event == AuthEvent.LoginSuccess) {
+                navController.navigate(Routes.HOME)
+            }
+        }
+    }
 
     val camposPreenchidos =
         emailLogin.isNotBlank() &&
@@ -215,11 +227,7 @@ fun LoginScreen(
                     viewModel.loginUser(
                         email = emailLogin,
                         senha = senhaLogin
-                    ) {
-                        navController.navigate(
-                            Routes.HOME
-                        )
-                    }
+                    )
                 }
             )
 
