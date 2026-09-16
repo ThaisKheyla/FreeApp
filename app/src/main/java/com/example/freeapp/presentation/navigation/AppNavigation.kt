@@ -7,20 +7,20 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.freeapp.data.remote.ClienteIbge
 import com.example.freeapp.data.repository.RepositorioFirebase
-import com.example.freeapp.data.repository.RepositorioIbge
-import com.example.freeapp.presentation.screens.register.BankDataScreen
-import com.example.freeapp.presentation.screens.splash.SplashScreen
-import com.example.freeapp.presentation.screens.welcome.WelcomeScreen
-import com.example.freeapp.presentation.screens.register.PersonalDataScreen
-import com.example.freeapp.presentation.screens.register.ProfessionalDataScreen
-import com.example.freeapp.presentation.screens.register.AddressScreen
-import com.example.freeapp.presentation.screens.register.CreatePasswordScreen
-import com.example.freeapp.presentation.screens.payment.PaymentScreen
-import com.example.freeapp.presentation.screens.forgotPassword.ForgotPasswordScreen
+import com.example.freeapp.data.repository.IbgeRepository
+import com.example.freeapp.presentation.view.register.bank.BankDataScreen
+import com.example.freeapp.presentation.view.splash.SplashScreen
+import com.example.freeapp.presentation.view.welcome.WelcomeScreen
+import com.example.freeapp.presentation.view.register.personal.PersonalDataScreen
+import com.example.freeapp.presentation.view.register.professional.ProfessionalDataScreen
+import com.example.freeapp.presentation.view.register.address.AddressScreen
+import com.example.freeapp.presentation.view.register.password.CreatePasswordScreen
+import com.example.freeapp.presentation.view.payment.PaymentScreen
+import com.example.freeapp.presentation.view.forgotPassword.ForgotPasswordScreen
 import com.example.freeapp.presentation.viewmodel.AuthViewModel
-import com.example.freeapp.presentation.screens.carousel.CarouselScreen
-import com.example.freeapp.presentation.screens.home.HomeScreen
-import com.example.freeapp.presentation.screens.login.LoginScreen
+import com.example.freeapp.presentation.view.carousel.CarouselScreen
+import com.example.freeapp.presentation.view.home.HomeScreen
+import com.example.freeapp.presentation.view.login.LoginScreen
 import com.example.freeapp.presentation.viewmodel.AddressViewModel
 import com.example.freeapp.presentation.viewmodel.BankDataViewModel
 import com.example.freeapp.presentation.viewmodel.CreatePasswordViewModel
@@ -32,7 +32,7 @@ import com.example.freeapp.presentation.viewmodel.RegistrationViewModel
 fun AppNavigation() {
     val navController = rememberNavController()
     val authRepository = remember { RepositorioFirebase() }
-    val locationRepository = remember { RepositorioIbge(ClienteIbge.servicoIbge) }
+    val locationRepository = remember { IbgeRepository(ClienteIbge.servicoIbge) }
     val authViewModel = remember { AuthViewModel(authRepository) }
     val registrationViewModel = remember { RegistrationViewModel(authRepository, locationRepository) }
     val personalDataViewModel = remember { PersonalDataViewModel(registrationViewModel) }

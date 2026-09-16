@@ -1,11 +1,11 @@
 package com.example.freeapp.data.repository
 
 import com.example.freeapp.data.remote.AuthenticationApiService
-import com.example.freeapp.data.remote.dto.ApiErrorResponse
-import com.example.freeapp.data.remote.dto.AuthenticationResponse
-import com.example.freeapp.data.remote.dto.LoginRequest
-import com.example.freeapp.data.remote.dto.RegisterRequest
-import com.example.freeapp.data.remote.dto.ResetPasswordRequest
+import com.example.freeapp.data.remote.dto.auth.ApiErrorResponse
+import com.example.freeapp.data.remote.dto.auth.AuthenticationResponse
+import com.example.freeapp.data.remote.dto.auth.LoginRequest
+import com.example.freeapp.data.remote.dto.auth.RegisterRequest
+import com.example.freeapp.data.remote.dto.auth.ResetPasswordRequest
 import com.example.freeapp.domain.auth.RegistrationUser
 import com.google.gson.Gson
 import retrofit2.HttpException

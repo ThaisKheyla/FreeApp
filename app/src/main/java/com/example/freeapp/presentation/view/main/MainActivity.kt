@@ -1,4 +1,4 @@
-package com.example.freeapp
+package com.example.freeapp.presentation.view.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -5,7 +5,7 @@ import com.example.freeapp.domain.StateOptionData
 import com.example.freeapp.domain.repository.LocationRepository
 import java.io.IOException
 
-class RepositorioIbge(
+class IbgeRepository(
     private val servicoIbgeApi: ServicoIbgeApi
 ) : LocationRepository {
     override suspend fun buscarEstados(): Result<List<StateOptionData>> {

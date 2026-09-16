@@ -3,7 +3,7 @@ package com.projeto.data.repository
 import com.example.freeapp.data.remote.ServicoIbgeApi
 import com.example.freeapp.data.remote.dto.EstadoIbge
 import com.example.freeapp.data.remote.dto.MunicipioIbge
-import com.example.freeapp.data.repository.RepositorioIbge
+import com.example.freeapp.data.repository.IbgeRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -14,7 +14,7 @@ import java.io.IOException
 
 class RepositorioIbgeTest {
     private val servicoIbgeApi = mockk<ServicoIbgeApi>()
-    private val repositoryMock = RepositorioIbge(servicoIbgeApi);
+    private val repositoryMock = IbgeRepository(servicoIbgeApi);
 
 
     @Test

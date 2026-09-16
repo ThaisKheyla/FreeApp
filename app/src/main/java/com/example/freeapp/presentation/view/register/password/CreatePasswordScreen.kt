@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.register
+package com.example.freeapp.presentation.view.register.password
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,10 +19,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.freeapp.R
 import com.example.freeapp.presentation.components.BackButton
 import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.PasswordField
@@ -36,14 +38,18 @@ fun CreatePasswordScreen(
     modifier: Modifier = Modifier,
     viewModel: CreatePasswordViewModel
 ) {
-    val usuario = viewModel.user
-    val mensagemErroAuth = viewModel.authErrorMessage
-    val carregandoAuth = viewModel.authLoading
-    var confirmarSenha by remember { mutableStateOf("") }
-    val senhasValidas =
-        usuario.password.isNotBlank() &&
-            usuario.password == confirmarSenha &&
-            !carregandoAuth
+    val user = viewModel.user
+    val authErrorMessage = viewModel.authErrorMessage
+    val isAuthLoading = viewModel.authLoading
+
+    var confirmPassword by remember {
+        mutableStateOf("")
+    }
+
+    val arePasswordsValid =
+        user.password.isNotBlank() &&
+                user.password == confirmPassword &&
+                !isAuthLoading
 
     Surface(
         modifier = modifier.fillMaxSize()
@@ -54,7 +60,9 @@ fun CreatePasswordScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(
+                        rememberScrollState()
+                    )
                     .padding(24.dp)
                     .padding(bottom = 96.dp),
                 verticalArrangement = Arrangement.spacedBy(22.dp)
@@ -70,32 +78,40 @@ fun CreatePasswordScreen(
                 )
 
                 Text(
-                    text = "Crie uma senha",
+                    text = stringResource(
+                        R.string.create_password_title
+                    ),
                     style = MaterialTheme.typography.headlineLarge
                 )
 
                 PasswordField(
-                    value = usuario.password,
-                    label = "Crie uma senha",
-                    onValueChange = {
-                        viewModel.updatePassword(it)
+                    value = user.password,
+                    label = stringResource(
+                        R.string.create_password_label
+                    ),
+                    onValueChange = { password ->
+                        viewModel.updatePassword(password)
                         viewModel.clearAuthState()
                     }
                 )
 
                 PasswordField(
-                    value = confirmarSenha,
-                    label = "Confirme sua Senha",
-                    onValueChange = { senha ->
-                        confirmarSenha = senha
+                    value = confirmPassword,
+                    label = stringResource(
+                        R.string.create_password_confirm_label
+                    ),
+                    onValueChange = { passwordConfirmation ->
+                        confirmPassword = passwordConfirmation
                         viewModel.clearAuthState()
                     },
-                    isError = confirmarSenha.isNotBlank() && confirmarSenha != usuario.password
+                    isError =
+                        confirmPassword.isNotBlank() &&
+                                confirmPassword != user.password
                 )
 
-                if (mensagemErroAuth != null) {
+                if (authErrorMessage != null) {
                     Text(
-                        text = mensagemErroAuth,
+                        text = authErrorMessage,
                         color = Color.Red,
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -103,11 +119,21 @@ fun CreatePasswordScreen(
             }
 
             FixedBlueButton(
-                text = if (carregandoAuth) "FINALIZANDO..." else "FINALIZAR",
-                enabled = senhasValidas,
+                text = if (isAuthLoading) {
+                    stringResource(
+                        R.string.create_password_finishing
+                    )
+                } else {
+                    stringResource(
+                        R.string.create_password_finish
+                    )
+                },
+                enabled = arePasswordsValid,
                 onClick = {
                     viewModel.registerUser {
-                        navController.navigate(Routes.LOGIN) {
+                        navController.navigate(
+                            Routes.LOGIN
+                        ) {
                             popUpTo(Routes.LOGIN)
                             launchSingleTop = true
                         }
@@ -118,7 +144,10 @@ fun CreatePasswordScreen(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
 fun CreatePasswordScreenPreview() {
     val registrationViewModel = previewRegistrationViewModel()

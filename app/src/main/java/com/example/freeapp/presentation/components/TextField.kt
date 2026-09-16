@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import com.example.freeapp.presentation.theme.TextFieldBackground
 import androidx.compose.material3.Icon
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.freeapp.R
 import com.example.freeapp.presentation.theme.PrimaryBlue
@@ -82,7 +83,9 @@ fun TextField(
                     painter = painterResource(
                         id = R.drawable.fi_rr_check
                     ),
-                    contentDescription = "Valid field",
+                    contentDescription = stringResource(
+                        R.string.text_field_valid_description
+                    ),
                     tint = PrimaryBlue,
                     modifier = Modifier.size(18.dp)
                 )
@@ -93,7 +96,9 @@ fun TextField(
                     painter = painterResource(
                         id = R.drawable.fi_rr_search
                     ),
-                    contentDescription = "Search",
+                    contentDescription = stringResource(
+                        R.string.text_field_search_description
+                    ),
                     tint = PrimaryBlue,
                     modifier = Modifier.size(18.dp)
                 )

@@ -1,14 +1,14 @@
 package com.projeto.data.repository
 
 import com.example.freeapp.data.remote.AuthenticationApiService
-import com.example.freeapp.data.remote.dto.ApiErrorResponse
-import com.example.freeapp.data.remote.dto.AuthenticationResponse
-import com.example.freeapp.data.remote.dto.LoginRequest
-import com.example.freeapp.data.remote.dto.RegisterRequest
-import com.example.freeapp.data.remote.dto.ResetPasswordRequest
+import com.example.freeapp.data.remote.dto.auth.ApiErrorResponse
+import com.example.freeapp.data.remote.dto.auth.AuthenticationResponse
+import com.example.freeapp.data.remote.dto.auth.LoginRequest
+import com.example.freeapp.data.remote.dto.auth.RegisterRequest
+import com.example.freeapp.data.remote.dto.auth.ResetPasswordRequest
 import com.example.freeapp.data.repository.AuthenticationRepository
 import com.example.freeapp.domain.PersonalData
-import com.example.freeapp.domain.User
+import com.example.freeapp.domain.auth.RegistrationUser
 import com.google.gson.Gson
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -65,7 +65,7 @@ class AuthenticationRepositoryTest {
     @Test
     fun register_whenApiReturnsSuccess_shouldReturnSuccess() = runTest {
 
-        val user = User(
+        val user = RegistrationUser(
             personalData = PersonalData(
                 name = "Marcela",
                 email = "teste@email.com",
@@ -88,7 +88,7 @@ class AuthenticationRepositoryTest {
     @Test
     fun register_whenNoInternet_shouldReturnError() = runTest {
 
-        val user = User(
+        val user = RegistrationUser(
             personalData = PersonalData(
                 name = "Marcela",
                 email = "teste@email.com",

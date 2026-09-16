@@ -1,4 +1,4 @@
-package com.example.freeapp.presentation.screens.login
+package com.example.freeapp.presentation.view.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -42,6 +42,7 @@ import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.AuthViewModel
 import com.example.freeapp.presentation.viewmodel.previewAuthViewModel
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun LoginScreen(
@@ -103,7 +104,9 @@ fun LoginScreen(
                 painter = painterResource(
                     id = R.drawable.logo_free_white
                 ),
-                contentDescription = "Logo Free",
+                contentDescription = stringResource(
+                    R.string.login_logo_description
+                ),
                 modifier = Modifier
                     .size(110.dp)
                     .align(Alignment.Center)
@@ -116,7 +119,9 @@ fun LoginScreen(
         )
 
         Text(
-            text = "Bem-vindo de volta!",
+            text = stringResource(
+                R.string.login_welcome_back
+            ),
             color = PrimaryBlue,
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier.align(
@@ -136,7 +141,9 @@ fun LoginScreen(
 
             TextField(
                 value = emailLogin,
-                label = "E-mail",
+                label = stringResource(
+                    R.string.common_email
+                ),
                 onValueChange = { email ->
                     emailLogin = email
                     viewModel.clearAuthState()
@@ -150,7 +157,9 @@ fun LoginScreen(
 
             PasswordField(
                 value = senhaLogin,
-                label = "Senha",
+                label = stringResource(
+                    R.string.common_password
+                ),
                 onValueChange = { senha ->
                     senhaLogin = senha
                     viewModel.clearAuthState()
@@ -176,7 +185,9 @@ fun LoginScreen(
             )
 
             Text(
-                text = "Esqueci a senha",
+                text = stringResource(
+                    R.string.login_forgot_password
+                ),
                 color = PrimaryBlue,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -194,9 +205,9 @@ fun LoginScreen(
 
             BlueButton(
                 text = if (carregandoAuth)
-                    "ENTRANDO..."
+                    stringResource(R.string.login_loading)
                 else
-                    "ENTRAR",
+                    stringResource(R.string.common_login),
 
                 enabled = camposPreenchidos,
 
@@ -225,11 +236,15 @@ fun LoginScreen(
             ) {
 
                 Text(
-                    text = "Novo Usuário? "
+                    text = stringResource(
+                        R.string.login_new_user
+                    )
                 )
 
                 Text(
-                    text = "Cadastre-se",
+                    text = stringResource(
+                        R.string.login_register
+                    ),
                     color = Color(0xFF0451FF),
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.clickable {

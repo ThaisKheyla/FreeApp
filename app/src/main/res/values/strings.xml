@@ -1,5 +1,433 @@
 <resources>
+
     <string name="app_name">FreeApp</string>
-    <string name="title_activity_splash_screen">SplashScreen</string>
-    <string name="title_activity_welcome_screen">WelcomeScreen</string>
+
+    <string name="title_activity_splash_screen">Splash Screen</string>
+    <string name="title_activity_welcome_screen">Welcome Screen</string>
+
+    <!-- Common -->
+
+    <string name="common_email">E-mail</string>
+    <string name="common_password">Senha</string>
+    <string name="common_login">ENTRAR</string>
+    <string name="common_continue">CONTINUAR</string>
+
+    <string name="back_button_description">Voltar</string>
+    <string name="close_button_description">Fechar</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Bem Vindo!</string>
+    <string name="welcome_logo">Logo Free</string>
+    <string name="welcome_register_button">CADASTRAR</string>
+
+    <!-- Login -->
+
+    <string name="login_logo_description">Logo Free</string>
+    <string name="login_welcome_back">Bem-vindo de volta!</string>
+    <string name="login_forgot_password">Esqueci a senha</string>
+    <string name="login_loading">ENTRANDO...</string>
+    <string name="login_new_user">Novo Usuário?</string>
+    <string name="login_register">Cadastre-se</string>
+
+    <!-- Home -->
+
+    <string name="home_default_user">usuário</string>
+    <string name="home_profile_image_description">Imagem de perfil</string>
+    <string name="home_notifications_description">Notificações</string>
+    <string name="home_search_description">Pesquisar</string>
+    <string name="home_discount_banner_description">Banner</string>
+
+    <string name="home_greeting">Hello %1$s</string>
+    <string name="home_finance_message">Your finances are looking good</string>
+
+    <string name="home_discount_title">Get 30%% off</string>
+    <string name="home_discount_subtitle">Just by Booking Home Services</string>
+
+    <string name="home_popular_services">Popular Services</string>
+    <string name="home_service_providers">Service Providers</string>
+
+    <string name="home_see_all">Ver tudo</string>
+
+    <!-- Services -->
+
+    <string name="service_plumbing">Plumbing</string>
+    <string name="service_electric_work">Electric work</string>
+    <string name="service_solar">Solar</string>
+
+    <!-- Provider -->
+
+    <string name="provider_maskot_kota">Maskot Kota</string>
+    <string name="provider_shams_jan">Shams Jan</string>
+
+    <string name="provider_plumber">Plumber</string>
+    <string name="provider_electrician">Electrician</string>
+
+    <string name="provider_rating">4.8</string>
+
+    <!-- Carousel -->
+
+    <string name="carousel_title">Freelancer Trabalho</string>
+
+    <string name="carousel_description">
+        Lorem ipsum dolor sit amet consectetur. Sed tristique ultrices cras dictum vel. Ac dictum pharetra ut non vel senectus bibendum ipsum i
+    </string>
+
+    <!-- Payment -->
+
+    <string name="payment_title">Formas de Pagamento</string>
+
+    <string name="payment_type_debit">Débito</string>
+
+    <string name="payment_full_name">Nome completo</string>
+
+    <string name="payment_card_number_hint">5999 5877 0566 0599</string>
+    <string name="payment_card_expiration_hint">06/2027</string>
+    <string name="payment_cvv_hint">915</string>
+
+    <string name="payment_card_front_description">Frente do cartão</string>
+    <string name="payment_card_back_description">Verso do cartão</string>
+
+    <string name="payment_card_number_placeholder">
+        0000 0000 0000 0000
+    </string>
+
+    <string name="payment_name_placeholder">
+        NOME COMPLETO
+    </string>
+
+    <string name="payment_expiration_placeholder">
+        MM/AA
+    </string>
+
+    <string name="payment_cvv_placeholder">
+        CVV
+    </string>
+
+    <!-- Forgot Password -->
+
+    <string name="forgot_password_phone_title">
+        Esqueceu a Senha?
+    </string>
+
+    <string name="forgot_password_phone_description">
+        Não se preocupe, nós vamos te ajudar! Informe o número para o qual deseja redefinir a sua senha.
+    </string>
+
+    <string name="forgot_password_email_title">
+        Esqueci minha senha E-mail
+    </string>
+
+    <string name="forgot_password_email_description">
+        Informe seu e-mail para receber o código de redefinição.
+    </string>
+
+    <string name="forgot_password_sms_code_title">
+        Verifique seu celular
+    </string>
+
+    <string name="forgot_password_sms_code_description">
+        Acabamos de enviar um código para o seu número de telefone.
+    </string>
+
+    <string name="forgot_password_email_code_title">
+        Verifique seu E-mail
+    </string>
+
+    <string name="forgot_password_email_code_description">
+        Acabamos de enviar um código para o seu e-mail.
+    </string>
+
+    <string name="forgot_password_new_password_title">
+        Redefina sua senha
+    </string>
+
+    <string name="forgot_password_new_password_description">
+        Preencha os campos abaixo.
+    </string>
+
+    <string name="forgot_password_success_title">
+        Redefinido com sucesso
+    </string>
+
+    <string name="forgot_password_success_description">
+        Agora você pode fazer login na sua conta.
+    </string>
+
+    <string name="forgot_password_resend_code">
+        Não recebeu um código? Reenviar
+    </string>
+
+    <string name="forgot_password_new_password">
+        Nova Senha
+    </string>
+
+    <string name="forgot_password_confirm_password">
+        Confirme sua Senha
+    </string>
+
+    <string name="forgot_password_resetting">
+        REDEFININDO...
+    </string>
+
+    <string name="forgot_password_try_another_way">
+        TENTE DE OUTRA MANEIRA
+    </string>
+
+    <string name="forgot_password_verify_button">
+        VERIFICAR
+    </string>
+
+    <string name="forgot_password_reset_button">
+        REDEFINIR SENHA
+    </string>
+
+    <string name="forgot_password_login_button">
+        CONECTE-SE AGORA
+    </string>
+
+    <string name="forgot_password_area_code">
+        DD
+    </string>
+
+    <string name="forgot_password_phone_number">
+        Número
+    </string>
+
+    <string name="forgot_password_verification_code">
+        Código de verificação
+    </string>
+
+    <!-- TextField -->
+
+    <string name="text_field_valid_description">
+        Valid field
+    </string>
+
+    <string name="text_field_search_description">
+        Search
+    </string>
+
+    <!-- Selection Modal -->
+
+    <string name="selection_modal_search_placeholder">
+        Digite aqui para pesquisar
+    </string>
+
+    <string name="selection_modal_search_description">
+        Pesquisar
+    </string>
+
+    <!-- Password -->
+
+    <string name="password_show">
+        Mostrar senha
+    </string>
+
+    <string name="password_hide">
+        Ocultar senha
+    </string>
+
+    <!-- Bottom Navigation -->
+
+    <string name="bottom_nav_home">
+        Home
+    </string>
+
+    <string name="bottom_nav_calendar">
+        Calendar
+    </string>
+
+    <string name="bottom_nav_chat">
+        Chat
+    </string>
+
+    <string name="bottom_nav_profile">
+        Profile
+    </string>
+
+    <!-- Terms Modal -->
+
+    <string name="terms_modal_close">
+        ✕
+    </string>
+
+    <string name="terms_modal_title">
+        Os Termos e a política de Privacidade do WhatsApp serão atualizados.
+    </string>
+
+    <string name="terms_modal_updates_title">
+        Atualizações importantes
+    </string>
+
+    <string name="terms_modal_lgpd">
+        Lei Geral de Proteção de Dados.
+    </string>
+
+    <string name="terms_modal_accept">
+        Concordar
+    </string>
+
+    <string name="terms_modal_content">
+        Em caso de incidentes de segurança que possa gerar risco ou dano relevante para você ou qualquer um de nossos usuários/clientes, comunicaremos aos afetados e a Autoridade Nacional de Proteção de Dados sobre o ocorrido, em consonância com as disposições da Lei Geral de Proteção de Dados.
+
+        I - Quaisquer consequências decorrentes da negligência, imprudência ou imperícia dos usuários em relação a seus dados individuais.
+
+        Garantimos e nos responsabilizamos apenas da segurança dos processos de tratamento de dados e do cumprimento das finalidades descritas no presente instrumento.
+
+        Destacamos que a responsabilidade em relação à confidencialidade dos dados de acesso é do usuário.
+
+        II - Ações maliciosas de terceiros, como ataques de hackers, exceto se comprovada conduta culposa ou deliberada da empresa.
+
+        Destacamos que em caso de incidentes de segurança que possam gerar risco ou dano relevante para você ou qualquer um de nossos usuários/clientes, comunicaremos aos afetados e a Autoridade Nacional de Proteção de Dados sobre o ocorrido e cumpriremos as providências necessárias.
+
+        III - Inverdicidade das informações inseridas pelo usuário/cliente nos registros necessários para a utilização dos serviços.
+    </string>
+
+    <string name="address_title">
+    Endereço Pessoal
+</string>
+
+    <string name="address_zip_code">
+    CEP
+</string>
+
+    <string name="address_street">
+    Endereço
+</string>
+
+    <string name="address_number">
+    Nº
+</string>
+
+    <string name="address_complement">
+    Complemento
+</string>
+
+    <string name="address_neighborhood">
+    Bairro
+</string>
+
+    <string name="address_state">
+    Estado
+</string>
+
+    <string name="address_city">
+    Cidade
+</string>
+
+    <string name="address_loading_states">
+    Carregando estados...
+</string>
+
+    <string name="address_select_state_first">
+    Selecione o estado primeiro
+</string>
+
+    <string name="address_select_state">
+    Selecione o estado
+</string>
+
+    <string name="address_select_city">
+    Selecione a cidade
+</string>
+
+    <string name="bank_data_title">
+    Dados Bancários Para Recebimento
+</string>
+
+    <string name="bank_data_agency">
+    Agência
+</string>
+
+    <string name="bank_data_account">
+    Conta
+</string>
+
+    <string name="bank_data_account_type">
+    Qual é o seu tipo de conta
+</string>
+
+    <string name="bank_data_individual_account">
+    Pessoa Física
+</string>
+
+    <string name="bank_data_business_account">
+    Pessoa Jurídica
+</string>
+
+    <string name="bank_data_pix">
+    PIX
+</string>
+
+    <string name="create_password_title">
+    Crie uma senha
+</string>
+
+    <string name="create_password_label">
+    Crie uma senha
+</string>
+
+    <string name="create_password_confirm_label">
+    Confirme sua Senha
+</string>
+
+    <string name="create_password_finish">
+    FINALIZAR
+</string>
+
+    <string name="create_password_finishing">
+    FINALIZANDO...
+</string>
+
+    <string name="personal_data_title">
+    Dados Pessoais
+</string>
+
+    <string name="personal_data_full_name">
+    Nome completo
+</string>
+
+    <string name="personal_data_birth_date">
+    Data de nascimento
+</string>
+
+    <string name="personal_data_cpf">
+    CPF
+</string>
+
+    <string name="personal_data_confirm_email">
+    Confirme seu e-mail
+</string>
+
+    <string name="personal_data_phone">
+    Número com DD
+</string>
+
+    <string name="personal_data_terms_prefix">
+    Li e concordo com os
+</string>
+
+    <string name="personal_data_terms_link">
+    Termo de Uso e Política de Privacidade
+</string>
+
+    <string name="professional_data_title">
+    Dados Profissionais
+</string>
+
+    <string name="professional_data_profession">
+    Profissão
+</string>
+
+    <string name="professional_data_specialty">
+    Especialidade
+</string>
+
+    <string name="professional_data_region">
+    Qual região atende
+</string>
+
+    <string name="professional_data_schedule">
+    Qual horário tem disponibilidade
+</string>
 </resources>
