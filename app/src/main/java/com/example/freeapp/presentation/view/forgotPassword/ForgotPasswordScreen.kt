@@ -12,6 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +35,7 @@ import com.example.freeapp.presentation.components.PasswordRecoveryPhoneFields
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.AuthViewModel
+import com.example.freeapp.presentation.viewmodel.contract.AuthEvent
 import com.example.freeapp.presentation.viewmodel.previewAuthViewModel
 
 @Composable
@@ -41,13 +44,15 @@ fun ForgotPasswordScreen(
     modifier: Modifier = Modifier,
     viewModel: AuthViewModel
 ) {
-    val savedPhone = viewModel.authenticatedUser.phone
+    val uiState by viewModel.uiState.collectAsState()
+    val authenticatedUser = uiState.authenticatedUser
+    val savedPhone = authenticatedUser.phone
         .filter { character ->
             character.isDigit()
         }
 
-    val authErrorMessage = viewModel.authErrorMessage
-    val isAuthLoading = viewModel.authLoading
+    val authErrorMessage = uiState.errorMessage
+    val isAuthLoading = uiState.isLoading
 
     var currentStep by remember {
         mutableStateOf(
@@ -75,9 +80,9 @@ fun ForgotPasswordScreen(
         )
     }
 
-    var email by remember(viewModel.authenticatedUser.email) {
+    var email by remember(authenticatedUser.email) {
         mutableStateOf(
-            viewModel.authenticatedUser.email
+            authenticatedUser.email
         )
     }
 
@@ -100,6 +105,14 @@ fun ForgotPasswordScreen(
     val doPasswordsMatch =
         newPassword.isNotBlank() &&
                 newPassword == confirmPassword
+
+    LaunchedEffect(viewModel) {
+        viewModel.events.collect { event ->
+            if (event == AuthEvent.ResetPasswordSuccess) {
+                currentStep = PasswordRecoveryStep.SUCCESS
+            }
+        }
+    }
 
     Surface(
         modifier = modifier.fillMaxSize()
@@ -350,10 +363,7 @@ fun ForgotPasswordScreen(
                         PasswordRecoveryStep.EMAIL -> {
                             viewModel.resetPassword(
                                 email = email
-                            ) {
-                                currentStep =
-                                    PasswordRecoveryStep.SUCCESS
-                            }
+                            )
                         }
 
                         PasswordRecoveryStep.SMS_CODE,
@@ -367,15 +377,12 @@ fun ForgotPasswordScreen(
                         PasswordRecoveryStep.NEW_PASSWORD -> {
                             val recoveryEmail =
                                 email.ifBlank {
-                                viewModel.authenticatedUser.email
+                                authenticatedUser.email
                                 }
 
                             viewModel.resetPassword(
                                 email = recoveryEmail
-                            ) {
-                                currentStep =
-                                    PasswordRecoveryStep.SUCCESS
-                            }
+                            )
                         }
 
                         PasswordRecoveryStep.SUCCESS -> {

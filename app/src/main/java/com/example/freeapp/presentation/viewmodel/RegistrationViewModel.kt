@@ -1,15 +1,18 @@
 package com.example.freeapp.presentation.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.freeapp.domain.StateOptionData
 import com.example.freeapp.domain.auth.RegistrationUser
 import com.example.freeapp.domain.usecase.auth.RegisterUserUseCase
 import com.example.freeapp.domain.usecase.location.LoadCitiesUseCase
 import com.example.freeapp.domain.usecase.location.LoadStatesUseCase
+import com.example.freeapp.presentation.viewmodel.contract.RegistrationEvent
+import com.example.freeapp.presentation.viewmodel.contract.RegistrationUiState
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RegistrationViewModel(
@@ -17,69 +20,111 @@ class RegistrationViewModel(
     private val loadStatesUseCase: LoadStatesUseCase,
     private val loadCitiesUseCase: LoadCitiesUseCase
 ) : ViewModel() {
-    var user by mutableStateOf(RegistrationUser())
-        private set
+    private val _uiState = MutableStateFlow(RegistrationUiState())
+    val uiState = _uiState.asStateFlow()
 
-    var authLoading by mutableStateOf(false)
-        private set
-
-    var authErrorMessage by mutableStateOf<String?>(null)
-        private set
-
-    var ibgeStates by mutableStateOf<List<StateOptionData>>(emptyList())
-        private set
-
-    var ibgeCities by mutableStateOf<List<String>>(emptyList())
-        private set
-
-    var ibgeLoading by mutableStateOf(false)
-        private set
-
-    var ibgeErrorMessage by mutableStateOf<String?>(null)
-        private set
+    private val _events = Channel<RegistrationEvent>(Channel.BUFFERED)
+    val events = _events.receiveAsFlow()
 
     fun clearAuthState() {
-        authErrorMessage = null
+        _uiState.update { state ->
+            state.copy(authErrorMessage = null)
+        }
     }
 
-    fun updateName(value: String) { user = user.copy(personalData = user.personalData.copy(name = value)) }
-    fun updateBirthDate(value: String) { user = user.copy(personalData = user.personalData.copy(birthDate = value)) }
-    fun updateCpf(value: String) { user = user.copy(personalData = user.personalData.copy(cpf = value)) }
-    fun updateEmail(value: String) { user = user.copy(personalData = user.personalData.copy(email = value)) }
-    fun updateConfirmEmail(value: String) { user = user.copy(personalData = user.personalData.copy(confirmEmail = value)) }
-    fun updatePhone(value: String) { user = user.copy(personalData = user.personalData.copy(phone = value)) }
-    fun updatePassword(value: String) { user = user.copy(personalData = user.personalData.copy(password = value)) }
+    fun updateName(value: String) = updateUser { user ->
+        user.copy(personalData = user.personalData.copy(name = value))
+    }
 
-    fun updateZipCode(value: String) { user = user.copy(address = user.address.copy(zipCode = value)) }
-    fun updateAddress(value: String) { user = user.copy(address = user.address.copy(street = value)) }
-    fun updateNumber(value: String) { user = user.copy(address = user.address.copy(number = value)) }
-    fun updateComplement(value: String) { user = user.copy(address = user.address.copy(complement = value)) }
-    fun updateNeighborhood(value: String) { user = user.copy(address = user.address.copy(neighborhood = value)) }
-    fun updateCity(value: String) { user = user.copy(address = user.address.copy(city = value)) }
-    fun updateState(value: String) { user = user.copy(address = user.address.copy(state = value)) }
+    fun updateBirthDate(value: String) = updateUser { user ->
+        user.copy(personalData = user.personalData.copy(birthDate = value))
+    }
+
+    fun updateCpf(value: String) = updateUser { user ->
+        user.copy(personalData = user.personalData.copy(cpf = value))
+    }
+
+    fun updateEmail(value: String) = updateUser { user ->
+        user.copy(personalData = user.personalData.copy(email = value))
+    }
+
+    fun updateConfirmEmail(value: String) = updateUser { user ->
+        user.copy(personalData = user.personalData.copy(confirmEmail = value))
+    }
+
+    fun updatePhone(value: String) = updateUser { user ->
+        user.copy(personalData = user.personalData.copy(phone = value))
+    }
+
+    fun updatePassword(value: String) = updateUser { user ->
+        user.copy(personalData = user.personalData.copy(password = value))
+    }
+
+    fun updateZipCode(value: String) = updateUser { user ->
+        user.copy(address = user.address.copy(zipCode = value))
+    }
+
+    fun updateAddress(value: String) = updateUser { user ->
+        user.copy(address = user.address.copy(street = value))
+    }
+
+    fun updateNumber(value: String) = updateUser { user ->
+        user.copy(address = user.address.copy(number = value))
+    }
+
+    fun updateComplement(value: String) = updateUser { user ->
+        user.copy(address = user.address.copy(complement = value))
+    }
+
+    fun updateNeighborhood(value: String) = updateUser { user ->
+        user.copy(address = user.address.copy(neighborhood = value))
+    }
+
+    fun updateCity(value: String) = updateUser { user ->
+        user.copy(address = user.address.copy(city = value))
+    }
+
+    fun updateState(value: String) = updateUser { user ->
+        user.copy(address = user.address.copy(state = value))
+    }
 
     fun loadIbgeStates() {
-        if (ibgeStates.isNotEmpty() || ibgeLoading) return
+        val currentState = _uiState.value
+        if (currentState.states.isNotEmpty() || currentState.isIbgeLoading) return
 
         viewModelScope.launch {
-            ibgeLoading = true
-            ibgeErrorMessage = null
+            _uiState.update { state ->
+                state.copy(isIbgeLoading = true, ibgeErrorMessage = null)
+            }
+
             val result = loadStatesUseCase()
-            ibgeLoading = false
 
             if (result.isSuccess) {
-                ibgeStates = result.getOrDefault(emptyList())
+                _uiState.update { state ->
+                    state.copy(
+                        states = result.getOrDefault(emptyList()),
+                        isIbgeLoading = false
+                    )
+                }
             } else {
-                ibgeErrorMessage = result.exceptionOrNull()?.message
+                _uiState.update { state ->
+                    state.copy(
+                        isIbgeLoading = false,
+                        ibgeErrorMessage = result.exceptionOrNull()?.message
+                    )
+                }
             }
         }
     }
 
     fun selectIbgeState(stateName: String) {
-        val selectedState = ibgeStates.firstOrNull { it.name == stateName }
+        val currentState = _uiState.value
+        val selectedState = currentState.states.firstOrNull { it.name == stateName }
         updateState(stateName)
         updateCity("")
-        ibgeCities = emptyList()
+        _uiState.update { state ->
+            state.copy(cities = emptyList())
+        }
 
         if (selectedState != null) {
             loadIbgeCities(selectedState.code)
@@ -87,52 +132,112 @@ class RegistrationViewModel(
     }
 
     private fun loadIbgeCities(stateCode: String) {
-        if (ibgeLoading) return
+        if (_uiState.value.isIbgeLoading) return
 
         viewModelScope.launch {
-            ibgeLoading = true
-            ibgeErrorMessage = null
+            _uiState.update { state ->
+                state.copy(isIbgeLoading = true, ibgeErrorMessage = null)
+            }
+
             val result = loadCitiesUseCase(stateCode)
-            ibgeLoading = false
 
             if (result.isSuccess) {
-                ibgeCities = result.getOrDefault(emptyList())
+                _uiState.update { state ->
+                    state.copy(
+                        cities = result.getOrDefault(emptyList()),
+                        isIbgeLoading = false
+                    )
+                }
             } else {
-                ibgeErrorMessage = result.exceptionOrNull()?.message
+                _uiState.update { state ->
+                    state.copy(
+                        isIbgeLoading = false,
+                        ibgeErrorMessage = result.exceptionOrNull()?.message
+                    )
+                }
             }
         }
     }
 
-    fun updateProfession(value: String) { user = user.copy(professionalData = user.professionalData.copy(profession = value)) }
-    fun updateSpecialty(value: String) { user = user.copy(professionalData = user.professionalData.copy(specialty = value)) }
-    fun updateRegion(value: String) { user = user.copy(professionalData = user.professionalData.copy(region = value)) }
-    fun updateSchedule(value: String) { user = user.copy(professionalData = user.professionalData.copy(schedule = value)) }
+    fun updateProfession(value: String) = updateUser { user ->
+        user.copy(professionalData = user.professionalData.copy(profession = value))
+    }
 
-    fun updateAgency(value: String) { user = user.copy(bankData = user.bankData.copy(agency = value)) }
-    fun updateAccount(value: String) { user = user.copy(bankData = user.bankData.copy(account = value)) }
-    fun updateAccountType(value: String) { user = user.copy(bankData = user.bankData.copy(accountType = value)) }
-    fun updatePix(value: String) { user = user.copy(bankData = user.bankData.copy(pix = value)) }
+    fun updateSpecialty(value: String) = updateUser { user ->
+        user.copy(professionalData = user.professionalData.copy(specialty = value))
+    }
 
-    fun updatePaymentOption(value: String) { user = user.copy(bankData = user.bankData.copy(paymentOption = value)) }
-    fun updateCardNumber(value: String) { user = user.copy(bankData = user.bankData.copy(cardNumber = value)) }
-    fun updateCardExpiration(value: String) { user = user.copy(bankData = user.bankData.copy(cardExpiration = value)) }
-    fun updateCvv(value: String) { user = user.copy(bankData = user.bankData.copy(cvv = value)) }
+    fun updateRegion(value: String) = updateUser { user ->
+        user.copy(professionalData = user.professionalData.copy(region = value))
+    }
 
-    fun registerUser(onSuccess: () -> Unit) {
-        if (authLoading) return
+    fun updateSchedule(value: String) = updateUser { user ->
+        user.copy(professionalData = user.professionalData.copy(schedule = value))
+    }
+
+    fun updateAgency(value: String) = updateUser { user ->
+        user.copy(bankData = user.bankData.copy(agency = value))
+    }
+
+    fun updateAccount(value: String) = updateUser { user ->
+        user.copy(bankData = user.bankData.copy(account = value))
+    }
+
+    fun updateAccountType(value: String) = updateUser { user ->
+        user.copy(bankData = user.bankData.copy(accountType = value))
+    }
+
+    fun updatePix(value: String) = updateUser { user ->
+        user.copy(bankData = user.bankData.copy(pix = value))
+    }
+
+    fun updatePaymentOption(value: String) = updateUser { user ->
+        user.copy(bankData = user.bankData.copy(paymentOption = value))
+    }
+
+    fun updateCardNumber(value: String) = updateUser { user ->
+        user.copy(bankData = user.bankData.copy(cardNumber = value))
+    }
+
+    fun updateCardExpiration(value: String) = updateUser { user ->
+        user.copy(bankData = user.bankData.copy(cardExpiration = value))
+    }
+
+    fun updateCvv(value: String) = updateUser { user ->
+        user.copy(bankData = user.bankData.copy(cvv = value))
+    }
+
+    fun registerUser() {
+        if (_uiState.value.isAuthLoading) return
 
         viewModelScope.launch {
-            authLoading = true
-            authErrorMessage = null
-            val result = registerUserUseCase(user)
-            authLoading = false
+            _uiState.update { state ->
+                state.copy(isAuthLoading = true, authErrorMessage = null)
+            }
+            val result = registerUserUseCase(_uiState.value.user)
 
             if (result.isSuccess) {
-                onSuccess()
+                _uiState.update { state ->
+                    state.copy(isAuthLoading = false, authErrorMessage = null)
+                }
+                _events.send(RegistrationEvent.RegistrationSuccess)
             } else {
-                authErrorMessage = result.exceptionOrNull()?.message
-                    ?: "Não foi possível concluir o cadastro"
+                _uiState.update { state ->
+                    state.copy(
+                        isAuthLoading = false,
+                        authErrorMessage = result.exceptionOrNull()?.message
+                            ?: "Não foi possível concluir o cadastro"
+                    )
+                }
             }
+        }
+    }
+
+    private fun updateUser(
+        updater: (RegistrationUser) -> RegistrationUser
+    ) {
+        _uiState.update { state ->
+            state.copy(user = updater(state.user))
         }
     }
 }

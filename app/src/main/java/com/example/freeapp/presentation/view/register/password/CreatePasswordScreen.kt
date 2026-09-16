@@ -13,6 +13,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +32,7 @@ import com.example.freeapp.presentation.components.FixedBlueButton
 import com.example.freeapp.presentation.components.PasswordField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.CreatePasswordViewModel
+import com.example.freeapp.presentation.viewmodel.contract.RegistrationEvent
 import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 @Composable
@@ -38,12 +41,26 @@ fun CreatePasswordScreen(
     modifier: Modifier = Modifier,
     viewModel: CreatePasswordViewModel
 ) {
-    val user = viewModel.user
-    val authErrorMessage = viewModel.authErrorMessage
-    val isAuthLoading = viewModel.authLoading
+    val uiState by viewModel.uiState.collectAsState()
+    val user = uiState.user
+    val authErrorMessage = uiState.authErrorMessage
+    val isAuthLoading = uiState.isAuthLoading
 
     var confirmPassword by remember {
         mutableStateOf("")
+    }
+
+    LaunchedEffect(viewModel) {
+        viewModel.events.collect { event ->
+            if (event == RegistrationEvent.RegistrationSuccess) {
+                navController.navigate(
+                    Routes.LOGIN
+                ) {
+                    popUpTo(Routes.LOGIN)
+                    launchSingleTop = true
+                }
+            }
+        }
     }
 
     val arePasswordsValid =
@@ -130,14 +147,7 @@ fun CreatePasswordScreen(
                 },
                 enabled = arePasswordsValid,
                 onClick = {
-                    viewModel.registerUser {
-                        navController.navigate(
-                            Routes.LOGIN
-                        ) {
-                            popUpTo(Routes.LOGIN)
-                            launchSingleTop = true
-                        }
-                    }
+                    viewModel.registerUser()
                 }
             )
         }

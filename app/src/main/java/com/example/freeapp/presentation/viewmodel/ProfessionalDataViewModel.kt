@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 class ProfessionalDataViewModel(
     private val registrationViewModel: RegistrationViewModel
 ) : ViewModel() {
-    val user get() = registrationViewModel.user
+    val uiState = registrationViewModel.uiState
 
     fun updateProfession(value: String) = registrationViewModel.updateProfession(value)
     fun updateSpecialty(value: String) = registrationViewModel.updateSpecialty(value)

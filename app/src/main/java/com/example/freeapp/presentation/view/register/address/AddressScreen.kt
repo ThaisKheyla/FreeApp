@@ -19,6 +19,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,7 +44,8 @@ fun AddressScreen(
     modifier: Modifier = Modifier,
     viewModel: AddressViewModel
 ) {
-    val user = viewModel.user
+    val uiState by viewModel.uiState.collectAsState()
+    val user = uiState.user
 
     var showStates by remember {
         mutableStateOf(false)
@@ -154,8 +156,8 @@ fun AddressScreen(
                     TextField(
                         value = user.state,
                         label = if (
-                            viewModel.ibgeLoading &&
-                            viewModel.ibgeStates.isEmpty()
+                            uiState.isIbgeLoading &&
+                            uiState.states.isEmpty()
                         ) {
                             stringResource(
                                 R.string.address_loading_states
@@ -173,7 +175,7 @@ fun AddressScreen(
                         modifier = Modifier
                             .matchParentSize()
                             .clickable {
-                                if (viewModel.ibgeStates.isNotEmpty()) {
+                                if (uiState.states.isNotEmpty()) {
                                     showStates = true
                                 }
                             }
@@ -204,7 +206,7 @@ fun AddressScreen(
                             .clickable {
                                 if (
                                     user.state.isNotBlank() &&
-                                    viewModel.ibgeCities.isNotEmpty()
+                                    uiState.cities.isNotEmpty()
                                 ) {
                                     showCities = true
                                 }
@@ -212,7 +214,7 @@ fun AddressScreen(
                     )
                 }
 
-                viewModel.ibgeErrorMessage?.let { errorMessage ->
+                uiState.ibgeErrorMessage?.let { errorMessage ->
                     Text(
                         text = errorMessage,
                         color = MaterialTheme.colorScheme.error,
@@ -238,7 +240,7 @@ fun AddressScreen(
                     title = stringResource(
                         R.string.address_select_state
                     ),
-                    items = viewModel.ibgeStates.map { state ->
+                    items = uiState.states.map { state ->
                         state.name
                     },
                     onSelect = { state ->
@@ -253,7 +255,7 @@ fun AddressScreen(
                     title = stringResource(
                         R.string.address_select_city
                     ),
-                    items = viewModel.ibgeCities,
+                    items = uiState.cities,
                     onSelect = { city ->
                         viewModel.updateCity(city)
                         showCities = false
