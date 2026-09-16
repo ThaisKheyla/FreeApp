@@ -35,12 +35,13 @@ import com.example.freeapp.presentation.components.SelectionModal
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.AddressViewModel
+import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 @Composable
 fun AddressScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: AddressViewModel = AddressViewModel()
+    viewModel: AddressViewModel
 ) {
     val user = viewModel.user
 
@@ -238,7 +239,7 @@ fun AddressScreen(
                         R.string.address_select_state
                     ),
                     items = viewModel.ibgeStates.map { state ->
-                        state.nome
+                        state.name
                     },
                     onSelect = { state ->
                         viewModel.selectIbgeState(state)
@@ -261,4 +262,14 @@ fun AddressScreen(
             }
         }
     }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun AddressScreenPreview() {
+    val registrationViewModel = previewRegistrationViewModel()
+    AddressScreen(
+        navController = androidx.navigation.compose.rememberNavController(),
+        viewModel = AddressViewModel(registrationViewModel)
+    )
 }

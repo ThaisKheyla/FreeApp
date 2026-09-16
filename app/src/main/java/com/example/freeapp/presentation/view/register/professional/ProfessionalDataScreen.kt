@@ -20,12 +20,13 @@ import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.ProfessionalDataViewModel
+import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 @Composable
 fun ProfessionalDataScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: ProfessionalDataViewModel = ProfessionalDataViewModel()
+    viewModel: ProfessionalDataViewModel
 ){
     val user = viewModel.user
 
@@ -113,5 +114,9 @@ fun ProfessionalDataScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ProfessionalDataScreenPreview() {
-    ProfessionalDataScreen(navController = rememberNavController())
+    val registrationViewModel = previewRegistrationViewModel()
+    ProfessionalDataScreen(
+        navController = rememberNavController(),
+        viewModel = ProfessionalDataViewModel(registrationViewModel)
+    )
 }

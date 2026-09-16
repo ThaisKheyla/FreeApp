@@ -17,6 +17,7 @@
 
     <!-- Welcome -->
     <string name="welcome_title">Bem Vindo!</string>
+    <string name="welcome_logo">Logo Free</string>
     <string name="welcome_register_button">CADASTRAR</string>
 
     <!-- Login -->

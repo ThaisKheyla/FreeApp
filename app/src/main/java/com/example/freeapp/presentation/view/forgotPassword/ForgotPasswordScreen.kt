@@ -33,12 +33,13 @@ import com.example.freeapp.presentation.components.PasswordRecoveryPhoneFields
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.AuthViewModel
+import com.example.freeapp.presentation.viewmodel.previewAuthViewModel
 
 @Composable
 fun ForgotPasswordScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: AuthViewModel = AuthViewModel()
+    viewModel: AuthViewModel
 ) {
     val savedPhone = viewModel.authenticatedUser.phone
         .filter { character ->
@@ -393,4 +394,13 @@ fun ForgotPasswordScreen(
             )
         }
     }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun ForgotPasswordScreenPreview() {
+    ForgotPasswordScreen(
+        navController = androidx.navigation.compose.rememberNavController(),
+        viewModel = previewAuthViewModel()
+    )
 }

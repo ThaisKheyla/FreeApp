@@ -1,5 +1,6 @@
 package com.example.freeapp.domain.auth
 
+import com.example.freeapp.domain.AddressData
 import com.example.freeapp.domain.BankData
 import com.example.freeapp.domain.PersonalData
 import com.example.freeapp.domain.ProfessionalData
@@ -10,10 +11,12 @@ data class RegistrationUser(
     val professionalData: ProfessionalData = ProfessionalData(),
     val bankData: BankData = BankData()
 ) {
+
     val name get() = personalData.name
     val birthDate get() = personalData.birthDate
     val cpf get() = personalData.cpf
     val email get() = personalData.email
+
     val confirmEmail get() = personalData.confirmEmail
     val phone get() = personalData.phone
     val password get() = personalData.password

@@ -29,12 +29,13 @@ import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.BankDataViewModel
+import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 @Composable
 fun BankDataScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: BankDataViewModel = BankDataViewModel()
+    viewModel: BankDataViewModel
 ) {
     val user = viewModel.user
 
@@ -163,4 +164,14 @@ fun BankDataScreen(
             )
         }
     }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun BankDataScreenPreview() {
+    val registrationViewModel = previewRegistrationViewModel()
+    BankDataScreen(
+        navController = androidx.navigation.compose.rememberNavController(),
+        viewModel = BankDataViewModel(registrationViewModel)
+    )
 }

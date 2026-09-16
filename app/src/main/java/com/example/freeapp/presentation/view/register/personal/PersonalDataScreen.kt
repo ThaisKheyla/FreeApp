@@ -45,12 +45,13 @@ import com.example.freeapp.presentation.theme.CheckboxBackground
 import com.example.freeapp.presentation.theme.PrimaryBlue
 import com.example.freeapp.presentation.validation.UserValidator
 import com.example.freeapp.presentation.viewmodel.PersonalDataViewModel
+import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 @Composable
 fun PersonalDataScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PersonalDataViewModel = PersonalDataViewModel()
+    viewModel: PersonalDataViewModel
 ) {
     val user = viewModel.user
 
@@ -344,5 +345,9 @@ fun PersonalDataScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PersonalDataScreenPreview() {
-    PersonalDataScreen(navController = rememberNavController())
+    val registrationViewModel = previewRegistrationViewModel()
+    PersonalDataScreen(
+        navController = rememberNavController(),
+        viewModel = PersonalDataViewModel(registrationViewModel)
+    )
 }

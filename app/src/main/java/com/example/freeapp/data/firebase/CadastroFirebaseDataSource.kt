@@ -1,6 +1,6 @@
 package com.example.freeapp.data.firebase
 
-import com.example.freeapp.data.remote.dto.RegisterRequest
+import com.example.freeapp.data.remote.dto.auth.RegisterRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 

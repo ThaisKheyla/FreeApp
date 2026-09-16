@@ -5,13 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.freeapp.data.repository.RepositorioFirebase
 import com.example.freeapp.domain.auth.AuthUser
 import com.example.freeapp.domain.repository.AuthRepository
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
-    private val repositorioAutenticacao: AuthRepository = RepositorioFirebase()
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     var authenticatedUser by mutableStateOf(
@@ -40,12 +39,12 @@ class AuthViewModel(
             authLoading = true
             authErrorMessage = null
 
-            val resultadoRemoto = repositorioAutenticacao.login(email, senha)
+            val resultadoRemoto = authRepository.login(email, senha)
 
             authLoading = false
 
             if (resultadoRemoto.isSuccess) {
-                val name = repositorioAutenticacao.buscarNomeUsuarioAtual().getOrNull().orEmpty()
+                val name = authRepository.buscarNomeUsuarioAtual().getOrNull().orEmpty()
                 authenticatedUser = authenticatedUser.copy(
                     name = name,
                     email = email
@@ -68,7 +67,7 @@ class AuthViewModel(
             authLoading = true
             authErrorMessage = null
 
-            val resultado = repositorioAutenticacao.redefinirSenha(email)
+            val resultado = authRepository.redefinirSenha(email)
 
             authLoading = false
 

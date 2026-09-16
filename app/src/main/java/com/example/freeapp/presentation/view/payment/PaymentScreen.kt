@@ -44,12 +44,13 @@ import com.example.freeapp.presentation.components.InputType
 import com.example.freeapp.presentation.components.TextField
 import com.example.freeapp.presentation.navigation.Routes
 import com.example.freeapp.presentation.viewmodel.PaymentViewModel
+import com.example.freeapp.presentation.viewmodel.previewRegistrationViewModel
 
 @Composable
 fun PaymentScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PaymentViewModel = PaymentViewModel()
+    viewModel: PaymentViewModel
 ) {
     val usuario = viewModel.user
 
@@ -449,7 +450,9 @@ private fun textoOuPlaceholder(
 )
 @Composable
 fun PaymentScreenPreview() {
+    val registrationViewModel = previewRegistrationViewModel()
     PaymentScreen(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        viewModel = PaymentViewModel(registrationViewModel)
     )
 }
