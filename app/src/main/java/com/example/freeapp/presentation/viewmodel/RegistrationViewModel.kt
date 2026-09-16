@@ -7,13 +7,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.freeapp.domain.StateOptionData
 import com.example.freeapp.domain.auth.RegistrationUser
-import com.example.freeapp.domain.repository.AuthRepository
-import com.example.freeapp.domain.repository.LocationRepository
+import com.example.freeapp.domain.usecase.auth.RegisterUserUseCase
+import com.example.freeapp.domain.usecase.location.LoadCitiesUseCase
+import com.example.freeapp.domain.usecase.location.LoadStatesUseCase
 import kotlinx.coroutines.launch
 
 class RegistrationViewModel(
-    private val authRepository: AuthRepository,
-    private val locationRepository: LocationRepository
+    private val registerUserUseCase: RegisterUserUseCase,
+    private val loadStatesUseCase: LoadStatesUseCase,
+    private val loadCitiesUseCase: LoadCitiesUseCase
 ) : ViewModel() {
     var user by mutableStateOf(RegistrationUser())
         private set
@@ -62,7 +64,7 @@ class RegistrationViewModel(
         viewModelScope.launch {
             ibgeLoading = true
             ibgeErrorMessage = null
-            val result = locationRepository.buscarEstados()
+            val result = loadStatesUseCase()
             ibgeLoading = false
 
             if (result.isSuccess) {
@@ -90,7 +92,7 @@ class RegistrationViewModel(
         viewModelScope.launch {
             ibgeLoading = true
             ibgeErrorMessage = null
-            val result = locationRepository.buscarCidades(stateCode)
+            val result = loadCitiesUseCase(stateCode)
             ibgeLoading = false
 
             if (result.isSuccess) {
@@ -122,7 +124,7 @@ class RegistrationViewModel(
         viewModelScope.launch {
             authLoading = true
             authErrorMessage = null
-            val result = authRepository.cadastrar(user)
+            val result = registerUserUseCase(user)
             authLoading = false
 
             if (result.isSuccess) {

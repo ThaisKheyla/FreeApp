@@ -6,11 +6,15 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.freeapp.domain.auth.AuthUser
-import com.example.freeapp.domain.repository.AuthRepository
+import com.example.freeapp.domain.usecase.auth.GetCurrentUserNameUseCase
+import com.example.freeapp.domain.usecase.auth.LoginUseCase
+import com.example.freeapp.domain.usecase.auth.ResetPasswordUseCase
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
-    private val authRepository: AuthRepository
+    private val loginUseCase: LoginUseCase,
+    private val getCurrentUserNameUseCase: GetCurrentUserNameUseCase,
+    private val resetPasswordUseCase: ResetPasswordUseCase
 ) : ViewModel() {
 
     var authenticatedUser by mutableStateOf(
@@ -39,12 +43,12 @@ class AuthViewModel(
             authLoading = true
             authErrorMessage = null
 
-            val resultadoRemoto = authRepository.login(email, senha)
+            val resultadoRemoto = loginUseCase(email, senha)
 
             authLoading = false
 
             if (resultadoRemoto.isSuccess) {
-                val name = authRepository.buscarNomeUsuarioAtual().getOrNull().orEmpty()
+                val name = getCurrentUserNameUseCase().getOrNull().orEmpty()
                 authenticatedUser = authenticatedUser.copy(
                     name = name,
                     email = email
@@ -67,7 +71,7 @@ class AuthViewModel(
             authLoading = true
             authErrorMessage = null
 
-            val resultado = authRepository.redefinirSenha(email)
+            val resultado = resetPasswordUseCase(email)
 
             authLoading = false
 
